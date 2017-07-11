@@ -11,13 +11,13 @@ import SpriteKit
 
 class Board: NSObject {
     var cellsMatrix: [[BoardCell?]]!
+    var isMoving = false
     
     let cellsWidth: Int = 65
     let cellsHeight: Int = 65
     let spacingWidth: Int = 53
     let spacingHeight: Int = 36
-    
-    var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
+    let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
     
     init(board: [[Int]]) {
         
@@ -26,7 +26,12 @@ class Board: NSObject {
         for i in 0...(board.count) {
             var cellsColumn = [BoardCell]()
             for j in 0...(board[0].count) {
-                cellsColumn.append(BoardCell(row: i, column: j, color: colors[board[i][j]], size: CGSize(width: cellsWidth, height: cellsHeight), position: CGPoint(x: j * (cellsWidth + spacingWidth), y: i * (cellsHeight + spacingHeight))))
+                cellsColumn.append(BoardCell(row: i, column: j,
+                                             color: colors[board[i][j]],
+                                             size: CGSize(width: cellsWidth,
+                                                          height: cellsHeight),
+                                             position: CGPoint(x: j * (cellsWidth + spacingWidth),
+                                                               y: i * (cellsHeight + spacingHeight))))
             }
             
             cellsMatrix.insert(cellsColumn, at: i)
@@ -36,22 +41,22 @@ class Board: NSObject {
     func addPlayerSwipeRecognizer(to view: SKView!) {
         let swipeUp = UISwipeGestureRecognizer()
         swipeUp.direction = .up
-        swipeUp.addTarget(self, action: #selector(applySwipeUp))
+        swipeUp.addTarget(self, action: #selector(applySwipe))
         view!.addGestureRecognizer(swipeUp)
         
         let swipeDown = UISwipeGestureRecognizer()
         swipeDown.direction = .down
-        swipeDown.addTarget(self, action: #selector(applySwipeDown))
+        swipeDown.addTarget(self, action: #selector(applySwipe))
         view!.addGestureRecognizer(swipeDown)
         
         let swipeLeft = UISwipeGestureRecognizer()
         swipeLeft.direction = .left
-        swipeLeft.addTarget(self, action: #selector(applySwipeLeft))
+        swipeLeft.addTarget(self, action: #selector(applySwipe))
         view!.addGestureRecognizer(swipeLeft)
         
         let swipeRight = UISwipeGestureRecognizer()
         swipeRight.direction = .right
-        swipeRight.addTarget(self, action: #selector(applySwipeRight))
+        swipeRight.addTarget(self, action: #selector(applySwipe))
         view!.addGestureRecognizer(swipeRight)
     }
     
@@ -63,19 +68,39 @@ class Board: NSObject {
         }
     }
     
-    func applySwipeUp(sender: UISwipeGestureRecognizer) {
-        for row in cellsMatrix {
-            for cell in row {
-                if (cell?.spriteNode.contains(sender.accessibilityActivationPoint))! {
-                    //moveUp(column: (cell?.column)!)
+    func applySwipe(sender: UISwipeGestureRecognizer) {
+        for cellsArray in cellsMatrix {
+            if !isMoving {
+                for cell in cellsArray {
+                    if (cell?.spriteNode.contains(sender.accessibilityActivationPoint))! {
+                        
+                        if sender.direction == .up {
+                            moveUp(column: (cell?.column)!)
+                            
+                        } else if sender.direction == .down {
+                            moveDown(column: (cell?.column)!)
+                            
+                        } else if sender.direction == .left {
+                            moveLeft(row: (cell?.row)!)
+                            
+                        } else {
+                            moveRight(row: (cell?.row)!)
+                        }
+                        
+                        break
+                    }
                 }
             }
         }
+        
+        isMoving = false
     }
     
     func moveUp(column: Int) {
-        for row in cellsMatrix {
-            for cell in row {
+        isMoving = true
+        
+        for cellsArray in cellsMatrix {
+            for cell in cellsArray {
                 if (column == cell?.column) {
                     // to do move up
                 }
@@ -83,15 +108,39 @@ class Board: NSObject {
         }
     }
     
-    func applySwipeDown(column: Int) {
+    func moveDown(column: Int) {
+        isMoving = true
         
+        for cellsArray in cellsMatrix {
+            for cell in cellsArray {
+                if (column == cell?.column) {
+                    // to do move up
+                }
+            }
+        }
     }
     
-    func applySwipeLeft(row: Int) {
+    func moveLeft(row: Int) {
+        isMoving = true
         
+        for cellsArray in cellsMatrix {
+            for cell in cellsArray {
+                if (row == cell?.column) {
+                    // to do move up
+                }
+            }
+        }
     }
     
-    func applySwipeRight(row: Int) {
+    func moveRight(row: Int) {
+        isMoving = true
         
+        for cellsArray in cellsMatrix {
+            for cell in cellsArray {
+                if (row == cell?.column) {
+                    // to do move up
+                }
+            }
+        }
     }
 }
