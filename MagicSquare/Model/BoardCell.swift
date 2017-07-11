@@ -9,5 +9,9 @@
 import UIKit
 
 class BoardCell {
-
+    let color: UIColor!
+    
+    init(color: UIColor) {
+        self.color = color
+    }
 }

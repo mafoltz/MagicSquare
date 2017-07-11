@@ -9,5 +9,9 @@
 import UIKit
 
 class Board {
-
+    var cellsMatrix: [[BoardCell?]]!
+    
+    init(rows: Int, columns: Int) {
+        cellsMatrix = Array(repeating: Array(repeating: nil, count: columns), count: rows)
+    }
 }
