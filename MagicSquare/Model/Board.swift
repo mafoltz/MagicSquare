@@ -101,8 +101,11 @@ class Board: NSObject {
         
         for cellsArray in cellsMatrix {
             for cell in cellsArray {
-                if (column == cell?.column) {
-                    // to do move up
+                if column == cell?.column {
+                    cell?.spriteNode.position.y = (cell?.spriteNode.position.y)! + CGFloat(cellsHeight + spacingHeight)
+                    if (cell?.spriteNode.position.y)! >= CGFloat(cellsMatrix.count * (cellsHeight + spacingHeight)) {
+                        cell?.spriteNode.position.y = 0
+                    }
                 }
             }
         }
@@ -114,7 +117,10 @@ class Board: NSObject {
         for cellsArray in cellsMatrix {
             for cell in cellsArray {
                 if (column == cell?.column) {
-                    // to do move up
+                    cell?.spriteNode.position.y = (cell?.spriteNode.position.y)! - CGFloat(cellsHeight + spacingHeight)
+                    if (cell?.spriteNode.position.y)! <= 0 {
+                        cell?.spriteNode.position.y = CGFloat(cellsMatrix.count * (cellsHeight + spacingHeight))
+                    }
                 }
             }
         }
@@ -125,8 +131,11 @@ class Board: NSObject {
         
         for cellsArray in cellsMatrix {
             for cell in cellsArray {
-                if (row == cell?.column) {
-                    // to do move up
+                if (row == cell?.row) {
+                    cell?.spriteNode.position.x = (cell?.spriteNode.position.x)! + CGFloat(cellsWidth + spacingWidth)
+                    if (cell?.spriteNode.position.x)! <= 0 {
+                        cell?.spriteNode.position.x = CGFloat(cellsMatrix[0].count * (cellsWidth + spacingWidth))
+                    }
                 }
             }
         }
@@ -137,8 +146,11 @@ class Board: NSObject {
         
         for cellsArray in cellsMatrix {
             for cell in cellsArray {
-                if (row == cell?.column) {
-                    // to do move up
+                if (row == cell?.row) {
+                    cell?.spriteNode.position.x = (cell?.spriteNode.position.x)! + CGFloat(cellsWidth + spacingWidth)
+                    if (cell?.spriteNode.position.x)! >= CGFloat(cellsMatrix[0].count * (cellsWidth + spacingWidth)) {
+                        cell?.spriteNode.position.x = 0
+                    }
                 }
             }
         }
