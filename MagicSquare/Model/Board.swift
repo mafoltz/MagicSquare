@@ -12,8 +12,20 @@ import SpriteKit
 class Board: NSObject {
     var cellsMatrix: [[BoardCell?]]!
     
-    init(rows: Int, columns: Int) {
-        cellsMatrix = Array(repeating: Array(repeating: nil, count: columns), count: rows)
+    var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
+    
+    init(board: [[Int]]) {
+        
+        //cellsMatrix = Array(repeating: Array(repeating: nil, count: columns), count: rows)
+        cellsMatrix = [[BoardCell]]()
+        for i in 0...(board.count) {
+            var cellsColumn = [BoardCell]()
+            for j in 0...(board[0].count) {
+                cellsColumn.append(BoardCell(color: colors[board[i][j]]))
+            }
+            
+            cellsMatrix.insert(cellsColumn, at: i)
+        }
     }
     
     func addPlayerSwipeRecognizer(to view: SKView!) {
