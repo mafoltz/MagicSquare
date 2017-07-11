@@ -13,14 +13,13 @@ class Level {
 	var ranking: Int!
 	var rounds: Int!
 	var maxRounds: Int!
+// Game-sensitive info
+	var playerBoard: Board!
+	var templateBoard: Board!
+	
 // Board-sensitive info
 	var rows: Int!
-	var lines: Int!
-	
-	func `init`() {
-		self.rows = 4
-		self.lines = 4
-	}
+	var columns: Int!
 	
 	func loadLevel(_ fileName: String) {
 		// adaptar p/ ler do arquivo
