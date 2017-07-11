@@ -8,6 +8,17 @@
 
 import UIKit
 
-class Level {
-
+class Level : AnyObject {
+    
+    var moves : Int!
+    var number : Int!
+    var templateMatrix : Board!
+    var initialMatrix : Board!
+    
+    init(levelJson: [String: Any], numberLevel: Int) {
+        moves = levelJson["moves"] as! Int
+        number = numberLevel
+        templateMatrix = Board(board: levelJson["templateMatrix"] as! [[Int]])
+        initialMatrix = Board(board: levelJson["initialMatrix"] as! [[Int]])
+    }
 }
