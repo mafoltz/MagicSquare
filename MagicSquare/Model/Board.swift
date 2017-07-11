@@ -12,6 +12,11 @@ import SpriteKit
 class Board: NSObject {
     var cellsMatrix: [[BoardCell?]]!
     
+    let cellsWidth: Int = 65
+    let cellsHeight: Int = 65
+    let spacingWidth: Int = 53
+    let spacingHeight: Int = 36
+    
     var colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
     
     init(board: [[Int]]) {
@@ -21,7 +26,7 @@ class Board: NSObject {
         for i in 0...(board.count) {
             var cellsColumn = [BoardCell]()
             for j in 0...(board[0].count) {
-                cellsColumn.append(BoardCell(color: colors[board[i][j]]))
+                cellsColumn.append(BoardCell(row: i, column: j, color: colors[board[i][j]], size: CGSize(width: cellsWidth, height: cellsHeight), position: CGPoint(x: j * (cellsWidth + spacingWidth), y: i * (cellsHeight + spacingHeight))))
             }
             
             cellsMatrix.insert(cellsColumn, at: i)
@@ -62,14 +67,20 @@ class Board: NSObject {
         for row in cellsMatrix {
             for cell in row {
                 if (cell?.spriteNode.contains(sender.accessibilityActivationPoint))! {
-                    moveUp(column: (cell?.column)!)
+                    //moveUp(column: (cell?.column)!)
                 }
             }
         }
     }
     
     func moveUp(column: Int) {
-        
+        for row in cellsMatrix {
+            for cell in row {
+                if (column == cell?.column) {
+                    // to do move up
+                }
+            }
+        }
     }
     
     func applySwipeDown(column: Int) {

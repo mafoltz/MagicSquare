@@ -15,11 +15,12 @@ class BoardCell {
     let color: UIColor!
     let spriteNode: SKSpriteNode!
     
-    init(row: Int, column: Int, color: UIColor, size: CGSize, anchorPoint: CGPoint) {
+    init(row: Int, column: Int, color: UIColor, size: CGSize, position: CGPoint) {
         self.row = row
         self.column = column
         self.color = color
         self.spriteNode = SKSpriteNode(color: color, size: size)
-        self.spriteNode.anchorPoint = anchorPoint
+        self.spriteNode.position = position
+        self.spriteNode.anchorPoint = CGPoint(x: 0, y: 0)
     }
 }
