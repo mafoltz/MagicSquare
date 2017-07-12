@@ -12,44 +12,44 @@ import GameplayKit
 class GameScene: SKScene {
 // MARK: - Properties
 	
-//	private var gameWorld : World!
 	private var currentLevel : Level!
+	private var playerBoard : [[SKNode]]!
+	private var templateBoard : [[SKNode]]!
+	private var cellsSize : CGSize!
+	private var cellsSpacing : CGFloat!
+	private var bottomSpacing : CGFloat!
+	private var numPositionMoved : Int!
 	
 // MARK: - Methods
 	
 	override func didMove(to view: SKView) {
 		
 		currentLevel = World.loadLevel(numberOfLevel: 1)
-
-//		let cellHorizontalSpacing = ((self.scene?.size.width)! / CGFloat(currentLevel.rows))
-//		let cellVerticalSpacing = ((self.scene?.size.height)!*0.7 / CGFloat(currentLevel.columns))
-//		print("cHS: \(cellHorizontalSpacing), cVS: \(cellVerticalSpacing)")
-//		print("iphone7: \(self.scene?.size.width ?? 0) x \(self.scene?.size.height ?? 0)")
+		calculateSizes()
 		
-//		placeBoardCells(cellHorizontalSpacing, cellVerticalSpacing)
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
 		
 	}
 	
-// MARK: - Auxilliary Methods
-
-	func placeBoardCells(_ Xspacing: CGFloat,_ Yspacing: CGFloat) {
-		var currentX = Xspacing
-		var currentY = Yspacing
+	func calculateSizes() {
+		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
+		self.cellsSize = CGSize(width: ((self.scene?.size.height)! * CGFloat(0.122)),
+		                        height: ((self.scene?.size.height)! * CGFloat(0.122)))
+		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
+	}
+	
+	func setPlayerBoard(board: Board) {
 		
-//		let cell: BoardCell!
-//		cell = BoardCell(color: UIColor.gray)
-//		for cell in currentLevel.playerBoard.cellsMatrix {
+	}
+	
+	func update(row: Int) {
 		
-//		let square = cell.getSpriteNode()
-//		square.position = CGPoint(x: currentX, y: currentY)
-//		print("pos: \(square.position)")
-//		self.addChild(square)
+	}
+	
+	func update(column: Int) {
 		
-		currentY += Yspacing
-		currentX += Xspacing
 	}
 
 }
