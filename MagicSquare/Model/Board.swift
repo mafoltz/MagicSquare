@@ -20,9 +20,8 @@ class Board: NSObject {
     let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
     
     init(board: [[Int]]) {
-        
-        //cellsMatrix = Array(repeating: Array(repeating: nil, count: columns), count: rows)
         cellsMatrix = [[BoardCell]]()
+        
         for i in 0...(board.count) {
             var cellsColumn = [BoardCell]()
             for j in 0...(board[0].count) {
@@ -70,26 +69,30 @@ class Board: NSObject {
     
     func applySwipe(sender: UISwipeGestureRecognizer) {
         for cellsArray in cellsMatrix {
-            if !isMoving {
-                for cell in cellsArray {
-                    if (cell?.spriteNode.contains(sender.accessibilityActivationPoint))! {
+            for cell in cellsArray {
+                if (cell?.spriteNode.contains(sender.accessibilityActivationPoint))! {
+                    
+                    if sender.direction == .up {
+                        moveUp(column: (cell?.column)!)
                         
-                        if sender.direction == .up {
-                            moveUp(column: (cell?.column)!)
-                            
-                        } else if sender.direction == .down {
-                            moveDown(column: (cell?.column)!)
-                            
-                        } else if sender.direction == .left {
-                            moveLeft(row: (cell?.row)!)
-                            
-                        } else {
-                            moveRight(row: (cell?.row)!)
-                        }
+                    } else if sender.direction == .down {
+                        moveDown(column: (cell?.column)!)
                         
-                        break
+                    } else if sender.direction == .left {
+                        moveLeft(row: (cell?.row)!)
+                        
+                    } else {
+                        moveRight(row: (cell?.row)!)
                     }
+                    
+                    // Row or column already is moving, the loop search must finish
+                    break
                 }
+            }
+            
+            if isMoving {
+                // Row or column already is moving, the loop search must finish
+                break
             }
         }
         
