@@ -10,10 +10,18 @@ import UIKit
 import SpriteKit
 
 class BoardCell {
+    var row: Int!
+    var column: Int!
     let color: UIColor!
+    let spriteNode: SKSpriteNode!
     
-    init(color: UIColor) {
+    init(row: Int, column: Int, color: UIColor, size: CGSize, position: CGPoint) {
+        self.row = row
+        self.column = column
         self.color = color
+        self.spriteNode = SKSpriteNode(color: color, size: size)
+        self.spriteNode.position = position
+        self.spriteNode.anchorPoint = CGPoint(x: 0, y: 0)
     }
 	
 	func getSpriteNode() -> SKShapeNode {

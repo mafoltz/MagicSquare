@@ -8,30 +8,26 @@
 
 import UIKit
 
-class Level {
-// Level-sensitive info
-	var ranking: Int!
-	var rounds: Int!
-	var maxRounds: Int!
-// Game-sensitive info
-	var playerBoard: Board!
-	var templateBoard: Board!
+class Level : AnyObject {
+    
+    var moves : Int!
+    var number : Int!
+    var templateMatrix : Board!
+    var initialMatrix : Board!
+    
+    init(levelJson: [String: Any], numberLevel: Int) {
+        moves = levelJson["moves"] as! Int
+        number = numberLevel
+        templateMatrix = Board(board: levelJson["templateMatrix"] as! [[Int]])
+        initialMatrix = Board(board: levelJson["initialMatrix"] as! [[Int]])
+    }
 	
-// Board-sensitive info
-	var rows: Int!
-	var columns: Int!
-	
-	func loadLevel(_ fileName: String) {
-		// adaptar p/ ler do arquivo
-		
-	}
-
 	func prepareForGame() {
 		
 		
 	}
 	
-	func hasLevelWon() -> Bool {
+	func isLevelWon() -> Bool {
 		return false
 	}
 	
