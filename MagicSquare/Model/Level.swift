@@ -8,27 +8,29 @@
 
 import UIKit
 
-class Level : AnyObject {
+class Level: AnyObject {
     
-    var moves : Int!
-    var number : Int!
-    var templateMatrix : Board!
-    var initialMatrix : Board!
+    let number: Int!
+    let ranking: Int!
+    var playerBoard: Board!
+    let templateBoard : Board!
+    var playerMoves: Int!
+    let maxMoves: Int!
     
     init(levelJson: [String: Any], numberLevel: Int) {
-        moves = levelJson["moves"] as! Int
         number = numberLevel
-        templateMatrix = Board(board: levelJson["templateMatrix"] as! [[Int]])
-        initialMatrix = Board(board: levelJson["initialMatrix"] as! [[Int]])
+        ranking = 0
+        playerBoard = Board(board: levelJson["initialMatrix"] as! [[Int]])
+        templateBoard = Board(board: levelJson["templateMatrix"] as! [[Int]])
+        playerMoves = 0
+        maxMoves = levelJson["moves"] as! Int
     }
 	
-	func prepareForGame() {
-		
-		
-	}
-	
-	func isLevelWon() -> Bool {
+	func hasLevelWon() -> Bool {
 		return false
 	}
-	
+    
+    func hasGameOver() -> Bool {
+        return false;
+    }
 }
