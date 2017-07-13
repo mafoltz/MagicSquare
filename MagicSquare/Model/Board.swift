@@ -15,8 +15,11 @@ class Board: NSObject {
     let numRows: Int!
     let numColumns: Int!
     var isMoving = false
-    
-    let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
+	
+    let colors = [UIColor(red: 115/255, green: 134/255, blue: 145/255, alpha: 1.0),
+                  UIColor(red: 174/255, green: 210/255, blue: 214/255, alpha: 1.0),
+                  UIColor(red: 47/255, green: 66/255, blue: 76/255, alpha: 1.0),
+                  UIColor(red: 221/255, green: 144/255, blue: 144/255, alpha: 1.0)]
     
     init(board: [[Int]]) {
         cellsMatrix = [[BoardCell]]()
