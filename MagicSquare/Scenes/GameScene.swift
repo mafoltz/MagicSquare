@@ -46,7 +46,6 @@ class GameScene: SKScene {
 		calculateSizes()
 
 		setPlayerBoard(board: currentLevel.playerBoard)
-
 		
 	}
 	
@@ -56,14 +55,43 @@ class GameScene: SKScene {
 	
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
-		self.cellsSize = CGSize(width: ((self.scene?.size.height)! * CGFloat(0.122)),
-		                        height: ((self.scene?.size.height)! * CGFloat(0.122)))
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
+		let maxHeight = CGFloat((self.scene?.size.height)! * CGFloat(0.6))
+		let maxWidth = CGFloat((self.scene?.size.width)!)
+		let rowsCount = CGFloat(currentLevel.playerBoard.cellsMatrix.count)
+		let columnsCount = CGFloat((currentLevel.playerBoard.cellsMatrix.first?.count)!)
+		
+		let horizontalLength = (maxWidth - (cellsSpacing * (columnsCount - 1.0))) / columnsCount
+		let verticalLength = (maxHeight - (cellsSpacing * (rowsCount - 1))) / rowsCount
+		
+		var smallest = CGFloat()
+		if horizontalLength < verticalLength {
+			smallest = horizontalLength
+		} else {
+			smallest = verticalLength
+		}
+		
+		self.cellsSize = CGSize(width: smallest, height: smallest)
 	}
 	
 	func setPlayerBoard(board: Board) {
-		let xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(board.cellsMatrix.count/2))
-		let yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2))
+		let columnsCount = Int((board.cellsMatrix.first?.count)!)
+		let folga = (cellsSize.width/2.0) + (cellsSpacing/2.0)
+		let cellSpace = cellsSize.width * (CGFloat(columnsCount) / 2.0)
+		let spacementSpace = (cellsSpacing * (CGFloat(columnsCount)/2.0))
+		
+		var xHead = CGFloat()
+		
+		if Int(columnsCount) % 2 == 0 {
+			// par
+			xHead = CGFloat(-(cellSpace + spacementSpace - folga))
+		} else {
+			// impar
+			xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(columnsCount/2))
+		}
+		
+		print(xHead)
+		let yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
 		var xOffset = xHead
 		var yOffset = yHead
 		
