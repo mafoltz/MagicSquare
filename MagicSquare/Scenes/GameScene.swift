@@ -21,8 +21,8 @@ class GameScene: SKScene {
 // MARK: - Properties
 	
 	private var currentLevel : Level!
-	private var playerBoard : [[SKNode]]!
-	private var templateBoard : [[SKNode]]!
+	private var playerBoard : [[SKSpriteNode]]!
+	private var templateBoard : [[SKSpriteNode]]!
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -123,6 +123,7 @@ class GameScene: SKScene {
         if recognizer.state == .began {
             firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
         }
+            
         else if recognizer.state == .changed {
             if direction == .neutral {
                 nextTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
@@ -131,12 +132,12 @@ class GameScene: SKScene {
                 let difY = abs(firstTouch.y - nextTouch.y)
                 
                 if difX > difY {
-                    
                     if firstTouch.x > nextTouch.x {
                         direction = .left
                     } else {
                         direction = .right
                     }
+                    print(getRow(with: firstTouch))
                 } else {
                     
                     if firstTouch.y > nextTouch.y {
@@ -154,5 +155,21 @@ class GameScene: SKScene {
         }
         
     }
+    
+    func getRow(with position: CGPoint) -> Int {
+        for (index, row) in playerBoard[0].enumerated() {
+            let newPoint = CGPoint(x: row.position.x, y: position.y)
+            if row.contains(newPoint) {
+                return index
+            }
+        }
+        return -1
+    }
+    
+//    func getColumn(with position: CGPoint) -> Int {
+//        for 0..< playerBoard.count {
+//            
+//        }
+//    }
 
 }
