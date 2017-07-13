@@ -9,6 +9,14 @@
 import SpriteKit
 import GameplayKit
 
+enum Direction {
+    case up
+    case down
+    case left
+    case right
+    case neutral
+}
+
 class GameScene: SKScene {
 // MARK: - Properties
 	
@@ -19,6 +27,13 @@ class GameScene: SKScene {
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
 	private var numPositionMoved : Int!
+    private var direction = Direction.neutral
+    
+//MARK: - Touches in screen
+    
+    private var firstTouch : CGPoint!
+    private var nextTouch : CGPoint!
+    
 	
 // MARK: - Methods
 	
@@ -26,6 +41,7 @@ class GameScene: SKScene {
 		
 		currentLevel = World.loadLevel(numberOfLevel: 1)
 		calculateSizes()
+        self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
 		
 	}
 	
@@ -51,5 +67,43 @@ class GameScene: SKScene {
 	func update(column: Int) {
 		
 	}
+    
+    func handlePan(recognizer:UIPanGestureRecognizer) {
+        if recognizer.state == .began {
+            firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+
+        }
+        
+        else if recognizer.state == .changed {
+            if direction == .neutral {
+                nextTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+                
+                let difX = abs(firstTouch.x - nextTouch.x)
+                let difY = abs(firstTouch.y - nextTouch.x)
+                
+                if difX > difY {
+                    
+                    if firstTouch.x > nextTouch.x {
+                        direction = .left
+                    } else {
+                        direction = .right
+                    }
+                } else {
+                    
+                    if firstTouch.y > nextTouch.y {
+                        direction = .down
+                    } else {
+                        direction = .up
+                    }
+                }
+            }
+        }
+        
+        else if recognizer.state == .ended {
+            print(direction)
+            
+        }
+        
+    }
 
 }
