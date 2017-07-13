@@ -12,16 +12,21 @@ import SpriteKit
 class Board: NSObject {
     
     var cellsMatrix: [[BoardCell?]]!
+    let numRows: Int!
+    let numColumns: Int!
     var isMoving = false
     
     let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.black]
     
     init(board: [[Int]]) {
         cellsMatrix = [[BoardCell]]()
+        numRows = board.count
+        numColumns = board[0].count
         
-        for i in 0...(board.count) {
+        for i in 0..<numRows {
             var cellsColumn = [BoardCell]()
-            for j in 0...(board[0].count) {
+            
+            for j in 0..<numColumns {
                 cellsColumn.append(BoardCell(color: colors[board[i][j]]))
             }
             
@@ -32,49 +37,46 @@ class Board: NSObject {
     func moveUp(column: Int, positions: Int) {
         isMoving = true
         
-        for (row, cellsArray) in cellsMatrix.enumerated() {
-            for (column, cell) in cellsArray.enumerated() {
-                if column == column {
-
-                }
-            }
+        for i in 0...(cellsMatrix.count - 2) {
+            let newIndex = (i - positions + numRows) % numRows
+            (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
         }
+        
+        isMoving = false
     }
     
     func moveDown(column: Int, positions: Int) {
         isMoving = true
         
-        for (row, cellsArray) in cellsMatrix.enumerated() {
-            for (column, cell) in cellsArray.enumerated() {
-                if column == column {
-
-                }
-            }
+        for i in 0...(cellsMatrix.count - 2) {
+            let newIndex = (i + positions) % numRows
+            (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
         }
+        
+        isMoving = false
     }
     
     func moveLeft(row: Int, positions: Int) {
         isMoving = true
         
-        var cellsArray = cellsMatrix[row] as! [BoardCell]
-        for (row, cell) in cellsArray.enumerated() {
-            if row == row {
-
-            }
+        for _ in 1...positions {
+            var cellsRow = cellsMatrix[row]
+            let cell = cellsRow.remove(at: 0)!
+            cellsRow.insert(cell, at: cellsRow.endIndex)
         }
         
-        let cell: BoardCell = cellsArray.remove(at: 0)
-        cellsArray.insert(cell, at: cellsArray.count)
+        isMoving = false
     }
     
     func moveRight(row: Int, positions: Int) {
         isMoving = true
         
-        let cellsArray = cellsMatrix[row] as! [BoardCell]
-        for (row, cell) in cellsArray.enumerated() {
-            if row == row {
-                
-            }
+        for _ in 1...positions {
+            var cellsRow = cellsMatrix[row]
+            let cell = cellsRow.remove(at: cellsRow.endIndex)!
+            cellsRow.insert(cell, at: 0)
         }
+        
+        isMoving = false
     }
 }

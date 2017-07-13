@@ -39,9 +39,13 @@ class GameScene: SKScene {
 	
 	override func didMove(to view: SKView) {
 		
+		self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
 		currentLevel = World.loadLevel(numberOfLevel: 1)
 		calculateSizes()
-        self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
+
+		setPlayerBoard(board: currentLevel.playerBoard)
+
 		
 	}
 	
@@ -57,7 +61,22 @@ class GameScene: SKScene {
 	}
 	
 	func setPlayerBoard(board: Board) {
+		var xOffset = CGFloat(-cellsSize.width * CGFloat(board.cellsMatrix.count/2))
+		var yOffset = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2))
 		
+		for row in board.cellsMatrix {
+			for cell in row {
+				let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: 4.0)
+				if let color = cell?.color {
+					boardCell.fillColor = color
+					boardCell.strokeColor = color
+				}
+				boardCell.position = CGPoint(x: xOffset, y: yOffset)
+				self.addChild(boardCell)
+				xOffset += cellsSize.width
+				yOffset -= cellsSize.height
+			}
+		}
 	}
 	
 	func update(row: Int) {
@@ -101,7 +120,7 @@ class GameScene: SKScene {
         
         else if recognizer.state == .ended {
             print(direction)
-            
+            direction = .neutral
         }
         
     }
