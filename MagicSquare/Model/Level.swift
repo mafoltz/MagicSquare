@@ -21,7 +21,7 @@ class Level: AnyObject {
         number = numberLevel
         ranking = 0
         playerBoard = Board(board: levelJson["initialMatrix"] as! [[Int]])
-        templateBoard = Board(board: levelJson["templateMatrix"] as! [[Int]])
+        templateBoard = Board(board: levelJson["templateBoard"] as! [[Int]])
         playerMoves = 0
         maxMoves = levelJson["moves"] as! Int
     }
