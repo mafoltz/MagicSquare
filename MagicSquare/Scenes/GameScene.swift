@@ -39,6 +39,7 @@ class GameScene: SKScene {
 	
 	override func didMove(to view: SKView) {
 		
+		self.scene?.backgroundColor = UIColor.white
 		self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
 		currentLevel = World.loadLevel(numberOfLevel: 1)
@@ -61,21 +62,24 @@ class GameScene: SKScene {
 	}
 	
 	func setPlayerBoard(board: Board) {
-		var xOffset = CGFloat(-cellsSize.width * CGFloat(board.cellsMatrix.count/2))
-		var yOffset = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2))
+		let xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(board.cellsMatrix.count/2))
+		let yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2))
+		var xOffset = xHead
+		var yOffset = yHead
 		
 		for row in board.cellsMatrix {
 			for cell in row {
-				let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: 4.0)
+				let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 				if let color = cell?.color {
 					boardCell.fillColor = color
 					boardCell.strokeColor = color
 				}
 				boardCell.position = CGPoint(x: xOffset, y: yOffset)
 				self.addChild(boardCell)
-				xOffset += cellsSize.width
-				yOffset -= cellsSize.height
+				xOffset += (cellsSize.width + cellsSpacing)
 			}
+			xOffset = xHead
+			yOffset -= (cellsSize.height + cellsSpacing)
 		}
 	}
 	
