@@ -27,23 +27,31 @@ class Level: AnyObject {
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {
-        playerBoard.moveUp(column: column, positions: moves)
-        playerMoves -= moves
+        if !playerBoard.isMoving {
+            playerBoard.moveUp(column: column, positions: moves)
+            playerMoves -= moves
+        }
     }
     
     func moveDownPlayerBoard(column: Int, moves: Int) {
-        playerBoard.moveDown(column: column, positions: moves)
-        playerMoves -= moves
+        if !playerBoard.isMoving {
+            playerBoard.moveDown(column: column, positions: moves)
+            playerMoves -= moves
+        }
     }
     
     func moveLeftPlayerBoard(row: Int, moves: Int) {
-        playerBoard.moveLeft(row: row, positions: moves)
-        playerMoves -= moves
+        if !playerBoard.isMoving {
+            playerBoard.moveLeft(row: row, positions: moves)
+            playerMoves -= moves
+        }
     }
     
     func moveRightPlayerBoard(row: Int, moves: Int) {
-        playerBoard.moveRight(row: row, positions: moves)
-        playerMoves -= moves
+        if !playerBoard.isMoving {
+            playerBoard.moveRight(row: row, positions: moves)
+            playerMoves -= moves
+        }
     }
     
 	func hasLevelWon() -> Bool {
@@ -59,7 +67,7 @@ class Level: AnyObject {
 	}
     
     func hasGameOver() -> Bool {
-        if playerMoves == 0 {
+        if playerMoves <= 0 {
             return true
         } else {
             return false;
