@@ -59,10 +59,10 @@
 			isa = PBXGroup;
 			children = (
 				571193ED1F15584000E1ECEA /* Level.swift */,
-				D71B5AA31F155E0C006B6A9D /* World.json */,
 				571193F01F15586700E1ECEA /* Board.swift */,
 				571193F21F15589600E1ECEA /* BoardCell.swift */,
 				D71B5AA51F155FFE006B6A9D /* World.swift */,
+				D71B5AA31F155E0C006B6A9D /* World.json */,
 			);
 			name = Model;
 			sourceTree = "<group>";

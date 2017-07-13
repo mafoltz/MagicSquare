@@ -37,7 +37,7 @@ class Board: NSObject {
     func moveUp(column: Int, positions: Int) {
         isMoving = true
         
-        for i in 0...(cellsMatrix.count - 2) {
+        for i in 0...(numRows - 2) {
             let newIndex = (i - positions + numRows) % numRows
             (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
         }
@@ -48,7 +48,7 @@ class Board: NSObject {
     func moveDown(column: Int, positions: Int) {
         isMoving = true
         
-        for i in 0...(cellsMatrix.count - 2) {
+        for i in 0...(numRows - 2) {
             let newIndex = (i + positions) % numRows
             (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
         }
