@@ -90,15 +90,13 @@ class GameScene: SKScene {
     func handlePan(recognizer:UIPanGestureRecognizer) {
         if recognizer.state == .began {
             firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
-
         }
-        
         else if recognizer.state == .changed {
             if direction == .neutral {
                 nextTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
                 
                 let difX = abs(firstTouch.x - nextTouch.x)
-                let difY = abs(firstTouch.y - nextTouch.x)
+                let difY = abs(firstTouch.y - nextTouch.y)
                 
                 if difX > difY {
                     
