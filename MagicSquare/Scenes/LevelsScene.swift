@@ -16,6 +16,7 @@ class LevelsScene: SKScene {
     var levelsScreenShadow: SKSpriteNode!
     
     var touchLocation: CGPoint?
+    var isMoving = false
     
     var levelsScreenWidth: CGFloat?
     let verticalSpacing: CGFloat = 67
@@ -74,16 +75,17 @@ class LevelsScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch: UITouch = touches.first as UITouch!
-        let newTouchLocation = touch.location(in: self)
+        if !isMoving && levelsScreen.contains(touchLocation!) {
+            let touch: UITouch = touches.first as UITouch!
+            let newTouchLocation = touch.location(in: self)
         
-        if levelsScreen.contains(touchLocation!) {
             levelsScreen.run(SKAction.move(by: CGVector(dx: newTouchLocation.x - (touchLocation?.x)!, dy: 0), duration: 0.0))
             touchLocation = newTouchLocation
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isMoving = true
         let limit = (view?.bounds.size.width)! - 2 * horizontalSpacing - levelsScreenWidth!
         
         if levelsScreen.position.x < limit {
@@ -91,6 +93,12 @@ class LevelsScene: SKScene {
         }
         else if levelsScreen.position.x > 0 {
             levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
+        }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if !(scene?.hasActions())! {
+            isMoving = false
         }
     }
 }
