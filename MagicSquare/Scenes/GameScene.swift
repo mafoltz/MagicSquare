@@ -170,14 +170,14 @@ class GameScene: SKScene {
             let distanceX = lastTouch.x - firstTouch.x
             let distanceY = lastTouch.y - firstTouch.y
             
-            if direction == .up {
-//                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
-            } else if direction == .down {
-//                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
-            } else if direction == .right {
-//                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
-            } else if direction == .left {
-//                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+            if direction == .up && column >= 0 {
+                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+            } else if direction == .down && column >= 0 {
+                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+            } else if direction == .right && row >= 0 {
+                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+            } else if direction == .left && row >= 0 {
+                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             }
             direction = .neutral
         }
