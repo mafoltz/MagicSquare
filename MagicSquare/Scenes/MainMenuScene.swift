@@ -25,4 +25,11 @@ class MainMenuScene: SKScene {
         scene.prepareScene(from: self.scene!)
         super.view?.presentScene(scene)
     }
+    
+    func remakeScene(with sceneChildren: SKSpriteNode) {
+        for child in sceneChildren.children {
+            child.removeFromParent()
+            addChild(child)
+        }
+    }
 }
