@@ -41,9 +41,11 @@ class Board: NSObject {
         isMoving = true
         
         if positions > 0 {
-            for i in 0...(numRows - 2) {
-                let newIndex = (i - positions + numRows) % numRows
-                (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
+            for _ in 1...positions {
+                for i in 0...(numRows - 2) {
+                    let newIndex = (i + 1) % numRows
+                    (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
+                }
             }
         }
         
@@ -54,9 +56,11 @@ class Board: NSObject {
         isMoving = true
         
         if positions > 0 {
-            for i in 0...(numRows - 2) {
-                let newIndex = (i + positions) % numRows
-                (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
+            for _ in 1...positions {
+                for i in (0...(numRows - 2)).reversed() {
+                    let newIndex = (i - 1 + numRows) % numRows
+                    (cellsMatrix[i][column], cellsMatrix[newIndex][column]) = (cellsMatrix[newIndex][column], cellsMatrix[i][column])
+                }
             }
         }
         
@@ -68,9 +72,10 @@ class Board: NSObject {
         
         if positions > 0 {
             for _ in 1...positions {
-                var cellsRow = cellsMatrix[row]
-                let cell = cellsRow.remove(at: 0)!
-                cellsRow.insert(cell, at: cellsRow.endIndex)
+                for i in 0...(numColumns - 2) {
+                    let newIndex = (i + 1) % numColumns
+                    (cellsMatrix[row][i], cellsMatrix[row][newIndex]) = (cellsMatrix[row][newIndex], cellsMatrix[row][i])
+                }
             }
         }
         
@@ -82,9 +87,10 @@ class Board: NSObject {
         
         if positions > 0 {
             for _ in 1...positions {
-                var cellsRow = cellsMatrix[row]
-                let cell = cellsRow.remove(at: cellsRow.endIndex)!
-                cellsRow.insert(cell, at: 0)
+                for i in (0...(numColumns - 2)).reversed() {
+                    let newIndex = (i - 1 + numColumns) % numColumns
+                    (cellsMatrix[row][i], cellsMatrix[row][newIndex]) = (cellsMatrix[row][newIndex], cellsMatrix[row][i])
+                }
             }
         }
         
