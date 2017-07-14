@@ -9,11 +9,9 @@
 import SpriteKit
 import GameplayKit
 
-enum Direction {
-    case up
-    case down
-    case left
-    case right
+enum Orientation {
+    case vertical
+    case horizontal
     case neutral
 }
 
@@ -27,8 +25,8 @@ class GameScene: SKScene {
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
 	private var numPositionMoved : Int!
-    private var direction = Direction.neutral
-    private var row : Int!
+    private var direction = Orientation.neutral
+    private var row : Int! 
     private var column : Int!
     
 //MARK: - Touches in screen
@@ -230,20 +228,11 @@ class GameScene: SKScene {
                 let difY = abs(firstTouch.y - nextTouch.y)
                 
                 if difX > difY {
-                    if firstTouch.x > nextTouch.x {
-                        direction = .left
-                    } else {
-                        direction = .right
-                    }
+                    direction = .horizontal
                     self.row = getRow(with: firstTouch)
                     print(self.row)
                 } else {
-                    
-                    if firstTouch.y > nextTouch.y {
-                        direction = .down
-                    } else {
-                        direction = .up
-                    }
+                    direction = .vertical
                     self.column = getColumn(with: firstTouch)
                     print(self.column)
                 }
@@ -251,22 +240,32 @@ class GameScene: SKScene {
         }
         
         else if recognizer.state == .ended {
-            
             print(direction)
-            
             lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
-            let distanceX = lastTouch.x - firstTouch.x
-            let distanceY = lastTouch.y - firstTouch.y
+            let distanceX = abs(lastTouch.x - firstTouch.x)
+            let distanceY = abs(lastTouch.y - firstTouch.y)
             
-            if direction == .up && column >= 0 {
+            if distanceX > distanceY {
+                direction = .horizontal
+                self.row = getRow(with: firstTouch)
+                print(self.row)
+            } else {
+                direction = .vertical
+                self.column = getColumn(with: firstTouch)
+                print(self.column)
+            }
+
+            
+            if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
                 currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
-            } else if direction == .down && column >= 0 {
+            } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
                 currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
-            } else if direction == .right && row >= 0 {
+            } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
                 currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
-            } else if direction == .left && row >= 0 {
+            } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
                 currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             }
+            print(direction)
             direction = .neutral
         }
     }
@@ -293,11 +292,11 @@ class GameScene: SKScene {
     
     func calculateMoves(with distance: CGFloat) -> Int { //ainda falta ajeitar esta funçao
         var moves = 0
-        let squareSize = cellsSize.width
+        let movimentSize = cellsSize.width/2 + cellsSpacing/2
     
-        moves = Int(distance.truncatingRemainder(dividingBy: squareSize))
+        moves = Int(distance.truncatingRemainder(dividingBy: movimentSize))
         
-        return moves
+        return abs(moves)
     }
     
 }
