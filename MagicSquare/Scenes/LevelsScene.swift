@@ -13,7 +13,11 @@ class LevelsScene: SKScene {
     var previousSceneChildren: SKSpriteNode!
     var backgroundScreen: SKSpriteNode!
     var levelsScreen: SKShapeNode!
+    var levelsScreenShadow: SKSpriteNode!
     
+    var touchLocation: CGPoint?
+    
+    var levelsScreenWidth: CGFloat?
     let verticalSpacing: CGFloat = 67
     let horizontalSpacing: CGFloat = 50
     let cornerRadius: CGFloat = 30
@@ -39,9 +43,10 @@ class LevelsScene: SKScene {
         backgroundScreen.zPosition = 1
         addChild(backgroundScreen)
         
+        levelsScreenWidth = view.bounds.size.width
         let roundedRect = CGRect(x: horizontalSpacing - (view.bounds.size.width / 2),
                                  y: verticalSpacing - (view.bounds.size.height / 2),
-                                 width: view.bounds.size.width,
+                                 width: levelsScreenWidth!,
                                  height: view.bounds.size.height - 2 * verticalSpacing)
         levelsScreen = SKShapeNode()
         levelsScreen.name = "Levels Screen"
@@ -52,10 +57,11 @@ class LevelsScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            if !levelsScreen.contains(touch.location(in: self)) {
-                backToMainMenuScene()
-            }
+        let touch: UITouch = touches.first as UITouch!
+        touchLocation = touch.location(in: self)
+        
+        if !levelsScreen.contains(touchLocation!) {
+            backToMainMenuScene()
         }
     }
     
@@ -65,5 +71,26 @@ class LevelsScene: SKScene {
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         super.view?.presentScene(scene)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch: UITouch = touches.first as UITouch!
+        let newTouchLocation = touch.location(in: self)
+        
+        if levelsScreen.contains(touchLocation!) {
+            levelsScreen.run(SKAction.move(by: CGVector(dx: newTouchLocation.x - (touchLocation?.x)!, dy: 0), duration: 0.0))
+            touchLocation = newTouchLocation
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let limit = (view?.bounds.size.width)! - 2 * horizontalSpacing - levelsScreenWidth!
+        
+        if levelsScreen.position.x < limit {
+            levelsScreen.run(SKAction.moveTo(x: limit, duration: 0.2))
+        }
+        else if levelsScreen.position.x > 0 {
+            levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
+        }
     }
 }
