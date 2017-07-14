@@ -21,8 +21,8 @@ class GameScene: SKScene {
 // MARK: - Properties
 	
 	private var currentLevel : Level!
-	private var playerBoard : [[SKSpriteNode]]!
-	private var templateBoard : [[SKSpriteNode]]!
+	private var playerBoard : [[SKShapeNode]]!
+	private var templateBoard : [[SKShapeNode]]!
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -97,8 +97,11 @@ class GameScene: SKScene {
 		let yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
 		var xOffset = xHead
 		var yOffset = yHead
-		
+        
+        
+		playerBoard = [[SKShapeNode]]()
 		for row in board.cellsMatrix {
+            var elementsRow = [SKShapeNode]()
 			for cell in row {
 				let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 				if let color = cell?.color {
@@ -107,8 +110,12 @@ class GameScene: SKScene {
 				}
 				boardCell.position = CGPoint(x: xOffset, y: yOffset)
 				self.addChild(boardCell)
+                
+                elementsRow.append(boardCell)
+                
 				xOffset += (cellsSize.width + cellsSpacing)
 			}
+            playerBoard.append(elementsRow)
 			xOffset = xHead
 			yOffset -= (cellsSize.height + cellsSpacing)
 		}
@@ -140,8 +147,8 @@ class GameScene: SKScene {
                     } else {
                         direction = .right
                     }
-                    //print(getRow(with: firstTouch))
-                    row = getRow(with: firstTouch)
+                    self.row = getRow(with: firstTouch)
+                    print(self.row)
                 } else {
                     
                     if firstTouch.y > nextTouch.y {
@@ -149,7 +156,8 @@ class GameScene: SKScene {
                     } else {
                         direction = .up
                     }
-                    column = getColumn(with: firstTouch)
+                    self.column = getColumn(with: firstTouch)
+                    print(self.column)
                 }
             }
         }
@@ -163,22 +171,22 @@ class GameScene: SKScene {
             let distanceY = lastTouch.y - firstTouch.y
             
             if direction == .up {
-                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+//                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
             } else if direction == .down {
-                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+//                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
             } else if direction == .right {
-                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+//                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             } else if direction == .left {
-                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+//                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             }
             direction = .neutral
         }
     }
     
     func getRow(with position: CGPoint) -> Int {
-        for (index, row) in playerBoard[0].enumerated() {
-            let newPoint = CGPoint(x: row.position.x, y: position.y)
-            if row.contains(newPoint) {
+        for (index, row) in playerBoard.enumerated() {
+            let newPoint = CGPoint(x: row[0].position.x, y: position.y)
+            if row[0].contains(newPoint) {
                 return index
             }
         }
@@ -186,9 +194,9 @@ class GameScene: SKScene {
     }
     
     func getColumn(with position: CGPoint) -> Int {
-        for index in 0..<playerBoard.count {
-            let newPoint = CGPoint(x: position.x, y: playerBoard[0][index].position.y)
-            if playerBoard[0][index].contains(newPoint) {
+        for (index, column) in playerBoard[0].enumerated() {
+            let newPoint = CGPoint(x: position.x, y: column.position.y)
+            if column.contains(newPoint) {
                 return index
             }
         }
