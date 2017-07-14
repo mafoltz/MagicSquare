@@ -14,6 +14,7 @@ class MainMenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColorNode = SKSpriteNode(color: UIColor.cyan, size: view.bounds.size)
+        backgroundColorNode.name = "Background Color"
         addChild(backgroundColorNode)
     }
     
@@ -24,12 +25,5 @@ class MainMenuScene: SKScene {
         scene.scaleMode = .aspectFill
         scene.prepareScene(from: self.scene!)
         super.view?.presentScene(scene)
-    }
-    
-    func remakeScene(with sceneChildren: SKSpriteNode) {
-        for child in sceneChildren.children {
-            child.removeFromParent()
-            addChild(child)
-        }
     }
 }
