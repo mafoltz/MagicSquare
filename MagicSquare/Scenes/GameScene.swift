@@ -28,11 +28,14 @@ class GameScene: SKScene {
 	private var bottomSpacing : CGFloat!
 	private var numPositionMoved : Int!
     private var direction = Direction.neutral
+    private var row : Int!
+    private var column : Int!
     
 //MARK: - Touches in screen
     
     private var firstTouch : CGPoint!
     private var nextTouch : CGPoint!
+    private var lastTouch : CGPoint!
     
 	
 // MARK: - Methods
@@ -137,7 +140,8 @@ class GameScene: SKScene {
                     } else {
                         direction = .right
                     }
-                    print(getRow(with: firstTouch))
+                    //print(getRow(with: firstTouch))
+                    row = getRow(with: firstTouch)
                 } else {
                     
                     if firstTouch.y > nextTouch.y {
@@ -145,15 +149,30 @@ class GameScene: SKScene {
                     } else {
                         direction = .up
                     }
+                    column = getColumn(with: firstTouch)
                 }
             }
         }
         
         else if recognizer.state == .ended {
+            
             print(direction)
+            
+            lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+            let distanceX = lastTouch.x - firstTouch.x
+            let distanceY = lastTouch.y - firstTouch.y
+            
+            if direction == .up {
+                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+            } else if direction == .down {
+                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+            } else if direction == .right {
+                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+            } else if direction == .left {
+                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+            }
             direction = .neutral
         }
-        
     }
     
     func getRow(with position: CGPoint) -> Int {
@@ -166,10 +185,23 @@ class GameScene: SKScene {
         return -1
     }
     
-//    func getColumn(with position: CGPoint) -> Int {
-//        for 0..< playerBoard.count {
-//            
-//        }
-//    }
-
+    func getColumn(with position: CGPoint) -> Int {
+        for index in 0..<playerBoard.count {
+            let newPoint = CGPoint(x: position.x, y: playerBoard[0][index].position.y)
+            if playerBoard[0][index].contains(newPoint) {
+                return index
+            }
+        }
+        return -1
+    }
+    
+    func calculateMoves(with distance: CGFloat) -> Int { //ainda falta ajeitar esta funçao
+        var moves = 0
+        let squareSize = cellsSize.width
+    
+        moves = Int(distance.truncatingRemainder(dividingBy: squareSize))
+        
+        return moves
+    }
+    
 }
