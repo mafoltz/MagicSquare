@@ -129,7 +129,7 @@ class GameScene: SKScene {
 		let columnsCount = firstRow?.count
 		var newRow = [SKShapeNode]()
 		var newColumn = [SKShapeNode]()
-		print("rows: \(rowsCount) columns: \(columnsCount ?? 0)")
+//		print("rows: \(rowsCount) columns: \(columnsCount ?? 0)")
 		
 	// Primeira linha
 		for index in 0...columnsCount!-1 {
@@ -201,9 +201,9 @@ class GameScene: SKScene {
 		playerBoard[rowsCount-1].insert(blankCell, at: columnsCount!+1)
 		
 		
-		for element in playerBoard {
-			print("[\(element.count) - \(element.first?.strokeColor ?? UIColor.clear)]")
-		}
+//		for element in playerBoard {
+//			print("[\(element.count) - \(element.first?.strokeColor ?? UIColor.clear)]")
+//		}
 		
 	}
 	
