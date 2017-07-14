@@ -271,20 +271,20 @@ class GameScene: SKScene {
     }
     
     func getRow(with position: CGPoint) -> Int {
-        for (index, row) in playerBoard.enumerated() {
-            let newPoint = CGPoint(x: row[0].position.x, y: position.y)
-            if row[0].contains(newPoint) {
-                return index
+        for (index, row) in playerBoard.enumerated().dropFirst().dropLast() {
+            let newPoint = CGPoint(x: row[1].position.x, y: position.y)
+            if row[1].contains(newPoint) {
+                return index - 1
             }
         }
         return -1
     }
     
     func getColumn(with position: CGPoint) -> Int {
-        for (index, column) in playerBoard[0].enumerated() {
+        for (index, column) in playerBoard[1].enumerated().dropFirst().dropLast() {
             let newPoint = CGPoint(x: position.x, y: column.position.y)
             if column.contains(newPoint) {
-                return index
+                return index - 1
             }
         }
         return -1
