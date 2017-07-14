@@ -20,19 +20,22 @@ class LevelsScene: SKScene {
     
     func prepareScene(from previousScene: SKScene) {
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
-        previousScene.zPosition = 0
+        previousSceneChildren.name = "Previous Scene Children"
         
         for child in previousScene.children {
             child.removeFromParent()
             previousSceneChildren.addChild(child)
         }
         
+        previousScene.removeAllChildren()
+        previousScene.removeAllActions()
         addChild(previousSceneChildren)
     }
     
     override func didMove(to view: SKView) {
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
+        backgroundScreen.name = "Background Screen"
         backgroundScreen.zPosition = 1
         addChild(backgroundScreen)
         
@@ -41,6 +44,7 @@ class LevelsScene: SKScene {
                                  width: view.bounds.size.width,
                                  height: view.bounds.size.height - 2 * verticalSpacing)
         levelsScreen = SKShapeNode()
+        levelsScreen.name = "Levels Screen"
         levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         levelsScreen.fillColor = UIColor.white
         levelsScreen.zPosition = 2
@@ -60,7 +64,6 @@ class LevelsScene: SKScene {
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
-        scene.remakeScene(with: previousSceneChildren)
         super.view?.presentScene(scene)
     }
 }
