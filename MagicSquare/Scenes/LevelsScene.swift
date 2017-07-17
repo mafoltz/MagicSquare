@@ -10,19 +10,23 @@ import SpriteKit
 import GameplayKit
 
 class LevelsScene: SKScene {
-    var previousSceneChildren: SKSpriteNode!
-    var backgroundScreen: SKSpriteNode!
-    var levelsScreen: SKShapeNode!
-    var levelsScreenShadow: SKSpriteNode!
     
-    var touchLocation: CGPoint?
-    var isMoving = false
+    let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+    var levels = [Level]()
     
-    var numLevels: Int!
     var levelsScreenWidth: CGFloat!
     let verticalSpacing: CGFloat = 67
     let horizontalSpacing: CGFloat = 50
     let cornerRadius: CGFloat = 30
+    
+    var previousSceneChildren: SKSpriteNode!
+    var backgroundScreen: SKSpriteNode!
+    var levelsScreen: SKShapeNode!
+    var levelsScreenShadow: SKSpriteNode!
+    var levelsNodes = [SKSpriteNode!]()
+    
+    var touchLocation: CGPoint?
+    var isMoving = false
     
     func prepareScene(from previousScene: SKScene) {
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
@@ -57,9 +61,14 @@ class LevelsScene: SKScene {
         levelsScreen.zPosition = 2
         addChild(levelsScreen)
         
-        let sprite: SKSpriteNode = SKSpriteNode(color: UIColor.red, size: CGSize(width: 280, height: 280))
-        sprite.zPosition = 3
-        levelsScreen.addChild(sprite)
+        for i in 0..<json.count {
+            levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
+            
+            let spriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 50))
+            levelsNodes.append(spriteNode)
+            levelsScreen.addChild(levelsNodes[i])
+            levelsNodes[i].run(SKAction.move(by: CGVector(dx: i*60, dy: 0), duration: 0.0))
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -71,6 +80,12 @@ class LevelsScene: SKScene {
         if !levelsScreen.contains(touchLocation!) {
             backToMainMenuScene()
         }
+        
+        for i in 0..<levelsNodes.count {
+            if levelsNodes[i].contains(touchLocation!) {
+                goToGameScene(with: levels[i])
+            }
+        }
     }
     
     func backToMainMenuScene() {
@@ -78,6 +93,15 @@ class LevelsScene: SKScene {
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
+        super.view?.presentScene(scene)
+    }
+    
+    func goToGameScene(with level: Level) {
+        let scene: GameScene = GameScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.currentLevel = level
         super.view?.presentScene(scene)
     }
     
