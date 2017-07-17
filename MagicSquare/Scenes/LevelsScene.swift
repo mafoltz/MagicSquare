@@ -19,6 +19,7 @@ class LevelsScene: SKScene {
     var levelsScreen: SKShapeNode!
     var levelsScreenShadow: SKSpriteNode!
     var levelsNodes = [SKSpriteNode!]()
+    var levelsLabelNodes = [SKLabelNode!]()
     
     var indexOfTouchedLevel: Int! = -1
     var touchLocation: CGPoint?
@@ -76,10 +77,20 @@ class LevelsScene: SKScene {
             
             let spriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: levelsSize, height: levelsSize))
             resetAnchor(of: spriteNode)
-            spriteNode.run(SKAction.move(by: CGVector(dx: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
-                                                      dy: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels)), duration: 0.0))
+            spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
+                                           y: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels),
+                                           duration: 0.0))
+            spriteNode.zPosition = 3
             levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
+            
+            let labelNode = SKLabelNode(text: levels[i].level)
+            labelNode.fontColor = UIColor(colorLiteralRed: 92/256, green: 91/256, blue: 91/256, alpha: 1)
+            labelNode.fontName = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize).fontName
+            labelNode.fontSize = 20.0
+            labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
+            spriteNode.addChild(labelNode)
+            levelsLabelNodes.append(labelNode)
         }
     }
     
@@ -108,7 +119,7 @@ class LevelsScene: SKScene {
             let touch: UITouch = touches.first as UITouch!
             let newTouchLocation = touch.location(in: self)
         
-            levelsScreen.run(SKAction.move(by: CGVector(dx: newTouchLocation.x - (touchLocation?.x)!, dy: 0), duration: 0.0))
+            levelsScreen.run(SKAction.moveBy(x: newTouchLocation.x - (touchLocation?.x)!, y: 0, duration: 0.0))
             touchLocation = newTouchLocation
         }
     }
@@ -149,9 +160,9 @@ class LevelsScene: SKScene {
     }
     
     func resetAnchor(of spriteNode: SKSpriteNode) {
-        spriteNode.run(SKAction.move(by: CGVector(dx: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
-                                                  dy: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing),
-                                     duration: 0.0))
+        spriteNode.run(SKAction.moveBy(x: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
+                                       y: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing,
+                                       duration: 0.0))
     }
     
     func backToMainMenuScene() {
