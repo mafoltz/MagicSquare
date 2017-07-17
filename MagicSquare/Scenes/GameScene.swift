@@ -45,9 +45,10 @@ class GameScene: SKScene {
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
         
 		calculateSizes()
-
 		setPlayerBoard(board: currentLevel.playerBoard)
-		addExtraCells()
+		addWhiteFrame()
+	
+		
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
@@ -105,8 +106,69 @@ class GameScene: SKScene {
         
         
 		playerBoard = [[SKShapeNode]]()
+		// adiciona uma linha acima da matriz
+		yOffset += (cellsSize.height + cellsSpacing)
+		var zerothRow = [SKShapeNode]()
+		
+		// adiciona uma celula extra no inicio da linha
+		xOffset -= (cellsSize.width + cellsSpacing)
+		let boardCell0 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
+			boardCell0.fillColor = color
+			boardCell0.strokeColor = color
+			boardCell0.alpha = 0.5
+		}
+		boardCell0.position = CGPoint(x: xOffset, y: yOffset)
+		zerothRow.append(boardCell0)
+		xOffset += (cellsSize.width + cellsSpacing)
+		
+		// adiciona as demais celulas
+		for cell in board.cellsMatrix[board.cellsMatrix.count - 1] {
+			let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			if let color = cell?.color {
+				boardCell.fillColor = color
+				boardCell.strokeColor = color
+				boardCell.alpha = 0.5
+			}
+			boardCell.position = CGPoint(x: xOffset, y: yOffset)
+			self.addChild(boardCell)
+			
+			zerothRow.append(boardCell)
+			
+			xOffset += (cellsSize.width + cellsSpacing)
+		}
+		
+		// adiciona uma celula extra no final da linha
+		let boardCellF = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].last??.color {
+			boardCellF.fillColor = color
+			boardCellF.strokeColor = color
+			boardCellF.alpha = 0.5
+		}
+		boardCellF.position = CGPoint(x: xOffset, y: yOffset)
+		zerothRow.append(boardCellF)
+		
+		playerBoard.append(zerothRow)
+		yOffset -= (cellsSize.height + cellsSpacing)
+		xOffset = xHead
+		
+		// adiciona as demais linhas
 		for row in board.cellsMatrix {
             var elementsRow = [SKShapeNode]()
+			
+			// adiciona uma celula extra no inicio da linha
+			xOffset -= (cellsSize.width + cellsSpacing)
+			let boardCell0 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			if let color = row.last??.color {
+				boardCell0.fillColor = color
+				boardCell0.strokeColor = color
+				boardCell0.alpha = 0.5
+			}
+			boardCell0.position = CGPoint(x: xOffset, y: yOffset)
+			self.addChild(boardCell0)
+			xOffset += (cellsSize.width + cellsSpacing)
+			
+			// adiciona o resto das celulas
 			for cell in row {
 				let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 				if let color = cell?.color {
@@ -120,108 +182,71 @@ class GameScene: SKScene {
                 
 				xOffset += (cellsSize.width + cellsSpacing)
 			}
+			
+			// adiciona uma celula extra no final da linha
+			let boardCellF = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			if let color = row.first??.color {
+				boardCellF.fillColor = color
+				boardCellF.strokeColor = color
+				boardCellF.alpha = 0.5
+			}
+			boardCellF.position = CGPoint(x: xOffset, y: yOffset)
+			self.addChild(boardCellF)
+			
             playerBoard.append(elementsRow)
 			xOffset = xHead
 			yOffset -= (cellsSize.height + cellsSpacing)
 		}
+		
+		// adiciona a última linha ao final da matriz
+		var lastRow = [SKShapeNode]()
+		
+		// adiciona uma celula extra no inicio da linha
+		xOffset -= (cellsSize.width + cellsSpacing)
+		let boardCell0F = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
+			boardCell0F.fillColor = color
+			boardCell0F.strokeColor = color
+			boardCell0F.alpha = 0.5
+		}
+		boardCell0F.position = CGPoint(x: xOffset, y: yOffset)
+		xOffset += (cellsSize.width + cellsSpacing)
+		lastRow.append(boardCell0F)
+		
+		for cell in board.cellsMatrix[board.cellsMatrix.count - 1] {
+			let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			if let color = cell?.color {
+				boardCell.fillColor = color
+				boardCell.strokeColor = color
+				boardCell.alpha = 0.5
+			}
+			boardCell.position = CGPoint(x: xOffset, y: yOffset)
+			self.addChild(boardCell)
+			
+			lastRow.append(boardCell)
+			
+			xOffset += (cellsSize.width + cellsSpacing)
+		}
+		// adiciona uma celula extra no final da linha
+		let boardCellG = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].last??.color {
+			boardCellG.fillColor = color
+			boardCellG.strokeColor = color
+			boardCellG.alpha = 0.5
+		}
+		boardCellG.position = CGPoint(x: xOffset, y: yOffset)
+		lastRow.append(boardCellG)
+		
+		playerBoard.append(lastRow)
 	}
 	
-	func addExtraCells() {
+	func addWhiteFrame() {
 		
-		var firstRow = playerBoard.first
-		var lastRow = playerBoard.last
-		var firstColumn = [SKShapeNode]()
-		var lastColumn = [SKShapeNode]()
-		let columnsCount = firstRow?.count
-		var newRow = [SKShapeNode]()
-		var newColumn = [SKShapeNode]()
-//		print("(after) rows: \(playerBoard.count) columns: \(playerBoard[0].count)")
-//		
-//		for row in playerBoard.enumerated() {
-//			print("[row \(row.offset) - \(row.element.count) elements]")
-//		}
-		
-	// Primeira linha
-		for index in 0...columnsCount!-1 {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-			newCell.strokeColor = lastRow![index].fillColor
-			newCell.lineWidth = 4.0
-			newCell.position = CGPoint(x: firstRow![index].position.x, y: (firstRow![index].position.y + cellsSize.height + cellsSpacing))
-			newRow.append(newCell)
-			self.addChild(newCell)
-		}
-		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (newRow.first?.position.y)!))
-		playerBoard.insert(newRow, at: 0)
-		
-		newRow.removeAll()
-		
-	// Última linha
-		for index in 0...columnsCount!-1 {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-			newCell.strokeColor = firstRow![index].fillColor
-			newCell.lineWidth = 4.0
-			newCell.position = CGPoint(x: lastRow![index].position.x, y: (lastRow![index].position.y - cellsSize.height - cellsSpacing))
-			newRow.append(newCell)
-			self.addChild(newCell)
-		}
-		
-		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (newRow.first?.position.y)!))
-		playerBoard.insert(newRow, at: playerBoard.count)
-		
-	// Preenche as colunas
-		for index in 0...playerBoard.count-1 {
-			let firstCell = playerBoard[index].first
-			let lastCell = playerBoard[index].last
-			firstColumn.append(firstCell!)
-			lastColumn.append(lastCell!)
-		}
+		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (playerBoard[0].first?.position.y)!))
+		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (playerBoard[playerBoard.count-1].first?.position.y)!))
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (playerBoard[0].first?.position.x)!, y: (playerBoard[Int(playerBoard.count/2)].first?.position.y)!))
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (playerBoard[0].last?.position.x)!, y: (playerBoard[Int(playerBoard.count/2)].first?.position.y)!))
 
-	// Primeira coluna
-		for index in 0...playerBoard.count-1 {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-			newCell.strokeColor = lastColumn[index].fillColor
-			newCell.lineWidth = 4.0
-			newCell.position = CGPoint(x: firstColumn[index].position.x - cellsSize.width - cellsSpacing, y: (firstColumn[index].position.y))
-			newColumn.append(newCell)
-			self.addChild(newCell)
-		}
-
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!,
-		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
-		newColumn.removeAll()
-
-	// Última coluna
-		for index in 0...playerBoard.count-1 {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-			newCell.strokeColor = firstColumn[index].fillColor
-			newCell.lineWidth = 4.0
-			newCell.position = CGPoint(x: lastColumn[index].position.x + cellsSize.width + cellsSpacing, y: (lastColumn[index].position.y))
-			newColumn.append(newCell)
-			self.addChild(newCell)
-		}
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!,
-		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
-	
-	// Insere as novas colunas na matriz
-		for index in 0...playerBoard.count-1 {
-			playerBoard[index].insert(firstColumn[index], at: 0)
-			playerBoard[index].insert(lastColumn[index], at: playerBoard[0].count-1)
-		}
-		
-	// Insere nodos inúteis nos 4 cantos da matriz, pra evitar bugs
-//		let blankCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//		blankCell.fillColor = UIColor.clear
-//		playerBoard[0].insert(blankCell, at: 0)
-//		playerBoard[0].insert(blankCell, at: columnsCount!+1)
-//		playerBoard[rowsCount-1].insert(blankCell, at: 0)
-//		playerBoard[rowsCount-1].insert(blankCell, at: columnsCount!+1)
-		
-//		print("(after) rows: \(playerBoard.count) columns: \(playerBoard[0].count)")
-//		
-//		for row in playerBoard.enumerated() {
-//			print("[row \(row.offset) - \(row.element.count) elements]")
-//		}
-		
 	}
 	
 	func addWhiteBorder(orientation: String, position: CGPoint) {
