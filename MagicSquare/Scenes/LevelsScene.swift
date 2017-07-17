@@ -58,6 +58,8 @@ class LevelsScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isUserInteractionEnabled = false
+        
         let touch: UITouch = touches.first as UITouch!
         touchLocation = touch.location(in: self)
         
@@ -94,6 +96,8 @@ class LevelsScene: SKScene {
         else if levelsScreen.position.x > 0 {
             levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
         }
+        
+        isUserInteractionEnabled = true
     }
     
     override func update(_ currentTime: TimeInterval) {
