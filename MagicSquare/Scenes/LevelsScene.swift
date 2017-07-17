@@ -74,10 +74,12 @@ class LevelsScene: SKScene {
         for i in 0..<json.count {
             levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
             
-            let spriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 50))
+            let spriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: levelsSize, height: levelsSize))
+            resetAnchor(of: spriteNode)
+            spriteNode.run(SKAction.move(by: CGVector(dx: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
+                                                      dy: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels)), duration: 0.0))
+            levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
-            levelsScreen.addChild(levelsNodes[i])
-            levelsNodes[i].run(SKAction.move(by: CGVector(dx: i*60, dy: 0), duration: 0.0))
         }
     }
     
@@ -141,9 +143,15 @@ class LevelsScene: SKScene {
         levelsScreenHeight = (super.view?.bounds.size.height)! - 2 * screenVerticalSpacing
         levelsSize = 0.156 * levelsScreenHeight
         verticalSpacingFromTopAndBottom = 0.051 * levelsScreenHeight
-        verticalSpacingBetweenLevels = 0.03 * levelsScreenHeight
+        verticalSpacingBetweenLevels = 0.08 * levelsScreenHeight
         horizontalSpacingBetweenLevels = 0.075 * levelsScreenHeight
         levelsScreenWidth = CGFloat(numLevelsColumns) * (levelsSize + horizontalSpacingBetweenLevels) + horizontalSpacingBetweenLevels
+    }
+    
+    func resetAnchor(of spriteNode: SKSpriteNode) {
+        spriteNode.run(SKAction.move(by: CGVector(dx: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
+                                                  dy: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing),
+                                     duration: 0.0))
     }
     
     func backToMainMenuScene() {
