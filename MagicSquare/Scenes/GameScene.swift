@@ -50,7 +50,6 @@ class GameScene: SKScene {
 
 		setPlayerBoard(board: currentLevel.playerBoard)
 		addExtraCells()
-		
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
@@ -142,8 +141,9 @@ class GameScene: SKScene {
 			newRow.append(newCell)
 			self.addChild(newCell)
 		}
-		
+		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (newRow.first?.position.y)!))
 		playerBoard.insert(newRow, at: 0)
+		
 		newRow.removeAll()
 		
 	// Última linha
@@ -156,6 +156,7 @@ class GameScene: SKScene {
 			self.addChild(newCell)
 		}
 		
+		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (newRow.first?.position.y)!))
 		playerBoard.insert(newRow, at: rowsCount+1)
 		
 	// Preenche as colunas
@@ -176,6 +177,7 @@ class GameScene: SKScene {
 			self.addChild(newCell)
 		}
 		
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!, y: (scene?.size.height)!/2))
 		newColumn.removeAll()
 		
 	// Última coluna
@@ -187,6 +189,7 @@ class GameScene: SKScene {
 			newColumn.append(newCell)
 			self.addChild(newCell)
 		}
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!, y: (scene?.size.height)!/2))
 	
 	// Insere as novas colunas na matriz
 		for index in 0...rowsCount-1 {
@@ -202,10 +205,33 @@ class GameScene: SKScene {
 		playerBoard[rowsCount-1].insert(blankCell, at: 0)
 		playerBoard[rowsCount-1].insert(blankCell, at: columnsCount!+1)
 		
+	}
+	
+	func addWhiteBorder(orientation: String, position: CGPoint) {
 		
-//		for element in playerBoard {
-//			print("[\(element.count) - \(element.first?.strokeColor ?? UIColor.clear)]")
-//		}
+		if orientation == "horizontal" {
+			let cellWidth = cellsSize.width * CGFloat(playerBoard[0].count)
+			let cellSpc = cellsSpacing * CGFloat(playerBoard[0].count)
+			let horizontalBorder = SKShapeNode(rectOf: CGSize(width: (cellWidth + cellSpc), height: cellsSize.height + cellsSpacing/2),
+			                                   cornerRadius: 0)
+			horizontalBorder.position = position
+			horizontalBorder.fillColor = UIColor.white
+			horizontalBorder.alpha = 0.8
+			horizontalBorder.zPosition = 1.1
+			addChild(horizontalBorder)
+		}
+		
+		if orientation == "vertical" {
+			let cellHeight = cellsSize.height * CGFloat(playerBoard.count)
+			let cellSpc = cellsSpacing * CGFloat(playerBoard.count)
+			let verticalBorder = SKShapeNode(rectOf: CGSize(width: (cellsSize.width + cellsSpacing/2),
+			                                                height: (cellHeight + cellSpc)), cornerRadius: 0)
+			verticalBorder.position = position
+			verticalBorder.fillColor = UIColor.white
+			verticalBorder.alpha = 0.8
+			verticalBorder.zPosition = 1.1
+			addChild(verticalBorder)
+		}
 		
 	}
 	
