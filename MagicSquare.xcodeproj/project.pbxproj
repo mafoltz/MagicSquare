@@ -21,7 +21,7 @@
 		5728FEB01F14037D003774BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEAF1F14037D003774BF /* Assets.xcassets */; };
 		5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEB11F14037D003774BF /* LaunchScreen.storyboard */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
-		D71B5AA61F155FFE006B6A9D /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71B5AA51F155FFE006B6A9D /* World.swift */; };
+		D71B5AA61F155FFE006B6A9D /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71B5AA51F155FFE006B6A9D /* JsonReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +41,7 @@
 		5728FEB21F14037D003774BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5728FEB41F14037D003774BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
-		D71B5AA51F155FFE006B6A9D /* World.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
+		D71B5AA51F155FFE006B6A9D /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonReader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 				571193ED1F15584000E1ECEA /* Level.swift */,
 				571193F01F15586700E1ECEA /* Board.swift */,
 				571193F21F15589600E1ECEA /* BoardCell.swift */,
-				D71B5AA51F155FFE006B6A9D /* World.swift */,
+				D71B5AA51F155FFE006B6A9D /* JsonReader.swift */,
 				D71B5AA31F155E0C006B6A9D /* World.json */,
 			);
 			name = Model;
@@ -189,7 +189,7 @@
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
-				D71B5AA61F155FFE006B6A9D /* World.swift in Sources */,
+				D71B5AA61F155FFE006B6A9D /* JsonReader.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,

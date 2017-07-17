@@ -17,13 +17,13 @@ class Level: AnyObject {
     var playerMoves: Int
     let maxMoves: Int
     
-    init(levelJson: [String: Any], numberLevel: Int) {
-        number = numberLevel
+    init(from json: [String: Any], numberLevel: Int) {
+        number = json["level"] as! Int
         ranking = 0
-        playerBoard = Board(board: levelJson["initialMatrix"] as! [[Int]])
-        templateBoard = Board(board: levelJson["templateBoard"] as! [[Int]])
-        playerMoves = levelJson["moves"] as! Int
-        maxMoves = levelJson["moves"] as! Int
+        playerBoard = Board(board: json["initialBoard"] as! [[Int]])
+        templateBoard = Board(board: json["templateBoard"] as! [[Int]])
+        playerMoves = json["moves"] as! Int
+        maxMoves = json["moves"] as! Int
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {

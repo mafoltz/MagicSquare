@@ -18,7 +18,8 @@ class LevelsScene: SKScene {
     var touchLocation: CGPoint?
     var isMoving = false
     
-    var levelsScreenWidth: CGFloat?
+    var numLevels: Int!
+    var levelsScreenWidth: CGFloat!
     let verticalSpacing: CGFloat = 67
     let horizontalSpacing: CGFloat = 50
     let cornerRadius: CGFloat = 30
@@ -55,6 +56,10 @@ class LevelsScene: SKScene {
         levelsScreen.fillColor = UIColor.white
         levelsScreen.zPosition = 2
         addChild(levelsScreen)
+        
+        let sprite: SKSpriteNode = SKSpriteNode(color: UIColor.red, size: CGSize(width: 280, height: 280))
+        sprite.zPosition = 3
+        levelsScreen.addChild(sprite)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

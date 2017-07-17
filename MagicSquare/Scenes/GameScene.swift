@@ -43,7 +43,9 @@ class GameScene: SKScene {
 		self.scene?.backgroundColor = UIColor.white
 		self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
-		currentLevel = World.loadLevel(numberOfLevel: 1)
+        
+        let json = JsonReader.openJson(named: "World")
+		currentLevel = JsonReader.loadLevel(from: json!, numberOfLevel: 1)
 		calculateSizes()
 
 		setPlayerBoard(board: currentLevel.playerBoard)
