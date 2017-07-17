@@ -12,14 +12,16 @@ class Level: AnyObject {
     
     let number: Int
     let ranking: Int
+    let level: String
     var playerBoard: Board!
     let templateBoard : Board!
     var playerMoves: Int
     let maxMoves: Int
     
     init(from json: [String: Any], numberLevel: Int) {
-        number = json["level"] as! Int
+        number = numberLevel
         ranking = 0
+        level = json["level"] as! String
         playerBoard = Board(board: json["initialBoard"] as! [[Int]])
         templateBoard = Board(board: json["templateBoard"] as! [[Int]])
         playerMoves = json["moves"] as! Int

@@ -16,10 +16,10 @@ class Board: NSObject {
     let numColumns: Int!
     var isMoving = false
 	
-    let colors = [UIColor(red: 115/255, green: 134/255, blue: 145/255, alpha: 1.0),
-                  UIColor(red: 174/255, green: 210/255, blue: 214/255, alpha: 1.0),
-                  UIColor(red: 47/255, green: 66/255, blue: 76/255, alpha: 1.0),
-                  UIColor(red: 221/255, green: 144/255, blue: 144/255, alpha: 1.0)]
+    let colors = [UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0),
+                  UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
+                  UIColor(red: 47/256, green: 66/256, blue: 76/256, alpha: 1.0),
+                  UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0)]
     
     init(board: [[Int]]) {
         cellsMatrix = [[BoardCell]]()
