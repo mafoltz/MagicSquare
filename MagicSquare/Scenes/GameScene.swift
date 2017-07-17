@@ -167,6 +167,7 @@ class GameScene: SKScene {
 			}
 			boardCell0.position = CGPoint(x: xOffset, y: yOffset)
 			self.addChild(boardCell0)
+            elementsRow.append(boardCell0)
 			xOffset += (cellsSize.width + cellsSpacing)
 			
 			// adiciona o resto das celulas
@@ -193,6 +194,7 @@ class GameScene: SKScene {
 			}
 			boardCellF.position = CGPoint(x: xOffset, y: yOffset)
 			self.addChild(boardCellF)
+            elementsRow.append(boardCellF)
 			
             playerBoard.append(elementsRow)
 			xOffset = xHead
