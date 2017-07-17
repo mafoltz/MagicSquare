@@ -47,6 +47,8 @@ class GameScene: SKScene {
 		calculateSizes()
 
 		setPlayerBoard(board: currentLevel.playerBoard)
+		print("lstclly = \((playerBoard[playerBoard.count-1].first?.position.y)!)")
+		print("lstcllbtm = \((playerBoard[playerBoard.count-1].first?.position.y)! - cellsSize.height/2)")
 		addExtraCells()
 	}
 	
@@ -56,9 +58,11 @@ class GameScene: SKScene {
 	
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
+		print("\(bottomSpacing!)")
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
+		let widthOffset = CGFloat((self.scene?.size.width)! * 0.10667)
 		let maxHeight = CGFloat((self.scene?.size.height)! * CGFloat(0.6))
-		let maxWidth = CGFloat((self.scene?.size.width)!)
+		let maxWidth = CGFloat((self.scene?.size.width)! - (widthOffset * 2))
 		let rowsCount = CGFloat(currentLevel.playerBoard.cellsMatrix.count)
 		let columnsCount = CGFloat((currentLevel.playerBoard.cellsMatrix.first?.count)!)
 		
@@ -76,12 +80,14 @@ class GameScene: SKScene {
 	}
 	
 	func setPlayerBoard(board: Board) {
+		let rowsCount = board.cellsMatrix.count
 		let columnsCount = Int((board.cellsMatrix.first?.count)!)
 		let folga = (cellsSize.width/2.0) + (cellsSpacing/2.0)
 		let cellSpace = cellsSize.width * (CGFloat(columnsCount) / 2.0)
 		let spacementSpace = (cellsSpacing * (CGFloat(columnsCount)/2.0))
 		
 		var xHead = CGFloat()
+		var yHead = CGFloat()
 		
 		if Int(columnsCount) % 2 == 0 {
 			// par
@@ -91,7 +97,13 @@ class GameScene: SKScene {
 			xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(columnsCount/2))
 		}
 		
-		let yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
+		if rowsCount == columnsCount && rowsCount <= 3 {
+			yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height*1.5) - cellsSpacing)
+		} else {
+			yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
+		}
+		
+		print("yhead: \(yHead)")
 		var xOffset = xHead
 		var yOffset = yHead
         
@@ -175,7 +187,8 @@ class GameScene: SKScene {
 			self.addChild(newCell)
 		}
 		
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!, y: (scene?.size.height)!/2))
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!,
+		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
 		newColumn.removeAll()
 		
 	// Última coluna
@@ -187,7 +200,8 @@ class GameScene: SKScene {
 			newColumn.append(newCell)
 			self.addChild(newCell)
 		}
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!, y: (scene?.size.height)!/2))
+		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!,
+		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
 	
 	// Insere as novas colunas na matriz
 		for index in 0...rowsCount-1 {
@@ -221,7 +235,7 @@ class GameScene: SKScene {
 		
 		if orientation == "vertical" {
 			let cellHeight = cellsSize.height * CGFloat(playerBoard.count)
-			let cellSpc = cellsSpacing * CGFloat(playerBoard.count)
+			let cellSpc = cellsSpacing * CGFloat(playerBoard.count - 3)
 			let verticalBorder = SKShapeNode(rectOf: CGSize(width: (cellsSize.width + cellsSpacing/2),
 			                                                height: (cellHeight + cellSpc)), cornerRadius: 0)
 			verticalBorder.position = position
