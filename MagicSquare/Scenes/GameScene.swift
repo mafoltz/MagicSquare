@@ -32,6 +32,7 @@ class GameScene: SKScene {
 //MARK: - Touches in screen
     
     private var firstTouch : CGPoint!
+    private var penultimateTouch : CGPoint!
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
     
@@ -288,11 +289,14 @@ class GameScene: SKScene {
     func handlePan(recognizer:UIPanGestureRecognizer) {
         if recognizer.state == .began {
             firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+            penultimateTouch = firstTouch
+            lastTouch = firstTouch
         }
             
         else if recognizer.state == .changed {
             if direction == .neutral {
                 nextTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+                lastTouch = nextTouch
                 
                 let difX = abs(firstTouch.x - nextTouch.x)
                 let difY = abs(firstTouch.y - nextTouch.y)
@@ -300,17 +304,53 @@ class GameScene: SKScene {
                 if difX > difY {
                     direction = .horizontal
                     self.row = getRow(with: firstTouch)
-                    print(self.row)
                 } else {
                     direction = .vertical
                     self.column = getColumn(with: firstTouch)
-                    print(self.column)
                 }
             }
+            else{
+                
+                penultimateTouch = lastTouch
+                lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
+                
+                if direction == .horizontal && row >= 0{
+                    
+                    let differenceX = abs(lastTouch.x - penultimateTouch.x)
+                    //                    print(differenceX)
+                    //
+                    if lastTouch.x >= penultimateTouch.x {
+                        for column in playerBoard[row+1]{
+                            column.position.x += differenceX
+                        }
+                    }
+                    else{
+                        for column in playerBoard[row+1]{
+                            column.position.x -= differenceX
+                        }
+                    }
+                }
+                else if direction == .vertical && column >= 0{
+                    let differenceY = abs(lastTouch.y - penultimateTouch.y)
+                    
+                    if lastTouch.y >= penultimateTouch.y {
+                        //cima
+                        for row in playerBoard{
+                            row[column+1].position.y += differenceY
+                        }
+                    }
+                    else {
+                        for row in playerBoard{
+                            row[column+1].position.y -= differenceY
+                        }
+                    }
+                }
+                
+            }
         }
-        
+            
         else if recognizer.state == .ended {
-            print(direction)
+            
             lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
             let distanceX = abs(lastTouch.x - firstTouch.x)
             let distanceY = abs(lastTouch.y - firstTouch.y)
@@ -324,7 +364,7 @@ class GameScene: SKScene {
                 self.column = getColumn(with: firstTouch)
                 print(self.column)
             }
-
+            
             
             if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
                 currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
