@@ -25,6 +25,7 @@ class LevelsScene: SKScene {
     var levelsScreenShadow: SKSpriteNode!
     var levelsNodes = [SKSpriteNode!]()
     
+    var indexOfTouchedLevel: Int! = -1
     var touchLocation: CGPoint?
     var isMoving = false
     
@@ -83,26 +84,12 @@ class LevelsScene: SKScene {
         
         for i in 0..<levelsNodes.count {
             if levelsNodes[i].contains(touchLocation!) {
-                goToGameScene(with: levels[i])
+                indexOfTouchedLevel = i
+                break
+            } else {
+                indexOfTouchedLevel = -1
             }
         }
-    }
-    
-    func backToMainMenuScene() {
-        let scene: MainMenuScene = MainMenuScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        super.view?.presentScene(scene)
-    }
-    
-    func goToGameScene(with level: Level) {
-        let scene: GameScene = GameScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.currentLevel = level
-        super.view?.presentScene(scene)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -126,6 +113,10 @@ class LevelsScene: SKScene {
             levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
         }
         
+        if indexOfTouchedLevel >= 0 && levelsNodes[indexOfTouchedLevel].contains(touchLocation!) {
+            goToGameScene(with: levels[indexOfTouchedLevel])
+        }
+        
         isUserInteractionEnabled = true
     }
     
@@ -133,5 +124,22 @@ class LevelsScene: SKScene {
         if !(scene?.hasActions())! {
             isMoving = false
         }
+    }
+    
+    func backToMainMenuScene() {
+        let scene: MainMenuScene = MainMenuScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        super.view?.presentScene(scene)
+    }
+    
+    func goToGameScene(with level: Level) {
+        let scene: GameScene = GameScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.currentLevel = level
+        super.view?.presentScene(scene)
     }
 }
