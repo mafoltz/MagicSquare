@@ -47,8 +47,6 @@ class GameScene: SKScene {
 		calculateSizes()
 
 		setPlayerBoard(board: currentLevel.playerBoard)
-		print("lstclly = \((playerBoard[playerBoard.count-1].first?.position.y)!)")
-		print("lstcllbtm = \((playerBoard[playerBoard.count-1].first?.position.y)! - cellsSize.height/2)")
 		addExtraCells()
 	}
 	
@@ -58,7 +56,6 @@ class GameScene: SKScene {
 	
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
-		print("\(bottomSpacing!)")
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
 		let widthOffset = CGFloat((self.scene?.size.width)! * 0.10667)
 		let maxHeight = CGFloat((self.scene?.size.height)! * CGFloat(0.6))
@@ -103,7 +100,6 @@ class GameScene: SKScene {
 			yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
 		}
 		
-		print("yhead: \(yHead)")
 		var xOffset = xHead
 		var yOffset = yHead
         
@@ -136,11 +132,14 @@ class GameScene: SKScene {
 		var lastRow = playerBoard.last
 		var firstColumn = [SKShapeNode]()
 		var lastColumn = [SKShapeNode]()
-		let rowsCount = playerBoard.count
 		let columnsCount = firstRow?.count
 		var newRow = [SKShapeNode]()
 		var newColumn = [SKShapeNode]()
-//		print("rows: \(rowsCount) columns: \(columnsCount ?? 0)")
+//		print("(after) rows: \(playerBoard.count) columns: \(playerBoard[0].count)")
+//		
+//		for row in playerBoard.enumerated() {
+//			print("[row \(row.offset) - \(row.element.count) elements]")
+//		}
 		
 	// Primeira linha
 		for index in 0...columnsCount!-1 {
@@ -167,18 +166,18 @@ class GameScene: SKScene {
 		}
 		
 		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (newRow.first?.position.y)!))
-		playerBoard.insert(newRow, at: rowsCount+1)
+		playerBoard.insert(newRow, at: playerBoard.count)
 		
 	// Preenche as colunas
-		for index in 0...rowsCount {
+		for index in 0...playerBoard.count-1 {
 			let firstCell = playerBoard[index].first
 			let lastCell = playerBoard[index].last
 			firstColumn.append(firstCell!)
 			lastColumn.append(lastCell!)
 		}
-		
+
 	// Primeira coluna
-		for index in 0...rowsCount {
+		for index in 0...playerBoard.count-1 {
 			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.strokeColor = lastColumn[index].fillColor
 			newCell.lineWidth = 4.0
@@ -186,13 +185,13 @@ class GameScene: SKScene {
 			newColumn.append(newCell)
 			self.addChild(newCell)
 		}
-		
+
 		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (newColumn.first?.position.x)!,
 		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
 		newColumn.removeAll()
-		
+
 	// Última coluna
-		for index in 0...rowsCount {
+		for index in 0...playerBoard.count-1 {
 			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.strokeColor = firstColumn[index].fillColor
 			newCell.lineWidth = 4.0
@@ -204,18 +203,24 @@ class GameScene: SKScene {
 		                                                          y: newColumn[Int(newColumn.count)/2].position.y))
 	
 	// Insere as novas colunas na matriz
-		for index in 0...rowsCount-1 {
+		for index in 0...playerBoard.count-1 {
 			playerBoard[index].insert(firstColumn[index], at: 0)
-			playerBoard[index].insert(lastColumn[index], at: columnsCount!+1)
+			playerBoard[index].insert(lastColumn[index], at: playerBoard[0].count-1)
 		}
 		
 	// Insere nodos inúteis nos 4 cantos da matriz, pra evitar bugs
-		let blankCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-		blankCell.fillColor = UIColor.clear
-		playerBoard[0].insert(blankCell, at: 0)
-		playerBoard[0].insert(blankCell, at: columnsCount!+1)
-		playerBoard[rowsCount-1].insert(blankCell, at: 0)
-		playerBoard[rowsCount-1].insert(blankCell, at: columnsCount!+1)
+//		let blankCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//		blankCell.fillColor = UIColor.clear
+//		playerBoard[0].insert(blankCell, at: 0)
+//		playerBoard[0].insert(blankCell, at: columnsCount!+1)
+//		playerBoard[rowsCount-1].insert(blankCell, at: 0)
+//		playerBoard[rowsCount-1].insert(blankCell, at: columnsCount!+1)
+		
+//		print("(after) rows: \(playerBoard.count) columns: \(playerBoard[0].count)")
+//		
+//		for row in playerBoard.enumerated() {
+//			print("[row \(row.offset) - \(row.element.count) elements]")
+//		}
 		
 	}
 	
