@@ -18,7 +18,7 @@ enum Orientation {
 class GameScene: SKScene {
 // MARK: - Properties
 	
-	private var currentLevel : Level!
+	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
 	private var cellsSize : CGSize!
@@ -44,13 +44,10 @@ class GameScene: SKScene {
 		self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
         
-        let json = JsonReader.openJson(named: "World")
-		currentLevel = JsonReader.loadLevel(from: json!, numberOfLevel: 1)
 		calculateSizes()
 
 		setPlayerBoard(board: currentLevel.playerBoard)
 		addExtraCells()
-		
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
