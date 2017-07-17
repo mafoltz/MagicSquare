@@ -75,7 +75,8 @@ class LevelsScene: SKScene {
         for i in 0..<json.count {
             levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
             
-            let spriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: levelsSize, height: levelsSize))
+            let spriteNode = SKSpriteNode(imageNamed: "goldenLevel")
+            spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
                                            y: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels),
@@ -89,6 +90,7 @@ class LevelsScene: SKScene {
             labelNode.fontName = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize).fontName
             labelNode.fontSize = 20.0
             labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
+            labelNode.zPosition = 3
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
