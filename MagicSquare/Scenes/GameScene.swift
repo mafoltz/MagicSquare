@@ -317,15 +317,14 @@ class GameScene: SKScene {
                 if direction == .horizontal && row >= 0{
                     
                     let differenceX = abs(lastTouch.x - penultimateTouch.x)
-                    //                    print(differenceX)
-                    //
+                    
                     if lastTouch.x >= penultimateTouch.x {
-                        for column in playerBoard[row+1]{
+                        for column in playerBoard[row]{
                             column.position.x += differenceX
                         }
                     }
                     else{
-                        for column in playerBoard[row+1]{
+                        for column in playerBoard[row]{
                             column.position.x -= differenceX
                         }
                     }
@@ -336,12 +335,12 @@ class GameScene: SKScene {
                     if lastTouch.y >= penultimateTouch.y {
                         //cima
                         for row in playerBoard{
-                            row[column+1].position.y += differenceY
+                            row[column].position.y += differenceY
                         }
                     }
                     else {
                         for row in playerBoard{
-                            row[column+1].position.y -= differenceY
+                            row[column].position.y -= differenceY
                         }
                     }
                 }
@@ -367,35 +366,42 @@ class GameScene: SKScene {
             
             
             if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
-                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+//                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
             } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
-                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+//                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
             } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
-                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+//                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
-                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+//                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
             }
-            print(direction)
             direction = .neutral
         }
     }
     
     func getRow(with position: CGPoint) -> Int {
-        for (index, row) in playerBoard.enumerated().dropFirst().dropLast() {
-            let newPoint = CGPoint(x: row[1].position.x, y: position.y)
-            if row[1].contains(newPoint) {
-                return index - 1
+        for (index, row) in playerBoard.enumerated() {
+            
+            if index > 0 && index < playerBoard.count-1{
+                let newPoint = CGPoint(x: row[1].position.x, y: position.y)
+                if row[1].contains(newPoint) {
+                    return index
+                }
             }
+            
+            
         }
         return -1
     }
     
     func getColumn(with position: CGPoint) -> Int {
-        for (index, column) in playerBoard[1].enumerated().dropFirst().dropLast() {
-            let newPoint = CGPoint(x: position.x, y: column.position.y)
-            if column.contains(newPoint) {
-                return index - 1
-            }
+        for (index, column) in playerBoard[1].enumerated() {
+            
+//            if index > 0 && index < playerBoard[1].count-1{
+                let newPoint = CGPoint(x: position.x, y: column.position.y)
+                if column.contains(newPoint) {
+                    return index
+                }
+//            }
         }
         return -1
     }
