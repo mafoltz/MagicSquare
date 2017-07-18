@@ -58,6 +58,10 @@ class GameScene: SKScene {
         let touchLocation = touches.first?.location(in: self)
         if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
                                          y: (touchLocation?.y)! - infosCellNode.position.y)) {
+            for g in (self.view?.gestureRecognizers)! {
+                g.isEnabled = false
+            }
+            
             openLevelsScreen()
         }
     }
