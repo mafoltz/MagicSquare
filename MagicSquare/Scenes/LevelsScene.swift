@@ -11,34 +11,34 @@ import GameplayKit
 
 class LevelsScene: SKScene {
     
-    let json: [[String: Any]] = JsonReader.openJson(named: "World")!
-    var levels = [Level]()
+    private let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+    private var levels = [Level]()
     
-    var previousSceneChildren: SKSpriteNode!
-    var backgroundScreen: SKSpriteNode!
-    var levelsScreen: SKShapeNode!
-    var levelsScreenShadow: SKSpriteNode!
-    var levelsNodes = [SKSpriteNode!]()
-    var levelsLabelNodes = [SKLabelNode!]()
+    private var previousSceneChildren: SKSpriteNode!
+    private var backgroundScreen: SKSpriteNode!
+    private var levelsScreen: SKShapeNode!
+    private var levelsScreenShadow: SKSpriteNode!
+    private var levelsNodes = [SKSpriteNode!]()
+    private var levelsLabelNodes = [SKLabelNode!]()
     
-    var indexOfTouchedLevel: Int! = -1
-    var initialTouchLocation: CGPoint?
-    var touchLocation: CGPoint?
-    var isMoving = false
+    private var indexOfTouchedLevel: Int! = -1
+    private var initialTouchLocation: CGPoint?
+    private var touchLocation: CGPoint?
+    private var isMoving = false
     
-    var numLevels: Int!
-    var numLevelsColumns: Int!
-    let levelsByColumn: Int! = 4
-    var levelsSize: CGFloat!
-    var levelsScreenWidth: CGFloat!
-    var levelsScreenHeight: CGFloat!
-    var verticalSpacingFromTopAndBottom: CGFloat!
-    var verticalSpacingBetweenLevels: CGFloat!
-    var horizontalSpacingBetweenLevels: CGFloat!
-    let screenVerticalSpacing: CGFloat = 67
-    let screenHorizontalSpacing: CGFloat = 50
-    let cornerRadius: CGFloat = 30
-    let moveTolerance: CGFloat = 10
+    private var numLevels: Int!
+    private var numLevelsColumns: Int!
+    private let levelsByColumn: Int! = 4
+    private var levelsSize: CGFloat!
+    private var levelsScreenWidth: CGFloat!
+    private var levelsScreenHeight: CGFloat!
+    private var verticalSpacingFromTopAndBottom: CGFloat!
+    private var verticalSpacingBetweenLevels: CGFloat!
+    private var horizontalSpacingBetweenLevels: CGFloat!
+    private let screenVerticalSpacing: CGFloat = 67
+    private let screenHorizontalSpacing: CGFloat = 50
+    private let cornerRadius: CGFloat = 30
+    private let moveTolerance: CGFloat = 10
     
     func prepareScene(from previousScene: SKScene) {
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
@@ -60,7 +60,7 @@ class LevelsScene: SKScene {
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
         backgroundScreen.name = "Background Screen"
-        backgroundScreen.zPosition = 1
+        backgroundScreen.zPosition = 2.1
         addChild(backgroundScreen)
         
         let roundedRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
@@ -71,7 +71,7 @@ class LevelsScene: SKScene {
         levelsScreen.name = "Levels Screen"
         levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         levelsScreen.fillColor = UIColor.white
-        levelsScreen.zPosition = 2
+        levelsScreen.zPosition = 2.2
         addChild(levelsScreen)
         
         for i in 0..<json.count {
@@ -83,7 +83,7 @@ class LevelsScene: SKScene {
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
                                            y: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
-            spriteNode.zPosition = 3
+            spriteNode.zPosition = 2.3
             levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
             
@@ -92,7 +92,7 @@ class LevelsScene: SKScene {
             labelNode.fontName = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize).fontName
             labelNode.fontSize = 20.0
             labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
-            labelNode.zPosition = 3
+            labelNode.zPosition = 2.3
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }

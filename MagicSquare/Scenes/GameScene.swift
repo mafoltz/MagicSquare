@@ -21,6 +21,7 @@ class GameScene: SKScene {
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
+    private var infosCellSize : CGSize!
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -46,10 +47,9 @@ class GameScene: SKScene {
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
         
 		calculateSizes()
+        setInfosCell()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		addWhiteFrame()
-	
-		
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
@@ -57,6 +57,9 @@ class GameScene: SKScene {
 	}
 	
 	func calculateSizes() {
+        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
+                                    height: 0.225 * (super.view?.bounds.size.height)!)
+        
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
 		let widthOffset = CGFloat((self.scene?.size.width)! * 0.10667)
@@ -78,6 +81,13 @@ class GameScene: SKScene {
 		self.cellsSize = CGSize(width: smallest, height: smallest)
 	}
 	
+    func setInfosCell() {
+        let infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode.zPosition = 1.2
+        addChild(infosCellNode)
+        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+    }
+    
 	func setPlayerBoard(board: Board) {
 		let rowsCount = board.cellsMatrix.count
 		let columnsCount = Int((board.cellsMatrix.first?.count)!)
