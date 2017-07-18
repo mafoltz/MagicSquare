@@ -37,6 +37,8 @@ class GameScene: SKScene {
     private var direction = Orientation.neutral
     private var row : Int! 
     private var column : Int!
+	private var boardDisplay : SKCropNode!
+	private var boardContentNode : SKNode!
     
 //MARK: - Touches in screen
     
@@ -53,14 +55,18 @@ class GameScene: SKScene {
 		self.scene?.backgroundColor = UIColor.white
 		self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
+		boardDisplay = SKCropNode()
+		boardDisplay.position = CGPoint(x: 0, y: (self.scene?.size.height)!/2)
         
 		calculateSizes()
-        setInfosCell()
+		setInfosCell()
+		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
-		addWhiteFrame()
-
-        storeFirstNodePosition = playerBoard[1][1].position
-
+		storeFirstNodePosition = playerBoard[1][1].position
+	}
+	
+	override func update(_ currentTime: TimeInterval) {
+	
 	}
 	
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -190,7 +196,7 @@ class GameScene: SKScene {
 				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
-			self.addChild(boardCell)
+			boardContentNode.addChild(boardCell)
 			
 			zerothRow.append(boardCell)
 			
@@ -224,7 +230,7 @@ class GameScene: SKScene {
 //				boardCell0.alpha = 0.5
 			}
 			boardCell0.position = CGPoint(x: xOffset, y: yOffset)
-			self.addChild(boardCell0)
+			boardContentNode.addChild(boardCell0)
             elementsRow.append(boardCell0)
 			xOffset += (cellsSize.width + cellsSpacing)
 			
@@ -236,7 +242,7 @@ class GameScene: SKScene {
 					boardCell.strokeColor = color
 				}
 				boardCell.position = CGPoint(x: xOffset, y: yOffset)
-				self.addChild(boardCell)
+				boardContentNode.addChild(boardCell)
                 
                 elementsRow.append(boardCell)
                 
@@ -251,7 +257,7 @@ class GameScene: SKScene {
 				//boardCellF.alpha = 0.5
 			}
 			boardCellF.position = CGPoint(x: xOffset, y: yOffset)
-			self.addChild(boardCellF)
+			boardContentNode.addChild(boardCellF)
             elementsRow.append(boardCellF)
 			
             playerBoard.append(elementsRow)
@@ -282,7 +288,7 @@ class GameScene: SKScene {
 				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
-			self.addChild(boardCell)
+			boardContentNode.addChild(boardCell)
 			
 			lastRow.append(boardCell)
 			
@@ -299,43 +305,34 @@ class GameScene: SKScene {
 		lastRow.append(boardCellG)
 		
 		playerBoard.append(lastRow)
+		
+		boardDisplay.addChild(boardContentNode)
+		self.addChild(boardDisplay)
 	}
 	
-	func addWhiteFrame() {
-		
-		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (playerBoard[0].first?.position.y)!))
-		addWhiteBorder(orientation: "horizontal", position: CGPoint(x: 0, y: (playerBoard[playerBoard.count-1].first?.position.y)!))
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (playerBoard[0].first?.position.x)!, y: (playerBoard[Int(playerBoard.count/2)].first?.position.y)!))
-		addWhiteBorder(orientation: "vertical", position: CGPoint(x: (playerBoard[0].last?.position.x)!, y: (playerBoard[Int(playerBoard.count/2)].first?.position.y)!))
-
+	func initCrop() {
+		boardDisplay = cropBoard()
+		boardContentNode = SKNode()
+		boardContentNode.scene?.size = CGSize(width: self.size.width, height: self.size.height)
+		boardContentNode.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+		boardContentNode.position = CGPoint(x: 0, y: 0)
 	}
 	
-	func addWhiteBorder(orientation: String, position: CGPoint) {
+	func cropBoard() -> SKCropNode {
 		
-		if orientation == "horizontal" {
-			let cellWidth = cellsSize.width * CGFloat(playerBoard[0].count)
-			let cellSpc = cellsSpacing * CGFloat(playerBoard[0].count)
-			let horizontalBorder = SKShapeNode(rectOf: CGSize(width: (cellWidth + cellSpc), height: cellsSize.height + cellsSpacing/2),
-			                                   cornerRadius: 0)
-			horizontalBorder.position = position
-			horizontalBorder.fillColor = UIColor.white
-			horizontalBorder.alpha = 0.8
-			horizontalBorder.zPosition = 1.1
-			addChild(horizontalBorder)
-		}
+		let cropNode = SKCropNode()
+		let acumWidth = cellsSize.width * CGFloat(currentLevel.playerBoard.cellsMatrix[0].count)
+		let acumHSpacing = cellsSpacing * CGFloat(currentLevel.playerBoard.cellsMatrix[0].count - 1)
+		let acumHeight = cellsSize.height * CGFloat(currentLevel.playerBoard.cellsMatrix.count)
+		let acumVSpacing = cellsSpacing * CGFloat(currentLevel.playerBoard.cellsMatrix.count - 1)
 		
-		if orientation == "vertical" {
-			let cellHeight = cellsSize.height * CGFloat(playerBoard.count)
-			let cellSpc = cellsSpacing * CGFloat(playerBoard.count - 3)
-			let verticalBorder = SKShapeNode(rectOf: CGSize(width: (cellsSize.width + cellsSpacing/2),
-			                                                height: (cellHeight + cellSpc)), cornerRadius: 0)
-			verticalBorder.position = position
-			verticalBorder.fillColor = UIColor.white
-			verticalBorder.alpha = 0.8
-			verticalBorder.zPosition = 1.1
-			addChild(verticalBorder)
-		}
+		let mask = SKShapeNode(rectOf: CGSize(width: (acumWidth + acumHSpacing), height: (acumHeight + acumVSpacing)))
 		
+		mask.fillColor = .black
+		mask.position = CGPoint(x: 0, y: (self.scene?.size.height)! * 0.345)
+		cropNode.maskNode = mask
+		
+		return cropNode
 	}
     
     
