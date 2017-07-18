@@ -22,6 +22,7 @@ class LevelsScene: SKScene {
     var levelsLabelNodes = [SKLabelNode!]()
     
     var indexOfTouchedLevel: Int! = -1
+    var initialTouchLocation: CGPoint?
     var touchLocation: CGPoint?
     var isMoving = false
     
@@ -37,6 +38,7 @@ class LevelsScene: SKScene {
     let screenVerticalSpacing: CGFloat = 67
     let screenHorizontalSpacing: CGFloat = 50
     let cornerRadius: CGFloat = 30
+    let moveTolerance: CGFloat = 10
     
     func prepareScene(from previousScene: SKScene) {
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
@@ -100,6 +102,7 @@ class LevelsScene: SKScene {
         isUserInteractionEnabled = false
         
         let touch: UITouch = touches.first as UITouch!
+        initialTouchLocation = touch.location(in: self)
         touchLocation = touch.location(in: self)
         
         if !levelsScreen.contains(touchLocation!) {
@@ -107,7 +110,8 @@ class LevelsScene: SKScene {
         }
         
         for i in 0..<levelsNodes.count {
-            if levelsNodes[i].contains(touchLocation!) {
+            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)! - levelsScreen.position.x,
+                                               y: (touchLocation?.y)!)) {
                 indexOfTouchedLevel = i
                 break
             } else {
@@ -137,7 +141,9 @@ class LevelsScene: SKScene {
             levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
         }
         
-        if indexOfTouchedLevel >= 0 && levelsNodes[indexOfTouchedLevel].contains(touchLocation!) {
+        if indexOfTouchedLevel >= 0 && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance &&
+            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)! - levelsScreen.position.x,
+                                                              y: (touchLocation?.y)!)) {
             goToGameScene(with: levels[indexOfTouchedLevel])
         }
         
@@ -145,7 +151,7 @@ class LevelsScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if !(scene?.hasActions())! {
+        if !levelsScreen.hasActions() {
             isMoving = false
         }
     }
