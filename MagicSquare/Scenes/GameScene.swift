@@ -107,7 +107,7 @@ class GameScene: SKScene {
         
         self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
                                     height: 0.225 * (super.view?.bounds.size.height)!)
-        self.buttonWidthDistance = infosCellSize.width / 2 - horizontalLength
+        self.buttonWidthDistance = 0.372 * infosCellSize.width
         self.buttonsLineHeight = 0.2 * infosCellSize.height
 	}
 	
@@ -116,6 +116,12 @@ class GameScene: SKScene {
         infosCellNode.zPosition = 1.2
         addChild(infosCellNode)
         infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+        
+        templateButton = SKSpriteNode(imageNamed: "templateButton")
+        templateButton.size = CGSize(width: 1.28 * infosCellSize.height / 3, height: 1.28 * infosCellSize.height / 3)
+        templateButton.zPosition = 0.1
+        infosCellNode.addChild(templateButton)
+        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
