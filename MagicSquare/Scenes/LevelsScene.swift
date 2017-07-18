@@ -77,7 +77,7 @@ class LevelsScene: SKScene {
         for i in 0..<json.count {
             levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
             
-            let spriteNode = SKSpriteNode(imageNamed: "goldenLevel")
+            let spriteNode = SKSpriteNode(imageNamed: "undoneLevel")
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
@@ -96,6 +96,12 @@ class LevelsScene: SKScene {
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
+        
+        let hideLevels = SKAction.moveBy(x: view.bounds.size.width - screenHorizontalSpacing, y: 0.0, duration: 0.0)
+        let moveLevels = SKAction.moveBy(x: screenHorizontalSpacing - view.bounds.size.width - 20.0, y: 0.0, duration: 0.3)
+        let moveLevelsQuickly = SKAction.moveBy(x: 20.0, y: 0.0, duration: 0.01)
+        let actionsSequence = SKAction.sequence([hideLevels, moveLevels, moveLevelsQuickly])
+        levelsScreen.run(actionsSequence)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
