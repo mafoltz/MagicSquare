@@ -376,52 +376,34 @@ class GameScene: SKScene {
         let diff = abs(positionXNode - storeFirstNodePosition.x)
         
         if diff > (cellsSpacing + cellsSize.width) {
-            var rowCopy = playerBoard[row]
             if positionXNode > storeFirstNodePosition.x {
-//                print("oiDIR")
-//                self.removeChildren(in: [playerBoard[row][playerBoard[row].count-1]])
-//                for index in 1..<playerBoard[row].count-2 {
-//                    rowCopy[index-1] = playerBoard[row][index]
-//                }
-//                
-//                let lastCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                lastCell.fillColor = playerBoard[row][1].fillColor
-//                lastCell.strokeColor = playerBoard[row][1].fillColor
-//                lastCell.position = playerBoard[row][playerBoard[row].count-1].position
-//                addChild(lastCell)
-//                
-//                rowCopy[playerBoard[row].count-1] = lastCell
-//                
-//                
-//                let firstCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                firstCell.fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
-//                firstCell.strokeColor = playerBoard[row][playerBoard[row].count-2].fillColor
-//                firstCell.position = playerBoard[row][0].position
-//                firstCell.position.x -= (cellsSize.width + cellsSpacing)
-//                addChild(firstCell)
-//                
-//                rowCopy[0] = firstCell
-//                
-//                
-//                playerBoard[row] = rowCopy
+                var rowCopy = playerBoard[row]
+                for index in 0..<playerBoard[row].count-1 {
+                    rowCopy[index+1] = playerBoard[row][index]
+                }
+                let newCell = playerBoard[row].last
+                newCell?.fillColor = rowCopy[rowCopy.count-2].fillColor
+                newCell?.strokeColor = rowCopy[rowCopy.count-2].strokeColor
+                newCell?.position = rowCopy[1].position
+                newCell?.position.x -= (cellsSize.width + cellsSpacing)
+                
+                rowCopy[0] = newCell!
+                playerBoard[row] = rowCopy
+                
             }
             else {
-//                print("oiESQ")
-//                self.removeChildren(in: [playerBoard[row][0]])
-//                let secondNode = playerBoard[row][1]
-//                for index in 0..<playerBoard[row].count-1 {
-//                    rowCopy[index] = playerBoard[row][index+1]
-//                }
-//                
-//                let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                boardCell.fillColor = secondNode.fillColor
-//                boardCell.strokeColor = secondNode.strokeColor
-//                boardCell.position = playerBoard[row][playerBoard[row].count-2].position
-//                boardCell.position.x += (cellsSize.width + cellsSpacing)
-//                addChild(boardCell)
-//
-//                rowCopy[playerBoard[row].count-1] = boardCell
-//                playerBoard[row] = rowCopy
+                var rowCopy = playerBoard[row]
+                for index in 1..<playerBoard[row].count {
+                    rowCopy[index-1] = playerBoard[row][index]
+                }
+                let newCell = playerBoard[row].first
+                newCell?.fillColor = rowCopy[1].fillColor
+                newCell?.strokeColor = rowCopy[1].strokeColor
+                newCell?.position = rowCopy[rowCopy.count-2].position
+                newCell?.position.x += (cellsSize.width + cellsSpacing)
+                
+                rowCopy[rowCopy.count-1] = newCell!
+                playerBoard[row] = rowCopy
                 
             }
             
@@ -429,7 +411,7 @@ class GameScene: SKScene {
         else {
             print("tchauX")
         }
-	}
+    }
 	
 	func update(column: Int) {
 		let positionYNode = playerBoard[1][column].position.y
