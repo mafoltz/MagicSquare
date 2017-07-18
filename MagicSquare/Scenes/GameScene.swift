@@ -21,6 +21,9 @@ class GameScene: SKScene {
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
+    private var infosCellNode : SKSpriteNode!
+    private var levelsButton : SKSpriteNode!
+    private var infosCellSize : CGSize!
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -46,17 +49,43 @@ class GameScene: SKScene {
         self.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
         
 		calculateSizes()
+        setInfosCell()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		addWhiteFrame()
+
         storeFirstNodePosition = playerBoard[1][1].position
-        
+
 	}
 	
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
+                                         y: (touchLocation?.y)! - infosCellNode.position.y)) {
+            for g in (self.view?.gestureRecognizers)! {
+                g.isEnabled = false
+            }
+            
+            openLevelsScreen()
+        }
+    }
+    
+    func openLevelsScreen() {
+        let scene: LevelsScene = LevelsScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.prepareScene(from: self.scene!)
+        super.view?.presentScene(scene)
+    }
+
 	override func update(_ currentTime: TimeInterval) {
 		
 	}
 	
 	func calculateSizes() {
+        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
+                                    height: 0.225 * (super.view?.bounds.size.height)!)
+        
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
 		let widthOffset = CGFloat((self.scene?.size.width)! * 0.10667)
@@ -78,6 +107,18 @@ class GameScene: SKScene {
 		self.cellsSize = CGSize(width: smallest, height: smallest)
 	}
 	
+    func setInfosCell() {
+        infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode.zPosition = 1.2
+        addChild(infosCellNode)
+        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+        
+        levelsButton = SKSpriteNode(imageNamed: "levelsButton")
+        levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        levelsButton.zPosition = 0.1
+        infosCellNode.addChild(levelsButton)
+    }
+    
 	func setPlayerBoard(board: Board) {
 		let rowsCount = board.cellsMatrix.count
 		let columnsCount = Int((board.cellsMatrix.first?.count)!)

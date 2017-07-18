@@ -142,7 +142,11 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
+<<<<<<< HEAD
 						DevelopmentTeam = QY73PT43D9;
+=======
+						DevelopmentTeam = VXAGBDYAT9;
+>>>>>>> 226364e316055487e916da8d827cc4bb407a309f
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -317,7 +321,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+<<<<<<< HEAD
 				DEVELOPMENT_TEAM = QY73PT43D9;
+=======
+				DEVELOPMENT_TEAM = VXAGBDYAT9;
+>>>>>>> 226364e316055487e916da8d827cc4bb407a309f
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
@@ -331,7 +339,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+<<<<<<< HEAD
 				DEVELOPMENT_TEAM = QY73PT43D9;
+=======
+				DEVELOPMENT_TEAM = VXAGBDYAT9;
+>>>>>>> 226364e316055487e916da8d827cc4bb407a309f
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
