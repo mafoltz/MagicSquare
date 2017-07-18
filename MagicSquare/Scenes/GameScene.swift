@@ -21,9 +21,15 @@ class GameScene: SKScene {
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
+    
     private var infosCellNode : SKSpriteNode!
+    private var templateButton : SKSpriteNode!
     private var levelsButton : SKSpriteNode!
+    private var hintButton : SKSpriteNode!
     private var infosCellSize : CGSize!
+    private var buttonWidthDistance : CGFloat!
+    private var buttonsLineHeight : CGFloat!
+    
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -77,15 +83,8 @@ class GameScene: SKScene {
         scene.prepareScene(from: self.scene!)
         super.view?.presentScene(scene)
     }
-
-	override func update(_ currentTime: TimeInterval) {
-		
-	}
 	
 	func calculateSizes() {
-        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
-                                    height: 0.225 * (super.view?.bounds.size.height)!)
-        
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
 		let widthOffset = CGFloat((self.scene?.size.width)! * 0.10667)
@@ -105,6 +104,11 @@ class GameScene: SKScene {
 		}
 		
 		self.cellsSize = CGSize(width: smallest, height: smallest)
+        
+        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
+                                    height: 0.225 * (super.view?.bounds.size.height)!)
+        self.buttonWidthDistance = infosCellSize.width / 2 - horizontalLength
+        self.buttonsLineHeight = 0.2 * infosCellSize.height
 	}
 	
     func setInfosCell() {
@@ -117,6 +121,13 @@ class GameScene: SKScene {
         levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
         levelsButton.zPosition = 0.1
         infosCellNode.addChild(levelsButton)
+        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+        
+        hintButton = SKSpriteNode(imageNamed: "hintButton")
+        hintButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        hintButton.zPosition = 0.1
+        infosCellNode.addChild(hintButton)
+        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
     }
     
 	func setPlayerBoard(board: Board) {
