@@ -35,7 +35,7 @@ class GameScene: SKScene {
     private var penultimateTouch : CGPoint!
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
-    
+    private var storeFirstNodePosition : CGPoint!
 	
 // MARK: - Methods
 	
@@ -48,8 +48,8 @@ class GameScene: SKScene {
 		calculateSizes()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		addWhiteFrame()
-	
-		
+        storeFirstNodePosition = playerBoard[1][1].position
+        
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
@@ -163,7 +163,7 @@ class GameScene: SKScene {
 			if let color = row.last??.color {
 				boardCell0.fillColor = color
 				boardCell0.strokeColor = color
-				boardCell0.alpha = 0.5
+//				boardCell0.alpha = 0.5
 			}
 			boardCell0.position = CGPoint(x: xOffset, y: yOffset)
 			self.addChild(boardCell0)
@@ -190,7 +190,7 @@ class GameScene: SKScene {
 			if let color = row.first??.color {
 				boardCellF.fillColor = color
 				boardCellF.strokeColor = color
-				boardCellF.alpha = 0.5
+				//boardCellF.alpha = 0.5
 			}
 			boardCellF.position = CGPoint(x: xOffset, y: yOffset)
 			self.addChild(boardCellF)
@@ -279,13 +279,84 @@ class GameScene: SKScene {
 		}
 		
 	}
+    
+    
 	
-	func update(row: Int) {
-		
+    func update(row: Int) {
+        let positionXNode = playerBoard[row][1].position.x
+        let diff = abs(positionXNode - storeFirstNodePosition.x)
+        
+        if diff > (cellsSpacing + cellsSize.width) {
+            var rowCopy = playerBoard[row]
+            if positionXNode > storeFirstNodePosition.x {
+//                print("oiDIR")
+//                self.removeChildren(in: [playerBoard[row][playerBoard[row].count-1]])
+//                for index in 1..<playerBoard[row].count-2 {
+//                    rowCopy[index-1] = playerBoard[row][index]
+//                }
+//                
+//                let lastCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                lastCell.fillColor = playerBoard[row][1].fillColor
+//                lastCell.strokeColor = playerBoard[row][1].fillColor
+//                lastCell.position = playerBoard[row][playerBoard[row].count-1].position
+//                addChild(lastCell)
+//                
+//                rowCopy[playerBoard[row].count-1] = lastCell
+//                
+//                
+//                let firstCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                firstCell.fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
+//                firstCell.strokeColor = playerBoard[row][playerBoard[row].count-2].fillColor
+//                firstCell.position = playerBoard[row][0].position
+//                firstCell.position.x -= (cellsSize.width + cellsSpacing)
+//                addChild(firstCell)
+//                
+//                rowCopy[0] = firstCell
+//                
+//                
+//                playerBoard[row] = rowCopy
+            }
+            else {
+//                print("oiESQ")
+//                self.removeChildren(in: [playerBoard[row][0]])
+//                let secondNode = playerBoard[row][1]
+//                for index in 0..<playerBoard[row].count-1 {
+//                    rowCopy[index] = playerBoard[row][index+1]
+//                }
+//                
+//                let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                boardCell.fillColor = secondNode.fillColor
+//                boardCell.strokeColor = secondNode.strokeColor
+//                boardCell.position = playerBoard[row][playerBoard[row].count-2].position
+//                boardCell.position.x += (cellsSize.width + cellsSpacing)
+//                addChild(boardCell)
+//
+//                rowCopy[playerBoard[row].count-1] = boardCell
+//                playerBoard[row] = rowCopy
+                
+            }
+            
+        }
+        else {
+            print("tchauX")
+        }
 	}
 	
 	func update(column: Int) {
-		
+		let positionYNode = playerBoard[1][column].position.y
+        let diff =  abs(positionYNode - storeFirstNodePosition.y)
+        if diff > (cellsSpacing + cellsSize.height) {
+            if positionYNode > storeFirstNodePosition.y {
+                print("oiCIMA")
+                
+            }
+            else {
+                print("oiBAIXO")
+            }
+        }
+        else {
+            print("tchauY")
+        }
 	}
     
     func handlePan(recognizer:UIPanGestureRecognizer) {
@@ -321,6 +392,7 @@ class GameScene: SKScene {
                     let differenceX = abs(lastTouch.x - penultimateTouch.x)
                     
                     if lastTouch.x >= penultimateTouch.x {
+                        //direita
                         for column in playerBoard[row]{
                             column.position.x += differenceX
                         }
@@ -330,6 +402,7 @@ class GameScene: SKScene {
                             column.position.x -= differenceX
                         }
                     }
+                    update(row: row)
                 }
                 else if direction == .vertical && column >= 0{
                     let differenceY = abs(lastTouch.y - penultimateTouch.y)
@@ -345,6 +418,7 @@ class GameScene: SKScene {
                             row[column].position.y -= differenceY
                         }
                     }
+                    update(column: column)
                 }
                 
             }
@@ -359,11 +433,11 @@ class GameScene: SKScene {
             if distanceX > distanceY {
                 direction = .horizontal
                 self.row = getRow(with: firstTouch)
-                print(self.row)
+                //print(self.row)
             } else {
                 direction = .vertical
                 self.column = getColumn(with: firstTouch)
-                print(self.column)
+                //print(self.column)
             }
             
             
@@ -398,12 +472,12 @@ class GameScene: SKScene {
     func getColumn(with position: CGPoint) -> Int {
         for (index, column) in playerBoard[1].enumerated() {
             
-//            if index > 0 && index < playerBoard[1].count-1{
+            if index > 0 && index < playerBoard[1].count-1{
                 let newPoint = CGPoint(x: position.x, y: column.position.y)
                 if column.contains(newPoint) {
                     return index
                 }
-//            }
+            }
         }
         return -1
     }
