@@ -14,6 +14,7 @@ class LevelsScene: SKScene {
     private let json: [[String: Any]] = JsonReader.openJson(named: "World")!
     private var levels = [Level]()
     
+    private var previousScene: SKScene!
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
     private var levelsScreen: SKShapeNode!
@@ -41,6 +42,9 @@ class LevelsScene: SKScene {
     private let moveTolerance: CGFloat = 10
     
     func prepareScene(from previousScene: SKScene) {
+        backgroundColor = UIColor.white
+        
+        self.previousScene = previousScene
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
         previousSceneChildren.name = "Previous Scene Children"
         
@@ -52,6 +56,10 @@ class LevelsScene: SKScene {
         previousScene.removeAllChildren()
         previousScene.removeAllActions()
         addChild(previousSceneChildren)
+        
+        if (previousScene as? GameScene) != nil {
+            previousSceneChildren.run(SKAction.moveBy(x: 0.0, y: -(previousScene.view?.bounds.size.height)! / 2, duration: 0.0))
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -112,7 +120,7 @@ class LevelsScene: SKScene {
         touchLocation = touch.location(in: self)
         
         if !levelsScreen.contains(touchLocation!) {
-            backToMainMenuScene()
+            goBackToPreviousScene()
         }
         
         for i in 0..<levelsNodes.count {
@@ -179,17 +187,21 @@ class LevelsScene: SKScene {
                                        duration: 0.0))
     }
     
-    func backToMainMenuScene() {
-        let scene: MainMenuScene = MainMenuScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        super.view?.presentScene(scene)
+    func goBackToPreviousScene() {
+        if let scene = previousScene as? MainMenuScene {
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            scene.size = (super.view?.bounds.size)!
+            scene.scaleMode = .aspectFill
+            super.view?.presentScene(scene)
+        }
+        else if let scene = previousScene as? GameScene {
+            super.view?.presentScene(scene)
+        }
     }
     
     func goToGameScene(with level: Level) {
         let scene: GameScene = GameScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         scene.currentLevel = level

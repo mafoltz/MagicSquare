@@ -21,6 +21,8 @@ class GameScene: SKScene {
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
+    private var infosCellNode : SKSpriteNode!
+    private var levelsButton : SKSpriteNode!
     private var infosCellSize : CGSize!
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
@@ -52,6 +54,23 @@ class GameScene: SKScene {
 		addWhiteFrame()
 	}
 	
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
+                                         y: (touchLocation?.y)! - infosCellNode.position.y)) {
+            openLevelsScreen()
+        }
+    }
+    
+    func openLevelsScreen() {
+        let scene: LevelsScene = LevelsScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.prepareScene(from: self.scene!)
+        super.view?.presentScene(scene)
+    }
+
 	override func update(_ currentTime: TimeInterval) {
 		
 	}
@@ -82,10 +101,15 @@ class GameScene: SKScene {
 	}
 	
     func setInfosCell() {
-        let infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
         infosCellNode.zPosition = 1.2
         addChild(infosCellNode)
         infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+        
+        levelsButton = SKSpriteNode(imageNamed: "levelsButton")
+        levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        levelsButton.zPosition = 1.3
+        infosCellNode.addChild(levelsButton)
     }
     
 	func setPlayerBoard(board: Board) {
