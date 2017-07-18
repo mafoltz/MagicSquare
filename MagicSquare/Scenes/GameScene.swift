@@ -26,6 +26,8 @@ class GameScene: SKScene {
     private var templateButton : SKSpriteNode!
     private var levelsButton : SKSpriteNode!
     private var hintButton : SKSpriteNode!
+    private var movesLabel : SKLabelNode!
+    private var levelLabel : SKLabelNode!
     private var infosCellSize : CGSize!
     private var buttonWidthDistance : CGFloat!
     private var buttonsLineHeight : CGFloat!
@@ -119,27 +121,59 @@ class GameScene: SKScene {
 	
     func setInfosCell() {
         infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
         infosCellNode.zPosition = 1.2
         addChild(infosCellNode)
-        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
         
         templateButton = SKSpriteNode(imageNamed: "templateButton")
         templateButton.size = CGSize(width: 1.28 * infosCellSize.height / 3, height: 1.28 * infosCellSize.height / 3)
+        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
         templateButton.zPosition = 0.1
         infosCellNode.addChild(templateButton)
-        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         levelsButton.zPosition = 0.1
         infosCellNode.addChild(levelsButton)
-        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         
         hintButton = SKSpriteNode(imageNamed: "hintButton")
         hintButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         hintButton.zPosition = 0.1
         infosCellNode.addChild(hintButton)
-        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+        
+        let movesTitleLabel = SKLabelNode(text: "MOVES")
+        movesTitleLabel.fontColor = UIColor.white
+        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        movesTitleLabel.fontSize = 18.0
+        movesTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        movesTitleLabel.zPosition = 0.1
+        infosCellNode.addChild(movesTitleLabel)
+        
+        let levelTitleLabel = SKLabelNode(text: "LEVEL")
+        levelTitleLabel.fontColor = UIColor.white
+        levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        levelTitleLabel.fontSize = 18.0
+        levelTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        levelTitleLabel.zPosition = 0.1
+        infosCellNode.addChild(levelTitleLabel)
+        
+        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
+        movesLabel.fontColor = UIColor.white
+        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
+        movesLabel.fontSize = 18.0
+        movesLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        movesLabel.zPosition = 0.1
+        infosCellNode.addChild(movesLabel)
+        
+        levelLabel = SKLabelNode(text: String(currentLevel.number))
+        levelLabel.fontColor = UIColor.white
+        levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
+        levelLabel.fontSize = 18.0
+        levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        levelLabel.zPosition = 0.1
+        infosCellNode.addChild(levelLabel)
     }
     
 	func setPlayerBoard(board: Board) {
