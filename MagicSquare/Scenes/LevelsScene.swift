@@ -47,6 +47,7 @@ class LevelsScene: SKScene {
         self.previousScene = previousScene
         previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
         previousSceneChildren.name = "Previous Scene Children"
+        previousSceneChildren.zPosition = 0.0
         
         for child in previousScene.children {
             child.removeFromParent()

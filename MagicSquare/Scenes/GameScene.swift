@@ -112,7 +112,7 @@ class GameScene: SKScene {
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
-        levelsButton.zPosition = 1.3
+        levelsButton.zPosition = 0.1
         infosCellNode.addChild(levelsButton)
     }
     
