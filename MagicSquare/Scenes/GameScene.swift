@@ -21,6 +21,15 @@ class GameScene: SKScene {
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
 	private var templateBoard : [[SKShapeNode]]!
+    
+    private var infosCellNode : SKSpriteNode!
+    private var templateButton : SKSpriteNode!
+    private var levelsButton : SKSpriteNode!
+    private var hintButton : SKSpriteNode!
+    private var infosCellSize : CGSize!
+    private var buttonWidthDistance : CGFloat!
+    private var buttonsLineHeight : CGFloat!
+    
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
 	private var bottomSpacing : CGFloat!
@@ -37,7 +46,7 @@ class GameScene: SKScene {
     private var penultimateTouch : CGPoint!
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
-    
+    private var storeFirstNodePosition : CGPoint!
 	
 // MARK: - Methods
 	
@@ -50,13 +59,36 @@ class GameScene: SKScene {
 		boardDisplay.position = CGPoint(x: 0, y: (self.scene?.size.height)!/2)
         
 		calculateSizes()
+		setInfosCell()
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
-
+		storeFirstNodePosition = playerBoard[1][1].position
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
+	
 	}
+	
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
+                                         y: (touchLocation?.y)! - infosCellNode.position.y)) {
+            for g in (self.view?.gestureRecognizers)! {
+                g.isEnabled = false
+            }
+            
+            openLevelsScreen()
+        }
+    }
+    
+    func openLevelsScreen() {
+        let scene: LevelsScene = LevelsScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.prepareScene(from: self.scene!)
+        super.view?.presentScene(scene)
+    }
 	
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
@@ -78,8 +110,32 @@ class GameScene: SKScene {
 		}
 		
 		self.cellsSize = CGSize(width: smallest, height: smallest)
+        
+        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
+                                    height: 0.225 * (super.view?.bounds.size.height)!)
+        self.buttonWidthDistance = infosCellSize.width / 2 - horizontalLength
+        self.buttonsLineHeight = 0.2 * infosCellSize.height
 	}
 	
+    func setInfosCell() {
+        infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode.zPosition = 1.2
+        addChild(infosCellNode)
+        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+        
+        levelsButton = SKSpriteNode(imageNamed: "levelsButton")
+        levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        levelsButton.zPosition = 0.1
+        infosCellNode.addChild(levelsButton)
+        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+        
+        hintButton = SKSpriteNode(imageNamed: "hintButton")
+        hintButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        hintButton.zPosition = 0.1
+        infosCellNode.addChild(hintButton)
+        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+    }
+    
 	func setPlayerBoard(board: Board) {
 		let rowsCount = board.cellsMatrix.count
 		let columnsCount = Int((board.cellsMatrix.first?.count)!)
@@ -165,7 +221,7 @@ class GameScene: SKScene {
 			if let color = row.last??.color {
 				boardCell0.fillColor = color
 				boardCell0.strokeColor = color
-				boardCell0.alpha = 0.5
+//				boardCell0.alpha = 0.5
 			}
 			boardCell0.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCell0)
@@ -192,7 +248,7 @@ class GameScene: SKScene {
 			if let color = row.first??.color {
 				boardCellF.fillColor = color
 				boardCellF.strokeColor = color
-				boardCellF.alpha = 0.5
+				//boardCellF.alpha = 0.5
 			}
 			boardCellF.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCellF)
@@ -272,13 +328,84 @@ class GameScene: SKScene {
 		
 		return cropNode
 	}
+    
+    
 	
-	func update(row: Int) {
-		
+    func update(row: Int) {
+        let positionXNode = playerBoard[row][1].position.x
+        let diff = abs(positionXNode - storeFirstNodePosition.x)
+        
+        if diff > (cellsSpacing + cellsSize.width) {
+            var rowCopy = playerBoard[row]
+            if positionXNode > storeFirstNodePosition.x {
+//                print("oiDIR")
+//                self.removeChildren(in: [playerBoard[row][playerBoard[row].count-1]])
+//                for index in 1..<playerBoard[row].count-2 {
+//                    rowCopy[index-1] = playerBoard[row][index]
+//                }
+//                
+//                let lastCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                lastCell.fillColor = playerBoard[row][1].fillColor
+//                lastCell.strokeColor = playerBoard[row][1].fillColor
+//                lastCell.position = playerBoard[row][playerBoard[row].count-1].position
+//                addChild(lastCell)
+//                
+//                rowCopy[playerBoard[row].count-1] = lastCell
+//                
+//                
+//                let firstCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                firstCell.fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
+//                firstCell.strokeColor = playerBoard[row][playerBoard[row].count-2].fillColor
+//                firstCell.position = playerBoard[row][0].position
+//                firstCell.position.x -= (cellsSize.width + cellsSpacing)
+//                addChild(firstCell)
+//                
+//                rowCopy[0] = firstCell
+//                
+//                
+//                playerBoard[row] = rowCopy
+            }
+            else {
+//                print("oiESQ")
+//                self.removeChildren(in: [playerBoard[row][0]])
+//                let secondNode = playerBoard[row][1]
+//                for index in 0..<playerBoard[row].count-1 {
+//                    rowCopy[index] = playerBoard[row][index+1]
+//                }
+//                
+//                let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+//                boardCell.fillColor = secondNode.fillColor
+//                boardCell.strokeColor = secondNode.strokeColor
+//                boardCell.position = playerBoard[row][playerBoard[row].count-2].position
+//                boardCell.position.x += (cellsSize.width + cellsSpacing)
+//                addChild(boardCell)
+//
+//                rowCopy[playerBoard[row].count-1] = boardCell
+//                playerBoard[row] = rowCopy
+                
+            }
+            
+        }
+        else {
+            print("tchauX")
+        }
 	}
 	
 	func update(column: Int) {
-		
+		let positionYNode = playerBoard[1][column].position.y
+        let diff =  abs(positionYNode - storeFirstNodePosition.y)
+        if diff > (cellsSpacing + cellsSize.height) {
+            if positionYNode > storeFirstNodePosition.y {
+                print("oiCIMA")
+                
+            }
+            else {
+                print("oiBAIXO")
+            }
+        }
+        else {
+            print("tchauY")
+        }
 	}
     
     func handlePan(recognizer:UIPanGestureRecognizer) {
@@ -314,6 +441,7 @@ class GameScene: SKScene {
                     let differenceX = abs(lastTouch.x - penultimateTouch.x)
                     
                     if lastTouch.x >= penultimateTouch.x {
+                        //direita
                         for column in playerBoard[row]{
                             column.position.x += differenceX
                         }
@@ -323,6 +451,7 @@ class GameScene: SKScene {
                             column.position.x -= differenceX
                         }
                     }
+                    update(row: row)
                 }
                 else if direction == .vertical && column >= 0{
                     let differenceY = abs(lastTouch.y - penultimateTouch.y)
@@ -338,6 +467,7 @@ class GameScene: SKScene {
                             row[column].position.y -= differenceY
                         }
                     }
+                    update(column: column)
                 }
                 
             }
@@ -352,11 +482,11 @@ class GameScene: SKScene {
             if distanceX > distanceY {
                 direction = .horizontal
                 self.row = getRow(with: firstTouch)
-                print(self.row)
+                //print(self.row)
             } else {
                 direction = .vertical
                 self.column = getColumn(with: firstTouch)
-                print(self.column)
+                //print(self.column)
             }
             
             
@@ -391,12 +521,12 @@ class GameScene: SKScene {
     func getColumn(with position: CGPoint) -> Int {
         for (index, column) in playerBoard[1].enumerated() {
             
-//            if index > 0 && index < playerBoard[1].count-1{
+            if index > 0 && index < playerBoard[1].count-1{
                 let newPoint = CGPoint(x: position.x, y: column.position.y)
                 if column.contains(newPoint) {
                     return index
                 }
-//            }
+            }
         }
         return -1
     }
