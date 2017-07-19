@@ -26,9 +26,8 @@ class Hud: SKSpriteNode {
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
-        templateButton = SKSpriteNode(imageNamed: "templateButton")
-        templateButton.size = CGSize(width: 1.28 * self.size.height / 3, height: 1.28 * self.size.height / 3)
-        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
+        templateButton = SKSpriteNode(imageNamed: "mascot")
+        templateButton.run(SKAction.moveBy(x: 0.0, y: -buttonsLineHeight / 2, duration: 0.0))
         templateButton.zPosition = 0.1
         addChild(templateButton)
         

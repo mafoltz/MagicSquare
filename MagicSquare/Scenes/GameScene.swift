@@ -55,6 +55,7 @@ class GameScene: SKScene {
         
 		calculateSizes()
 		setHud(from: view)
+        setTemplate(from: view)
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		storeFirstNodePosition = playerBoard[1][1].position
@@ -128,6 +129,12 @@ class GameScene: SKScene {
         hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
         hud.setHud(from: currentLevel, view: view)
         addChild(hud)
+    }
+    
+    func setTemplate(from view: SKView) {
+        template = TemplateBoard()
+        template.setTemplate(from: currentLevel, view: view)
+        addChild(template)
     }
     
 	func setPlayerBoard(board: Board) {

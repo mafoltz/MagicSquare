@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "tutorial.png"
+      "filename" : "nVel.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "tutorial@2x.png"
+      "filename" : "nVel@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "tutorial@3x.png"
+      "filename" : "nVel@3x.png"
     }
   ],
   "info" : {
