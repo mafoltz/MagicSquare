@@ -556,14 +556,14 @@ class GameScene: SKScene {
                     }
                 }
             }
-            
-            if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
+
+            if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 && moves != 0 {
                 currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
-            } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
+            } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0 && moves != 0{
                 currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
-            } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
+            } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 && moves != 0 {
                 currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
-            } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
+            } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 && moves != 0 {
                 currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
             }
             moves = 0
