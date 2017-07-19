@@ -49,6 +49,7 @@ class GameScene: SKScene {
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
     private var storeFirstNodePosition : CGPoint!
+    private var moves : Int!
 	
 // MARK: - Methods
 	
@@ -65,6 +66,7 @@ class GameScene: SKScene {
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		storeFirstNodePosition = playerBoard[1][1].position
+        moves = 0
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
@@ -389,6 +391,7 @@ class GameScene: SKScene {
                 
                 rowCopy[0] = newCell!
                 playerBoard[row] = rowCopy
+                moves = moves + 1
                 
             }
             else {
@@ -403,6 +406,8 @@ class GameScene: SKScene {
                 
                 rowCopy[rowCopy.count-1] = newCell!
                 playerBoard[row] = rowCopy
+                moves = moves - 1
+                
                 
             }
             
@@ -427,10 +432,12 @@ class GameScene: SKScene {
                 newCell.position.y -= (cellsSize.width + cellsSpacing)
                 
                 columnCopy[columnCopy.count-1] = newCell
+                moves = moves + 1
                 
                 for index in 0..<playerBoard.count{
                     playerBoard[index][column] = columnCopy[index]
                 }
+                
                 
             }
             else {
@@ -446,15 +453,18 @@ class GameScene: SKScene {
                 newCell.position.y += (cellsSize.width + cellsSpacing)
                 
                 columnCopy[0] = newCell
+                moves = moves - 1
                 
                 for index in 0..<playerBoard.count{
                     playerBoard[index][column] = columnCopy[index]
                 }
+                
             }
         }
 	}
     
     func handlePan(recognizer:UIPanGestureRecognizer) {
+        //recognizer.maximumNumberOfTouches = 1
         if recognizer.state == .began {
             firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
             penultimateTouch = firstTouch
@@ -482,7 +492,7 @@ class GameScene: SKScene {
                     direction = .vertical
                     self.column = getColumn(with: firstTouch)
                     
-                    playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor
+                    playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor //crashando
                     playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
                     
                     playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
@@ -620,14 +630,23 @@ class GameScene: SKScene {
             
             
             if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
-//                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+                print(column)
+                currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
+                //print(moves)
             } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
-//                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+                print(column)
+                currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
+                //print(moves)
             } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
-//                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+                print(row)
+                //print(moves)
+                currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
             } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
-//                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+                print(row)
+                currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
+                //print(moves)
             }
+            moves = 0
             direction = .neutral
         }
     }
