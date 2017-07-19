@@ -20,18 +20,10 @@ class GameScene: SKScene {
 	
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
-    private var template = SKShapeNode()
+    private var template = SKSpriteNode()
 	private var templateBoard : [[SKShapeNode]]!
     
-    private var infosCellNode : SKSpriteNode!
-    private var templateButton : SKSpriteNode!
-    private var levelsButton : SKSpriteNode!
-    private var hintButton : SKSpriteNode!
-    private var movesLabel : SKLabelNode!
-    private var levelLabel : SKLabelNode!
-    private var infosCellSize : CGSize!
-    private var buttonWidthDistance : CGFloat!
-    private var buttonsLineHeight : CGFloat!
+    private var hud : Hud!
     
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
@@ -63,30 +55,29 @@ class GameScene: SKScene {
 		boardDisplay.position = CGPoint(x: 0, y: (self.scene?.size.height)!/2)
         
 		calculateSizes()
-		setInfosCell()
-        setTemplate()
+		setHud(from: view)
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		storeFirstNodePosition = playerBoard[1][1].position
         moves = 0
 	}
 	
-	override func update(_ currentTime: TimeInterval) {
-        movesLabel.text = String(currentLevel.playerMoves)
-	}
-	
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         
-        if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
-                                         y: (touchLocation?.y)! - infosCellNode.position.y)) {
+        if hud.levelsButton.contains(CGPoint(x: (touchLocation?.x)! - hud.position.x,
+                                             y: (touchLocation?.y)! - hud.position.y)) {
             openLevelsScreen()
         }
         
-        else if templateButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
-                                                y: (touchLocation?.y)! - infosCellNode.position.y)) {
+        else if hud.templateButton.contains(CGPoint(x: (touchLocation?.x)! - hud.position.x,
+                                                    y: (touchLocation?.y)! - hud.position.y)) {
             showTemplate()
         }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        hud.movesLabel.text = String(currentLevel.playerMoves)
     }
     
     func openLevelsScreen() {
@@ -130,73 +121,37 @@ class GameScene: SKScene {
 		}
 		
 		self.cellsSize = CGSize(width: smallest, height: smallest)
-        
-        self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
-                                    height: 0.225 * (super.view?.bounds.size.height)!)
-        self.buttonWidthDistance = 0.372 * infosCellSize.width
-        self.buttonsLineHeight = 0.2 * infosCellSize.height
 	}
 	
-    func setInfosCell() {
-        infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
-        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
-        infosCellNode.zPosition = 1.2
-        addChild(infosCellNode)
-        
-        templateButton = SKSpriteNode(imageNamed: "templateButton")
-        templateButton.size = CGSize(width: 1.28 * infosCellSize.height / 3, height: 1.28 * infosCellSize.height / 3)
-        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
-        templateButton.zPosition = 0.1
-        infosCellNode.addChild(templateButton)
-        
-        levelsButton = SKSpriteNode(imageNamed: "levelsButton")
-        levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
-        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
-        levelsButton.zPosition = 0.1
-        infosCellNode.addChild(levelsButton)
-        
-        hintButton = SKSpriteNode(imageNamed: "hintButton")
-        hintButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
-        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
-        hintButton.zPosition = 0.1
-        infosCellNode.addChild(hintButton)
-        
-        let movesTitleLabel = SKLabelNode(text: "MOVES")
-        movesTitleLabel.fontColor = UIColor.white
-        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        movesTitleLabel.fontSize = 18.0
-        movesTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
-        movesTitleLabel.zPosition = 0.1
-        infosCellNode.addChild(movesTitleLabel)
-        
-        let levelTitleLabel = SKLabelNode(text: "LEVEL")
-        levelTitleLabel.fontColor = UIColor.white
-        levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        levelTitleLabel.fontSize = 18.0
-        levelTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
-        levelTitleLabel.zPosition = 0.1
-        infosCellNode.addChild(levelTitleLabel)
-        
-        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
-        movesLabel.fontColor = UIColor.white
-        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
-        movesLabel.fontSize = 18.0
-        movesLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
-        movesLabel.zPosition = 0.1
-        infosCellNode.addChild(movesLabel)
-        
-        levelLabel = SKLabelNode(text: String(currentLevel.number))
-        levelLabel.fontColor = UIColor.white
-        levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
-        levelLabel.fontSize = 18.0
-        levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
-        levelLabel.zPosition = 0.1
-        infosCellNode.addChild(levelLabel)
+    func setHud(from view: SKView) {
+        hud = Hud(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
+                  size: CGSize(width: view.bounds.size.width, height: 0.225 * view.bounds.size.height))
+        hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
+        hud.setHud(from: currentLevel, view: view)
+        hud.zPosition = 1.2
+        addChild(hud)
     }
     
-    func setTemplate() {
+    /*func setTemplate() {
         template.isHidden = true
-    }
+        template.anchorPoint = (scene?.anchorPoint)!
+        template.zPosition = 2.0
+        
+        let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
+        let backgroundScreen = SKSpriteNode(color: backgroundColor, size: (super.view?.bounds.size)!)
+        backgroundScreen.zPosition = 0.1
+        template.addChild(backgroundScreen)
+        
+        let roundedRect = CGRect(x: (bottomSpacing - super.view?.bounds.size.width) / 2,
+                                 y: (bottomSpacing / 2),
+                                 width: super.view?.bounds.size.width - bottomSpacing,
+                                 height: (super.view?.bounds.size.height)!)
+        let templateBaloon = SKShapeNode()
+        templateBaloon.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
+        templateBaloon.fillColor = UIColor.white
+        templateBaloon.zPosition = 0.2
+        template.addChild(templateBaloon)
+    }*/
     
 	func setPlayerBoard(board: Board) {
 		let rowsCount = board.cellsMatrix.count
