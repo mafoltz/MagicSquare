@@ -215,7 +215,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
 			boardCell0.fillColor = color
 			boardCell0.strokeColor = color
-			boardCell0.alpha = 0.5
+//			boardCell0.alpha = 0.5
 		}
 		boardCell0.position = CGPoint(x: xOffset, y: yOffset)
 		zerothRow.append(boardCell0)
@@ -227,7 +227,7 @@ class GameScene: SKScene {
 			if let color = cell?.color {
 				boardCell.fillColor = color
 				boardCell.strokeColor = color
-				boardCell.alpha = 0.5
+//				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCell)
@@ -308,7 +308,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
 			boardCell0F.fillColor = color
 			boardCell0F.strokeColor = color
-			boardCell0F.alpha = 0.5
+//			boardCell0F.alpha = 0.5
 		}
 		boardCell0F.position = CGPoint(x: xOffset, y: yOffset)
 		xOffset += (cellsSize.width + cellsSpacing)
@@ -319,7 +319,7 @@ class GameScene: SKScene {
 			if let color = cell?.color {
 				boardCell.fillColor = color
 				boardCell.strokeColor = color
-				boardCell.alpha = 0.5
+//				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCell)
@@ -333,7 +333,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].last??.color {
 			boardCellG.fillColor = color
 			boardCellG.strokeColor = color
-			boardCellG.alpha = 0.5
+//			boardCellG.alpha = 0.5
 		}
 		boardCellG.position = CGPoint(x: xOffset, y: yOffset)
 		lastRow.append(boardCellG)
@@ -376,8 +376,8 @@ class GameScene: SKScene {
         let diff = abs(positionXNode - storeFirstNodePosition.x)
         
         if diff > (cellsSpacing + cellsSize.width) {
+            var rowCopy = playerBoard[row]
             if positionXNode > storeFirstNodePosition.x {
-                var rowCopy = playerBoard[row]
                 for index in 0..<playerBoard[row].count-1 {
                     rowCopy[index+1] = playerBoard[row][index]
                 }
@@ -392,7 +392,6 @@ class GameScene: SKScene {
                 
             }
             else {
-                var rowCopy = playerBoard[row]
                 for index in 1..<playerBoard[row].count {
                     rowCopy[index-1] = playerBoard[row][index]
                 }
@@ -417,12 +416,46 @@ class GameScene: SKScene {
 		let positionYNode = playerBoard[1][column].position.y
         let diff =  abs(positionYNode - storeFirstNodePosition.y)
         if diff > (cellsSpacing + cellsSize.height) {
+            var columnCopy = [SKShapeNode](repeating: playerBoard[1][1], count:playerBoard.count)
             if positionYNode > storeFirstNodePosition.y {
                 print("oiCIMA")
+                
+                for index in 0..<playerBoard.count-1 {
+                    columnCopy[index] = playerBoard[index+1][column]
+                }
+                
+                
+                let newCell = playerBoard.first![column]
+                newCell.fillColor = columnCopy[1].fillColor
+                newCell.strokeColor = columnCopy[1].strokeColor
+                newCell.position = (playerBoard.last?[column].position)!
+                newCell.position.y -= (cellsSize.width + cellsSpacing)
+                
+                columnCopy[columnCopy.count-1] = newCell
+                
+                for index in 0..<playerBoard.count{
+                    playerBoard[index][column] = columnCopy[index]
+                }
                 
             }
             else {
                 print("oiBAIXO")
+                for index in 1..<playerBoard.count {
+                    columnCopy[index] = playerBoard[index-1][column]
+                }
+                
+                
+                let newCell = playerBoard.last![column]
+                newCell.fillColor = columnCopy[columnCopy.count-2].fillColor
+                newCell.strokeColor = columnCopy[columnCopy.count-2].strokeColor
+                newCell.position = playerBoard[0][column].position
+                newCell.position.y += (cellsSize.width + cellsSpacing)
+                
+                columnCopy[0] = newCell
+                
+                for index in 0..<playerBoard.count{
+                    playerBoard[index][column] = columnCopy[index]
+                }
             }
         }
         else {
