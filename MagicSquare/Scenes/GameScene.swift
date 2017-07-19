@@ -26,6 +26,8 @@ class GameScene: SKScene {
     private var templateButton : SKSpriteNode!
     private var levelsButton : SKSpriteNode!
     private var hintButton : SKSpriteNode!
+    private var movesLabel : SKLabelNode!
+    private var levelLabel : SKLabelNode!
     private var infosCellSize : CGSize!
     private var buttonWidthDistance : CGFloat!
     private var buttonsLineHeight : CGFloat!
@@ -47,6 +49,7 @@ class GameScene: SKScene {
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
     private var storeFirstNodePosition : CGPoint!
+    private var moves : Int!
 	
 // MARK: - Methods
 	
@@ -63,10 +66,11 @@ class GameScene: SKScene {
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		storeFirstNodePosition = playerBoard[1][1].position
+        moves = 0
 	}
 	
 	override func update(_ currentTime: TimeInterval) {
-	
+        movesLabel.text = String(currentLevel.playerMoves)
 	}
 	
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -113,27 +117,65 @@ class GameScene: SKScene {
         
         self.infosCellSize = CGSize(width: (super.view?.bounds.size.width)!,
                                     height: 0.225 * (super.view?.bounds.size.height)!)
-        self.buttonWidthDistance = infosCellSize.width / 2 - horizontalLength
+        self.buttonWidthDistance = 0.372 * infosCellSize.width
         self.buttonsLineHeight = 0.2 * infosCellSize.height
 	}
 	
     func setInfosCell() {
         infosCellNode = SKSpriteNode(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0) , size: infosCellSize)
+        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
         infosCellNode.zPosition = 1.2
         addChild(infosCellNode)
-        infosCellNode.run(SKAction.moveTo(y: (self.view?.bounds.size.height)! - infosCellSize.height / 2, duration: 0.0))
+        
+        templateButton = SKSpriteNode(imageNamed: "templateButton")
+        templateButton.size = CGSize(width: 1.28 * infosCellSize.height / 3, height: 1.28 * infosCellSize.height / 3)
+        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
+        templateButton.zPosition = 0.1
+        infosCellNode.addChild(templateButton)
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         levelsButton.zPosition = 0.1
         infosCellNode.addChild(levelsButton)
-        levelsButton.run(SKAction.moveBy(x: -buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         
         hintButton = SKSpriteNode(imageNamed: "hintButton")
         hintButton.size = CGSize(width: infosCellSize.height / 3, height: infosCellSize.height / 3)
+        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         hintButton.zPosition = 0.1
         infosCellNode.addChild(hintButton)
-        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+        
+        let movesTitleLabel = SKLabelNode(text: "MOVES")
+        movesTitleLabel.fontColor = UIColor.white
+        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        movesTitleLabel.fontSize = 18.0
+        movesTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        movesTitleLabel.zPosition = 0.1
+        infosCellNode.addChild(movesTitleLabel)
+        
+        let levelTitleLabel = SKLabelNode(text: "LEVEL")
+        levelTitleLabel.fontColor = UIColor.white
+        levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        levelTitleLabel.fontSize = 18.0
+        levelTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        levelTitleLabel.zPosition = 0.1
+        infosCellNode.addChild(levelTitleLabel)
+        
+        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
+        movesLabel.fontColor = UIColor.white
+        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
+        movesLabel.fontSize = 18.0
+        movesLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        movesLabel.zPosition = 0.1
+        infosCellNode.addChild(movesLabel)
+        
+        levelLabel = SKLabelNode(text: String(currentLevel.number))
+        levelLabel.fontColor = UIColor.white
+        levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
+        levelLabel.fontSize = 18.0
+        levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        levelLabel.zPosition = 0.1
+        infosCellNode.addChild(levelLabel)
     }
     
 	func setPlayerBoard(board: Board) {
@@ -179,7 +221,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
 			boardCell0.fillColor = color
 			boardCell0.strokeColor = color
-			boardCell0.alpha = 0.5
+//			boardCell0.alpha = 0.5
 		}
 		boardCell0.position = CGPoint(x: xOffset, y: yOffset)
 		zerothRow.append(boardCell0)
@@ -191,7 +233,7 @@ class GameScene: SKScene {
 			if let color = cell.element?.color {
 				boardCell.fillColor = color
 				boardCell.strokeColor = color
-				boardCell.alpha = 0.5
+//				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCell)
@@ -272,7 +314,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].first??.color {
 			boardCell0F.fillColor = color
 			boardCell0F.strokeColor = color
-			boardCell0F.alpha = 0.5
+//			boardCell0F.alpha = 0.5
 		}
 		boardCell0F.position = CGPoint(x: xOffset, y: yOffset)
 		xOffset += (cellsSize.width + cellsSpacing)
@@ -283,7 +325,7 @@ class GameScene: SKScene {
 			if let color = cell?.color {
 				boardCell.fillColor = color
 				boardCell.strokeColor = color
-				boardCell.alpha = 0.5
+//				boardCell.alpha = 0.5
 			}
 			boardCell.position = CGPoint(x: xOffset, y: yOffset)
 			boardContentNode.addChild(boardCell)
@@ -297,7 +339,7 @@ class GameScene: SKScene {
 		if let color = board.cellsMatrix[board.cellsMatrix.count - 1].last??.color {
 			boardCellG.fillColor = color
 			boardCellG.strokeColor = color
-			boardCellG.alpha = 0.5
+//			boardCellG.alpha = 0.5
 		}
 		boardCellG.position = CGPoint(x: xOffset, y: yOffset)
 		lastRow.append(boardCellG)
@@ -340,80 +382,94 @@ class GameScene: SKScene {
         let positionXNode = playerBoard[row][1].position.x
         let diff = abs(positionXNode - storeFirstNodePosition.x)
         
-        if diff > (cellsSpacing + cellsSize.width) {
+        if diff > (cellsSpacing/2 + cellsSize.width/2) {
             var rowCopy = playerBoard[row]
             if positionXNode > storeFirstNodePosition.x {
-//                print("oiDIR")
-//                self.removeChildren(in: [playerBoard[row][playerBoard[row].count-1]])
-//                for index in 1..<playerBoard[row].count-2 {
-//                    rowCopy[index-1] = playerBoard[row][index]
-//                }
-//                
-//                let lastCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                lastCell.fillColor = playerBoard[row][1].fillColor
-//                lastCell.strokeColor = playerBoard[row][1].fillColor
-//                lastCell.position = playerBoard[row][playerBoard[row].count-1].position
-//                addChild(lastCell)
-//                
-//                rowCopy[playerBoard[row].count-1] = lastCell
-//                
-//                
-//                let firstCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                firstCell.fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
-//                firstCell.strokeColor = playerBoard[row][playerBoard[row].count-2].fillColor
-//                firstCell.position = playerBoard[row][0].position
-//                firstCell.position.x -= (cellsSize.width + cellsSpacing)
-//                addChild(firstCell)
-//                
-//                rowCopy[0] = firstCell
-//                
-//                
-//                playerBoard[row] = rowCopy
+                for index in 0..<playerBoard[row].count-1 {
+                    rowCopy[index+1] = playerBoard[row][index]
+                }
+                let newCell = playerBoard[row].last
+                newCell?.fillColor = rowCopy[rowCopy.count-2].fillColor
+                newCell?.strokeColor = rowCopy[rowCopy.count-2].strokeColor
+                newCell?.position = rowCopy[1].position
+                newCell?.position.x -= (cellsSize.width + cellsSpacing)
+                
+                rowCopy[0] = newCell!
+                playerBoard[row] = rowCopy
+                moves = moves + 1
+                
             }
             else {
-//                print("oiESQ")
-//                self.removeChildren(in: [playerBoard[row][0]])
-//                let secondNode = playerBoard[row][1]
-//                for index in 0..<playerBoard[row].count-1 {
-//                    rowCopy[index] = playerBoard[row][index+1]
-//                }
-//                
-//                let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
-//                boardCell.fillColor = secondNode.fillColor
-//                boardCell.strokeColor = secondNode.strokeColor
-//                boardCell.position = playerBoard[row][playerBoard[row].count-2].position
-//                boardCell.position.x += (cellsSize.width + cellsSpacing)
-//                addChild(boardCell)
-//
-//                rowCopy[playerBoard[row].count-1] = boardCell
-//                playerBoard[row] = rowCopy
+                for index in 1..<playerBoard[row].count {
+                    rowCopy[index-1] = playerBoard[row][index]
+                }
+                let newCell = playerBoard[row].first
+                newCell?.fillColor = rowCopy[1].fillColor
+                newCell?.strokeColor = rowCopy[1].strokeColor
+                newCell?.position = rowCopy[rowCopy.count-2].position
+                newCell?.position.x += (cellsSize.width + cellsSpacing)
+                
+                rowCopy[rowCopy.count-1] = newCell!
+                playerBoard[row] = rowCopy
+                moves = moves - 1
+                
                 
             }
             
         }
-        else {
-            print("tchauX")
-        }
-	}
+    }
 	
 	func update(column: Int) {
 		let positionYNode = playerBoard[1][column].position.y
         let diff =  abs(positionYNode - storeFirstNodePosition.y)
-        if diff > (cellsSpacing + cellsSize.height) {
+        if diff > (cellsSpacing/2 + cellsSize.height/2) {
+            var columnCopy = [SKShapeNode](repeating: playerBoard[1][1], count:playerBoard.count)
             if positionYNode > storeFirstNodePosition.y {
-                print("oiCIMA")
+                for index in 0..<playerBoard.count-1 {
+                    columnCopy[index] = playerBoard[index+1][column]
+                }
+                
+                
+                let newCell = playerBoard.first![column]
+                newCell.fillColor = columnCopy[1].fillColor
+                newCell.strokeColor = columnCopy[1].strokeColor
+                newCell.position = (playerBoard.last?[column].position)!
+                newCell.position.y -= (cellsSize.width + cellsSpacing)
+                
+                columnCopy[columnCopy.count-1] = newCell
+                moves = moves + 1
+                
+                for index in 0..<playerBoard.count{
+                    playerBoard[index][column] = columnCopy[index]
+                }
+                
                 
             }
             else {
-                print("oiBAIXO")
+                for index in 1..<playerBoard.count {
+                    columnCopy[index] = playerBoard[index-1][column]
+                }
+                
+                
+                let newCell = playerBoard.last![column]
+                newCell.fillColor = columnCopy[columnCopy.count-2].fillColor
+                newCell.strokeColor = columnCopy[columnCopy.count-2].strokeColor
+                newCell.position = playerBoard[0][column].position
+                newCell.position.y += (cellsSize.width + cellsSpacing)
+                
+                columnCopy[0] = newCell
+                moves = moves - 1
+                
+                for index in 0..<playerBoard.count{
+                    playerBoard[index][column] = columnCopy[index]
+                }
+                
             }
-        }
-        else {
-            print("tchauY")
         }
 	}
     
     func handlePan(recognizer:UIPanGestureRecognizer) {
+        //recognizer.maximumNumberOfTouches = 1
         if recognizer.state == .began {
             firstTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
             penultimateTouch = firstTouch
@@ -431,9 +487,21 @@ class GameScene: SKScene {
                 if difX > difY {
                     direction = .horizontal
                     self.row = getRow(with: firstTouch)
+                    
+                    playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
+                    playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
+                    
+                    playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
+                    playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
                 } else {
                     direction = .vertical
                     self.column = getColumn(with: firstTouch)
+                    
+                    playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor //crashando
+                    playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
+                    
+                    playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
+                    playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
                 }
             }
             else{
@@ -484,26 +552,106 @@ class GameScene: SKScene {
             let distanceX = abs(lastTouch.x - firstTouch.x)
             let distanceY = abs(lastTouch.y - firstTouch.y)
             
-            if distanceX > distanceY {
-                direction = .horizontal
-                self.row = getRow(with: firstTouch)
-                //print(self.row)
-            } else {
-                direction = .vertical
-                self.column = getColumn(with: firstTouch)
-                //print(self.column)
+            if direction == .horizontal {
+                let totalDistance = cellsSize.width + cellsSpacing
+                let differenceX = abs(playerBoard[row][1].position.x - storeFirstNodePosition.x)
+                //menor e direita
+                if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x {
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x -= (differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                //maior e direita
+                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x{
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x += (totalDistance - differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                //menor e esquerda
+                else if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x {
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x += (differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                    //maior e esquerda
+                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x{
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x -= (totalDistance - differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+            }
+            else {
+                let totalDistance = cellsSize.width + cellsSpacing
+                let differenceY = abs(playerBoard[1][column].position.y - storeFirstNodePosition.y)
+                //menor e direita
+                if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y {
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y -= (differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //maior e direita
+                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y{
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y += (totalDistance - differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //menor e esquerda
+                else if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y {
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y += (differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //maior e esquerda
+                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y{
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y -= (totalDistance - differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
             }
             
             
             if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
-//                currentLevel.moveUpPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+                print(column)
+                currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
+                //print(moves)
             } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
-//                currentLevel.moveDownPlayerBoard(column: column, moves: calculateMoves(with: distanceY))
+                print(column)
+                currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
+                //print(moves)
             } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
-//                currentLevel.moveRightPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+                print(row)
+                //print(moves)
+                currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
             } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
-//                currentLevel.moveLeftPlayerBoard(row: row, moves: calculateMoves(with: distanceX))
+                print(row)
+                currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
+                //print(moves)
             }
+            moves = 0
             direction = .neutral
         }
     }

@@ -98,8 +98,8 @@ class LevelsScene: SKScene {
             
             let labelNode = SKLabelNode(text: levels[i].level)
             labelNode.fontColor = UIColor(colorLiteralRed: 92/256, green: 91/256, blue: 91/256, alpha: 1)
-            labelNode.fontName = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize).fontName
-            labelNode.fontSize = 20.0
+            labelNode.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+            labelNode.fontSize = 18.0
             labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
             labelNode.zPosition = 2.3
             spriteNode.addChild(labelNode)
