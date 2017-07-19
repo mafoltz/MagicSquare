@@ -411,21 +411,23 @@ class GameScene: SKScene {
                 if difX > difY {
                     direction = .horizontal
                     self.row = getRow(with: firstTouch)
-                    
+                    if row >= 0 {
                     playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
                     playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
                     
                     playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
                     playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
+                    }
                 } else {
                     direction = .vertical
                     self.column = getColumn(with: firstTouch)
-                    
+                    if column >= 0 {
                     playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor //crashando
                     playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
                     
                     playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
                     playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
+                    }
                 }
             }
             else{
@@ -433,7 +435,9 @@ class GameScene: SKScene {
                 penultimateTouch = lastTouch
                 lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
                 
-                if direction == .horizontal && row >= 0{
+                if direction == .horizontal && row >= 0 {
+                    
+                    
                     
                     let differenceX = abs(lastTouch.x - penultimateTouch.x)
                     
@@ -450,7 +454,7 @@ class GameScene: SKScene {
                     }
                     update(row: row)
                 }
-                else if direction == .vertical && column >= 0{
+                else if direction == .vertical && column >= 0 {
                     let differenceY = abs(lastTouch.y - penultimateTouch.y)
                     
                     if lastTouch.y >= penultimateTouch.y {
@@ -466,17 +470,13 @@ class GameScene: SKScene {
                     }
                     update(column: column)
                 }
-                
             }
         }
             
         else if recognizer.state == .ended {
             
             lastTouch = convertPoint(fromView: recognizer.location(in: recognizer.view))
-            let distanceX = abs(lastTouch.x - firstTouch.x)
-            let distanceY = abs(lastTouch.y - firstTouch.y)
-            
-            if direction == .horizontal {
+            if direction == .horizontal && row >= 0 {
                 let totalDistance = cellsSize.width + cellsSpacing
                 let differenceX = abs(playerBoard[row][1].position.x - storeFirstNodePosition.x)
                 //menor e direita
@@ -516,7 +516,7 @@ class GameScene: SKScene {
                     }
                 }
             }
-            else {
+            else if direction == .vertical && column >= 0 {
                 let totalDistance = cellsSize.width + cellsSpacing
                 let differenceY = abs(playerBoard[1][column].position.y - storeFirstNodePosition.y)
                 //menor e direita
@@ -557,23 +557,14 @@ class GameScene: SKScene {
                 }
             }
             
-            
             if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 {
-                print(column)
                 currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
-                //print(moves)
             } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0{
-                print(column)
                 currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
-                //print(moves)
             } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 {
-                print(row)
-                //print(moves)
                 currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
             } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 {
-                print(row)
                 currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
-                //print(moves)
             }
             moves = 0
             direction = .neutral
