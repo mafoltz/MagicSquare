@@ -22,8 +22,8 @@
 		5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEB11F14037D003774BF /* LaunchScreen.storyboard */; };
 		576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD021F1FE8CF00AF38A7 /* Hud.swift */; };
 		576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */; };
+		576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
-		D71B5AA61F155FFE006B6A9D /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71B5AA51F155FFE006B6A9D /* JsonReader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +44,8 @@
 		5728FEB41F14037D003774BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		576CAD021F1FE8CF00AF38A7 /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hud.swift; path = Scenes/Elements/Hud.swift; sourceTree = "<group>"; };
 		576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateBoard.swift; path = Scenes/Elements/TemplateBoard.swift; sourceTree = "<group>"; };
+		576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonReader.swift; path = Model/JsonReader.swift; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
-		D71B5AA51F155FFE006B6A9D /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonReader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 				571193ED1F15584000E1ECEA /* Level.swift */,
 				571193F01F15586700E1ECEA /* Board.swift */,
 				571193F21F15589600E1ECEA /* BoardCell.swift */,
-				D71B5AA51F155FFE006B6A9D /* JsonReader.swift */,
+				576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */,
 				D71B5AA31F155E0C006B6A9D /* World.json */,
 			);
 			name = Model;
@@ -203,8 +203,8 @@
 				571193F81F15592500E1ECEA /* LevelsScene.swift in Sources */,
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
+				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
-				D71B5AA61F155FFE006B6A9D /* JsonReader.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,
