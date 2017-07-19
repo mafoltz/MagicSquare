@@ -20,6 +20,7 @@ class GameScene: SKScene {
 	
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
+    private var template = SKShapeNode()
 	private var templateBoard : [[SKShapeNode]]!
     
     private var infosCellNode : SKSpriteNode!
@@ -63,6 +64,7 @@ class GameScene: SKScene {
         
 		calculateSizes()
 		setInfosCell()
+        setTemplate()
 		initCrop()
 		setPlayerBoard(board: currentLevel.playerBoard)
 		storeFirstNodePosition = playerBoard[1][1].position
@@ -75,17 +77,23 @@ class GameScene: SKScene {
 	
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
+        
         if levelsButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
                                          y: (touchLocation?.y)! - infosCellNode.position.y)) {
-            for g in (self.view?.gestureRecognizers)! {
-                g.isEnabled = false
-            }
-            
             openLevelsScreen()
+        }
+        
+        else if templateButton.contains(CGPoint(x: (touchLocation?.x)! - infosCellNode.position.x,
+                                                y: (touchLocation?.y)! - infosCellNode.position.y)) {
+            showTemplate()
         }
     }
     
     func openLevelsScreen() {
+        for g in (self.view?.gestureRecognizers)! {
+            g.isEnabled = false
+        }
+        
         let scene: LevelsScene = LevelsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         scene.size = (super.view?.bounds.size)!
@@ -94,6 +102,14 @@ class GameScene: SKScene {
         super.view?.presentScene(scene)
     }
 	
+    func showTemplate() {
+        template.isHidden = !template.isHidden
+        
+        for g in (self.view?.gestureRecognizers)! {
+            g.isEnabled = template.isHidden
+        }
+    }
+    
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
@@ -176,6 +192,10 @@ class GameScene: SKScene {
         levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         infosCellNode.addChild(levelLabel)
+    }
+    
+    func setTemplate() {
+        template.isHidden = true
     }
     
 	func setPlayerBoard(board: Board) {
