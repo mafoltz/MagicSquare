@@ -11,7 +11,6 @@ import GameplayKit
 
 class Hud: SKSpriteNode {
     
-    private var view: SKView!
     private var templateButton: SKSpriteNode!
     private var levelsButton: SKSpriteNode!
     private var hintButton: SKSpriteNode!
@@ -21,8 +20,9 @@ class Hud: SKSpriteNode {
     private var buttonWidthDistance: CGFloat!
     private var buttonsLineHeight: CGFloat!
     
-    func setHud(from currentLevel: Level, view: SKView) {
-        self.view = view
+    var actionDelegate: ActionHandlerDelegate?
+    
+    func setHud(from currentLevel: Level) {
         isUserInteractionEnabled = true
         zPosition = 1.0
         
@@ -88,34 +88,11 @@ class Hud: SKSpriteNode {
         let touchLocation = touches.first?.location(in: self)
         
         if levelsButton.contains(touchLocation!) {
-            openLevelsScreen()
+            actionDelegate?.levelsAction()
         }
             
         else if templateButton.contains(touchLocation!) {
-            showTemplate()
-        }
-    }
-    
-    func openLevelsScreen() {
-        for g in view.gestureRecognizers! {
-            g.isEnabled = false
-        }
-        
-        let scene: LevelsScene = LevelsScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = view.bounds.size
-        scene.scaleMode = .aspectFill
-        scene.prepareScene(from: self.scene!)
-        view.presentScene(scene)
-    }
-    
-    func showTemplate() {
-        if let scene = view.scene as? GameScene {
-            scene.template.isHidden = !scene.template.isHidden
-            
-            for g in (self.view?.gestureRecognizers)! {
-                g.isEnabled = scene.template.isHidden
-            }
+            actionDelegate?.answerAction()
         }
     }
 }
