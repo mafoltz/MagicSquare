@@ -22,7 +22,7 @@ class GameScene: SKScene {
 	private var playerBoard : [[SKShapeNode]]!
     
     private var hud : Hud!
-    private var template : TemplateBoard!
+    public var template : TemplateBoard!
     
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
@@ -61,46 +61,11 @@ class GameScene: SKScene {
 		storeFirstNodePosition = playerBoard[1][1].position
         moves = 0
 	}
-	
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
-        
-        if hud.levelsButton.contains(CGPoint(x: (touchLocation?.x)! - hud.position.x,
-                                             y: (touchLocation?.y)! - hud.position.y)) {
-            openLevelsScreen()
-        }
-        
-        else if hud.templateButton.contains(CGPoint(x: (touchLocation?.x)! - hud.position.x,
-                                                    y: (touchLocation?.y)! - hud.position.y)) {
-            showTemplate()
-        }
-    }
     
     override func update(_ currentTime: TimeInterval) {
         hud.movesLabel.text = String(currentLevel.playerMoves)
     }
-    
-    func openLevelsScreen() {
-        for g in (self.view?.gestureRecognizers)! {
-            g.isEnabled = false
-        }
-        
-        let scene: LevelsScene = LevelsScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.prepareScene(from: self.scene!)
-        super.view?.presentScene(scene)
-    }
 	
-    func showTemplate() {
-        template.isHidden = !template.isHidden
-        
-        for g in (self.view?.gestureRecognizers)! {
-            g.isEnabled = template.isHidden
-        }
-    }
-    
 	func calculateSizes() {
 		self.bottomSpacing = ((self.scene?.size.height)! * 0.045)
 		self.cellsSpacing = ((self.scene?.size.height)! * CGFloat(0.0375))
