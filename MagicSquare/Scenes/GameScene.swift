@@ -164,14 +164,6 @@ class GameScene: SKScene {
 			}
 		}
 		
-		
-//		
-//		if rowsCount == columnsCount && rowsCount <= 3 {
-////			yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height*1.5) - cellsSpacing)
-//		} else {
-////			yHead = CGFloat((self.scene?.size.height)! * CGFloat(0.645) - (cellsSize.height/2.0))
-//		}
-		
 		var xOffset = xHead
 		var yOffset = yHead
         
@@ -315,14 +307,6 @@ class GameScene: SKScene {
 		boardDisplay.addChild(boardContentNode)
 		self.addChild(boardDisplay)
 		
-		print("size.height: \(self.size.height * 0.6)")
-		print("64.5%: \(self.size.height * 0.645) - clht/2: \(self.size.height * 0.645 - cellsSize.height/2)")
-		print("1st cell top: \((playerBoard[1].first?.position.y)! + (cellsSize.height/2)) posit: \((playerBoard[1].first?.position.y)!)")
-		
-		print("bottom space: \(bottomSpacing)")
-		print("mid: \(self.size.height * 0.345)")
-		print("[\(Int(playerBoard.count/2))] posit: \((playerBoard[Int(playerBoard.count/2)].first?.position.y)!)")
-		
 	}
 	
 	func initCrop() {
@@ -343,12 +327,10 @@ class GameScene: SKScene {
 		
 		let midNodeY = (self.size.height * 0.345) - (CGFloat(currentLevel.playerBoard.cellsMatrix.count/2))
 		
-		let mask = SKShapeNode(rectOf: CGSize(width: (acumWidth + acumHSpacing), height: (acumHeight + acumVSpacing)))
-//		let maskY = bottomSpacing + ((CGFloat(currentLevel.playerBoard.cellsMatrix.count) * (cellsSize.height + cellsSpacing)) - (cellsSize.height * 0.5) - cellsSpacing) * 0.5
+		let mask = SKShapeNode(rectOf: CGSize(width: (acumWidth + acumHSpacing + cellsSpacing), height: (acumHeight + acumVSpacing + cellsSpacing)))
 		
 		mask.fillColor = .black
 		mask.position = CGPoint(x: 0, y: midNodeY)
-//		mask.position = CGPoint(x: 0, y: (self.scene?.size.height)! * 0.345)
 		cropNode.maskNode = mask
 		
 		return cropNode
