@@ -375,7 +375,7 @@ class GameScene: SKScene {
         let positionXNode = playerBoard[row][1].position.x
         let diff = abs(positionXNode - storeFirstNodePosition.x)
         
-        if diff > (cellsSpacing + cellsSize.width) {
+        if diff > (cellsSpacing/2 + cellsSize.width/2) {
             var rowCopy = playerBoard[row]
             if positionXNode > storeFirstNodePosition.x {
                 for index in 0..<playerBoard[row].count-1 {
@@ -407,19 +407,14 @@ class GameScene: SKScene {
             }
             
         }
-        else {
-            print("tchauX")
-        }
     }
 	
 	func update(column: Int) {
 		let positionYNode = playerBoard[1][column].position.y
         let diff =  abs(positionYNode - storeFirstNodePosition.y)
-        if diff > (cellsSpacing + cellsSize.height) {
+        if diff > (cellsSpacing/2 + cellsSize.height/2) {
             var columnCopy = [SKShapeNode](repeating: playerBoard[1][1], count:playerBoard.count)
             if positionYNode > storeFirstNodePosition.y {
-                print("oiCIMA")
-                
                 for index in 0..<playerBoard.count-1 {
                     columnCopy[index] = playerBoard[index+1][column]
                 }
@@ -439,7 +434,6 @@ class GameScene: SKScene {
                 
             }
             else {
-                print("oiBAIXO")
                 for index in 1..<playerBoard.count {
                     columnCopy[index] = playerBoard[index-1][column]
                 }
@@ -457,9 +451,6 @@ class GameScene: SKScene {
                     playerBoard[index][column] = columnCopy[index]
                 }
             }
-        }
-        else {
-            print("tchauY")
         }
 	}
     
@@ -481,9 +472,21 @@ class GameScene: SKScene {
                 if difX > difY {
                     direction = .horizontal
                     self.row = getRow(with: firstTouch)
+                    
+                    playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
+                    playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
+                    
+                    playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
+                    playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
                 } else {
                     direction = .vertical
                     self.column = getColumn(with: firstTouch)
+                    
+                    playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor
+                    playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
+                    
+                    playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
+                    playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
                 }
             }
             else{
@@ -534,14 +537,85 @@ class GameScene: SKScene {
             let distanceX = abs(lastTouch.x - firstTouch.x)
             let distanceY = abs(lastTouch.y - firstTouch.y)
             
-            if distanceX > distanceY {
-                direction = .horizontal
-                self.row = getRow(with: firstTouch)
-                //print(self.row)
-            } else {
-                direction = .vertical
-                self.column = getColumn(with: firstTouch)
-                //print(self.column)
+            if direction == .horizontal {
+                let totalDistance = cellsSize.width + cellsSpacing
+                let differenceX = abs(playerBoard[row][1].position.x - storeFirstNodePosition.x)
+                //menor e direita
+                if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x {
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x -= (differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                //maior e direita
+                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x{
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x += (totalDistance - differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                //menor e esquerda
+                else if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x {
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x += (differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+                    //maior e esquerda
+                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x{
+                    for column in playerBoard[row]{
+                        var newPoint = column.position
+                        newPoint.x -= (totalDistance - differenceX)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        column.run(move)
+                    }
+                }
+            }
+            else {
+                let totalDistance = cellsSize.width + cellsSpacing
+                let differenceY = abs(playerBoard[1][column].position.y - storeFirstNodePosition.y)
+                //menor e direita
+                if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y {
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y -= (differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //maior e direita
+                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y{
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y += (totalDistance - differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //menor e esquerda
+                else if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y {
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y += (differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
+                    //maior e esquerda
+                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y{
+                    for row in playerBoard{
+                        var newPoint = row[column].position
+                        newPoint.y -= (totalDistance - differenceY)
+                        let move = SKAction.move(to: newPoint, duration: 0.2)
+                        row[column].run(move)
+                    }
+                }
             }
             
             
