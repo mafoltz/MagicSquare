@@ -21,8 +21,10 @@ class Hud: SKSpriteNode {
     private var buttonsLineHeight : CGFloat!
     
     func setHud(from currentLevel: Level, view: SKView) {
-        self.buttonWidthDistance = 0.372 * self.size.width
-        self.buttonsLineHeight = 0.2 * self.size.height
+        zPosition = 1.0
+        
+        buttonWidthDistance = 0.372 * self.size.width
+        buttonsLineHeight = 0.2 * self.size.height
         
         templateButton = SKSpriteNode(imageNamed: "templateButton")
         templateButton.size = CGSize(width: 1.28 * self.size.height / 3, height: 1.28 * self.size.height / 3)

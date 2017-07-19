@@ -20,10 +20,9 @@ class GameScene: SKScene {
 	
 	public var currentLevel : Level!
 	private var playerBoard : [[SKShapeNode]]!
-    private var template = SKSpriteNode()
-	private var templateBoard : [[SKShapeNode]]!
     
     private var hud : Hud!
+    private var template : TemplateBoard!
     
 	private var cellsSize : CGSize!
 	private var cellsSpacing : CGFloat!
@@ -128,30 +127,8 @@ class GameScene: SKScene {
                   size: CGSize(width: view.bounds.size.width, height: 0.225 * view.bounds.size.height))
         hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
         hud.setHud(from: currentLevel, view: view)
-        hud.zPosition = 1.2
         addChild(hud)
     }
-    
-    /*func setTemplate() {
-        template.isHidden = true
-        template.anchorPoint = (scene?.anchorPoint)!
-        template.zPosition = 2.0
-        
-        let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
-        let backgroundScreen = SKSpriteNode(color: backgroundColor, size: (super.view?.bounds.size)!)
-        backgroundScreen.zPosition = 0.1
-        template.addChild(backgroundScreen)
-        
-        let roundedRect = CGRect(x: (bottomSpacing - super.view?.bounds.size.width) / 2,
-                                 y: (bottomSpacing / 2),
-                                 width: super.view?.bounds.size.width - bottomSpacing,
-                                 height: (super.view?.bounds.size.height)!)
-        let templateBaloon = SKShapeNode()
-        templateBaloon.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
-        templateBaloon.fillColor = UIColor.white
-        templateBaloon.zPosition = 0.2
-        template.addChild(templateBaloon)
-    }*/
     
 	func setPlayerBoard(board: Board) {
 		let rowsCount = board.cellsMatrix.count
