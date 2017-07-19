@@ -24,35 +24,35 @@ class Level: AnyObject {
         level = json["level"] as! String
         playerBoard = Board(board: json["initialBoard"] as! [[Int]])
         templateBoard = Board(board: json["templateBoard"] as! [[Int]])
-        playerMoves = json["moves"] as! Int
+        playerMoves = 0
         maxMoves = json["moves"] as! Int
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {
         if !playerBoard.isMoving {
             playerBoard.moveUp(column: column, positions: moves)
-            playerMoves -= moves
+            playerMoves += 1
         }
     }
     
     func moveDownPlayerBoard(column: Int, moves: Int) {
         if !playerBoard.isMoving {
             playerBoard.moveDown(column: column, positions: moves)
-            playerMoves -= moves
+            playerMoves += 1
         }
     }
     
     func moveLeftPlayerBoard(row: Int, moves: Int) {
         if !playerBoard.isMoving {
             playerBoard.moveLeft(row: row, positions: moves)
-            playerMoves -= moves
+            playerMoves += 1
         }
     }
     
     func moveRightPlayerBoard(row: Int, moves: Int) {
         if !playerBoard.isMoving {
             playerBoard.moveRight(row: row, positions: moves)
-            playerMoves -= moves
+            playerMoves += 1
         }
     }
     
