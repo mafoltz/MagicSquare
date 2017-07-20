@@ -63,7 +63,7 @@ class GameScene: SKScene, ActionHandlerDelegate {
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
-        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+        super.view?.presentScene(scene)
     }
     
     func answerAction() {
