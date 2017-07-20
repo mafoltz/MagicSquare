@@ -8,6 +8,12 @@
 
 import SpriteKit
 
+enum Orientation {
+    case vertical
+    case horizontal
+    case neutral
+}
+
 class BoardNode: SKNode {
     
     // MARK: - Properties
@@ -15,13 +21,9 @@ class BoardNode: SKNode {
     public var currentLevel : Level!
     private var playerBoard : [[SKShapeNode]]!
     
-    private var hud : Hud!
-    public var template : TemplateBoard!
-    
     private var cellsSize : CGSize!
     private var cellsSpacing : CGFloat!
     private var bottomSpacing : CGFloat!
-    private var numPositionMoved : Int!
     private var direction = Orientation.neutral
     private var row : Int!
     private var column : Int!
