@@ -85,10 +85,10 @@ class GameScene: SKScene, ActionHandlerDelegate {
     }
     
     func answerAction() {
-        self.template.isHidden = !self.template.isHidden
-        
-        for gesture in (self.view?.gestureRecognizers)! {
-            gesture.isEnabled = self.template.isHidden
+        if template.isHidden {
+            template.show()
+        } else {
+            template.hide()
         }
     }
     

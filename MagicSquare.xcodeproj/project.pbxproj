@@ -162,6 +162,7 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = VXAGBDYAT9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -340,7 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VXAGBDYAT9;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
@@ -353,7 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VXAGBDYAT9;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;

@@ -31,7 +31,7 @@ class Hud: SKSpriteNode {
         
         templateButton = SKSpriteNode(imageNamed: "mascot")
         templateButton.run(SKAction.moveBy(x: 0.0, y: -buttonsLineHeight / 2, duration: 0.0))
-        templateButton.zPosition = 0.1
+        templateButton.zPosition = 2.0
         addChild(templateButton)
         
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
