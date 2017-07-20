@@ -40,6 +40,7 @@ class BoardNode: SKNode {
     private var lastTouch : CGPoint!
     private var storeFirstNodePosition : CGPoint!
     private var moves : Int!
+    private var isMoving = false
     
     // MARK: - Methods
     
@@ -377,181 +378,219 @@ class BoardNode: SKNode {
             return
         }
         
-        if recognizer.state == .began {
-            firstTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
-            penultimateTouch = firstTouch
-            lastTouch = firstTouch
-        }
-            
-        else if recognizer.state == .changed {
-            if direction == .neutral {
-                nextTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
-                lastTouch = nextTouch
+        if !isMoving {
+            if recognizer.state == .began {
+                firstTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
+                penultimateTouch = firstTouch
+                lastTouch = firstTouch
+            }
                 
-                let difX = abs(firstTouch.x - nextTouch.x)
-                let difY = abs(firstTouch.y - nextTouch.y)
-                
-                if difX > difY {
-                    direction = .horizontal
-                    self.row = getRow(with: firstTouch)
-                    if row >= 0 {
-                        playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
-                        playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
-                        
-                        playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
-                        playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
+            else if recognizer.state == .changed {
+                if direction == .neutral {
+                    nextTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
+                    lastTouch = nextTouch
+                    
+                    let difX = abs(firstTouch.x - nextTouch.x)
+                    let difY = abs(firstTouch.y - nextTouch.y)
+                    
+                    if difX > difY {
+                        direction = .horizontal
+                        self.row = getRow(with: firstTouch)
+                        if row >= 0 {
+                            playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
+                            playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
+                            
+                            playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
+                            playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
+                        }
+                    } else {
+                        direction = .vertical
+                        self.column = getColumn(with: firstTouch)
+                        if column >= 0 {
+                            playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor //crashando
+                            playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
+                            
+                            playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
+                            playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
+                        }
                     }
-                } else {
-                    direction = .vertical
-                    self.column = getColumn(with: firstTouch)
-                    if column >= 0 {
-                        playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor //crashando
-                        playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
+                }
+                else{
+                    
+                    penultimateTouch = lastTouch
+                    lastTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
+                    
+                    if direction == .horizontal && row >= 0 {
                         
-                        playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
-                        playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
+                        
+                        
+                        let differenceX = abs(lastTouch.x - penultimateTouch.x)
+                        
+                        if lastTouch.x >= penultimateTouch.x {
+                            //direita
+                            for column in playerBoard[row]{
+                                column.position.x += differenceX
+                            }
+                        }
+                        else{
+                            for column in playerBoard[row]{
+                                column.position.x -= differenceX
+                            }
+                        }
+                        update(row: row)
+                    }
+                    else if direction == .vertical && column >= 0 {
+                        let differenceY = abs(lastTouch.y - penultimateTouch.y)
+                        
+                        if lastTouch.y >= penultimateTouch.y {
+                            //cima
+                            for row in playerBoard{
+                                row[column].position.y += differenceY
+                            }
+                        }
+                        else {
+                            for row in playerBoard{
+                                row[column].position.y -= differenceY
+                            }
+                        }
+                        update(column: column)
                     }
                 }
             }
-            else{
                 
-                penultimateTouch = lastTouch
+            else if recognizer.state == .ended {
+                
                 lastTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
-                
                 if direction == .horizontal && row >= 0 {
-                    
-                    
-                    
-                    let differenceX = abs(lastTouch.x - penultimateTouch.x)
-                    
-                    if lastTouch.x >= penultimateTouch.x {
-                        //direita
+                    let totalDistance = cellsSize.width + cellsSpacing
+                    let differenceX = abs(playerBoard[row][1].position.x - storeFirstNodePosition.x)
+                    //menor e direita
+                    if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x {
+                        isMoving = true
+                        
                         for column in playerBoard[row]{
-                            column.position.x += differenceX
+                            var newPoint = column.position
+                            newPoint.x -= (differenceX)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            column.run(move)
                         }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
                     }
-                    else{
+                        //maior e direita
+                    else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x{
+                        isMoving = true
+                        
                         for column in playerBoard[row]{
-                            column.position.x -= differenceX
+                            var newPoint = column.position
+                            newPoint.x += (totalDistance - differenceX)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            column.run(move)
                         }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
                     }
-                    update(row: row)
+                        //menor e esquerda
+                    else if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x {
+                        isMoving = true
+                        
+                        for column in playerBoard[row]{
+                            var newPoint = column.position
+                            newPoint.x += (differenceX)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            column.run(move)
+                        }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
+                    }
+                        //maior e esquerda
+                    else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x{
+                        isMoving = true
+                        
+                        for column in playerBoard[row]{
+                            var newPoint = column.position
+                            newPoint.x -= (totalDistance - differenceX)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            column.run(move)
+                        }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
+                    }
                 }
                 else if direction == .vertical && column >= 0 {
-                    let differenceY = abs(lastTouch.y - penultimateTouch.y)
-                    
-                    if lastTouch.y >= penultimateTouch.y {
-                        //cima
+                    let totalDistance = cellsSize.width + cellsSpacing
+                    let differenceY = abs(playerBoard[1][column].position.y - storeFirstNodePosition.y)
+                    //menor e direita
+                    if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y {
+                        isMoving = true
+                        
                         for row in playerBoard{
-                            row[column].position.y += differenceY
+                            var newPoint = row[column].position
+                            newPoint.y -= (differenceY)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            row[column].run(move)
                         }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
                     }
-                    else {
+                        //maior e direita
+                    else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y{
+                        isMoving = true
+                        
                         for row in playerBoard{
-                            row[column].position.y -= differenceY
+                            var newPoint = row[column].position
+                            newPoint.y += (totalDistance - differenceY)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            row[column].run(move)
                         }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
                     }
-                    update(column: column)
+                        //menor e esquerda
+                    else if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y {
+                        isMoving = true
+                        
+                        for row in playerBoard{
+                            var newPoint = row[column].position
+                            newPoint.y += (differenceY)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            row[column].run(move)
+                        }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
+                    }
+                        //maior e esquerda
+                    else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y{
+                        isMoving = true
+                        
+                        for row in playerBoard{
+                            var newPoint = row[column].position
+                            newPoint.y -= (totalDistance - differenceY)
+                            let move = SKAction.move(to: newPoint, duration: 0.2)
+                            row[column].run(move)
+                        }
+                        
+                        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.setNotMoving), userInfo: nil, repeats: false)
+                    }
                 }
+                
+                if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 && moves != 0 {
+                    currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
+                } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0 && moves != 0{
+                    currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
+                } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 && moves != 0 {
+                    currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
+                } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 && moves != 0 {
+                    currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
+                }
+                moves = 0
+                direction = .neutral
             }
         }
-            
-        else if recognizer.state == .ended {
-            
-            lastTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
-            if direction == .horizontal && row >= 0 {
-                let totalDistance = cellsSize.width + cellsSpacing
-                let differenceX = abs(playerBoard[row][1].position.x - storeFirstNodePosition.x)
-                //menor e direita
-                if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x {
-                    for column in playerBoard[row]{
-                        var newPoint = column.position
-                        newPoint.x -= (differenceX)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        column.run(move)
-                    }
-                }
-                    //maior e direita
-                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x < playerBoard[row][1].position.x{
-                    for column in playerBoard[row]{
-                        var newPoint = column.position
-                        newPoint.x += (totalDistance - differenceX)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        column.run(move)
-                    }
-                }
-                    //menor e esquerda
-                else if differenceX < (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x {
-                    for column in playerBoard[row]{
-                        var newPoint = column.position
-                        newPoint.x += (differenceX)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        column.run(move)
-                    }
-                }
-                    //maior e esquerda
-                else if differenceX > (cellsSpacing/2 + cellsSize.width/2) && storeFirstNodePosition.x > playerBoard[row][1].position.x{
-                    for column in playerBoard[row]{
-                        var newPoint = column.position
-                        newPoint.x -= (totalDistance - differenceX)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        column.run(move)
-                    }
-                }
-            }
-            else if direction == .vertical && column >= 0 {
-                let totalDistance = cellsSize.width + cellsSpacing
-                let differenceY = abs(playerBoard[1][column].position.y - storeFirstNodePosition.y)
-                //menor e direita
-                if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y {
-                    for row in playerBoard{
-                        var newPoint = row[column].position
-                        newPoint.y -= (differenceY)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        row[column].run(move)
-                    }
-                }
-                    //maior e direita
-                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y < playerBoard[1][column].position.y{
-                    for row in playerBoard{
-                        var newPoint = row[column].position
-                        newPoint.y += (totalDistance - differenceY)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        row[column].run(move)
-                    }
-                }
-                    //menor e esquerda
-                else if differenceY < (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y {
-                    for row in playerBoard{
-                        var newPoint = row[column].position
-                        newPoint.y += (differenceY)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        row[column].run(move)
-                    }
-                }
-                    //maior e esquerda
-                else if differenceY > (cellsSpacing/2 + cellsSize.height/2) && storeFirstNodePosition.y > playerBoard[1][column].position.y{
-                    for row in playerBoard{
-                        var newPoint = row[column].position
-                        newPoint.y -= (totalDistance - differenceY)
-                        let move = SKAction.move(to: newPoint, duration: 0.2)
-                        row[column].run(move)
-                    }
-                }
-            }
-            
-            if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 && moves != 0 {
-                currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
-            } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0 && moves != 0{
-                currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
-            } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 && moves != 0 {
-                currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
-            } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 && moves != 0 {
-                currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
-            }
-            moves = 0
-            direction = .neutral
-        }
+    }
+    
+    func setNotMoving() {
+        isMoving = false
     }
     
     func getRow(with position: CGPoint) -> Int {
