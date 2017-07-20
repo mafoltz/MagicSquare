@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ActionHandlerDelegate {
-    func hintAction() -> Void
     func answerAction() -> Void
     func levelsAction() -> Void
+    func hintAction() -> Void
 }

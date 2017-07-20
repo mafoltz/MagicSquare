@@ -73,6 +73,15 @@ class BoardNode: SKNode {
         scene.view?.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:))))
     }
     
+    func disableGestureRecognizer() {
+        guard let scene = self.scene else {
+            return
+        }
+        for gesture in (scene.view?.gestureRecognizers!)! {
+            gesture.isEnabled = false
+        }
+    }
+    
     func calculateSizes() {
         self.bottomSpacing = ((sceneSize.height) * 0.045)
         self.cellsSpacing = ((sceneSize.height) * CGFloat(0.0375))

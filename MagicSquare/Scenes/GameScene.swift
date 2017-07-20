@@ -12,44 +12,21 @@ import GameplayKit
 class GameScene: SKScene, ActionHandlerDelegate {
     // MARK: - Properties
     
-    //    weak var myDelegate: GameSceneDelegate
-    
     public var currentLevel : Level!
-    private var playerBoard : [[SKShapeNode]]!
-    
     private var hud : Hud!
-    public var template : TemplateBoard!
-    
-    private var cellsSize : CGSize!
-    private var cellsSpacing : CGFloat!
-    private var bottomSpacing : CGFloat!
-    private var numPositionMoved : Int!
-    private var direction = Orientation.neutral
-    private var row : Int! 
-    private var column : Int!
-    private var boardDisplay : SKCropNode!
-    private var boardContentNode : SKNode!
-    
-    //MARK: - Touches in screen
-    
-    private var firstTouch : CGPoint!
-    private var penultimateTouch : CGPoint!
-    private var nextTouch : CGPoint!
-    private var lastTouch : CGPoint!
-    private var storeFirstNodePosition : CGPoint!
-    private var moves : Int!
+    private var template : TemplateBoard!
+    private var boardNode : BoardNode!
     
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
-        
         self.scene?.backgroundColor = UIColor.white
         self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        
-//        calculateSizes()
+
         setHud(from: view)
         setTemplate(from: view)
-        let boardNode = BoardNode(with: self.size, and: currentLevel)
+        
+        boardNode = BoardNode(with: self.size, and: currentLevel)
         addChild(boardNode)
         boardNode.addGestureRecognizer()
     }
@@ -79,14 +56,12 @@ class GameScene: SKScene, ActionHandlerDelegate {
     
     func answerAction() {
         if template.isHidden {
+            boardNode.disableGestureRecognizer()
             template.show()
         } else {
             template.hide()
+            boardNode.addGestureRecognizer()
         }
-    }
-    
-    func hintAction() {
-        
     }
     
     func levelsAction() {
@@ -102,4 +77,7 @@ class GameScene: SKScene, ActionHandlerDelegate {
         view?.presentScene(scene)
     }
     
+    func hintAction() {
+        
+    }
 }
