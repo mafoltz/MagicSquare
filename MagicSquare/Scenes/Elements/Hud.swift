@@ -34,9 +34,9 @@ class Hud: SKSpriteNode {
         templateButton.zPosition = 2.0
         addChild(templateButton)
         
-        let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
         let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
-        let sequence = SKAction.sequence([moveUp, moveDown])
+        let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
+        let sequence = SKAction.sequence([moveDown, moveUp])
         templateButton.run(SKAction.repeatForever(sequence))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
