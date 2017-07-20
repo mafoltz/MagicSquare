@@ -16,14 +16,12 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-			let scene: SKScene = MainMenuScene()
+			let scene = GameScene()
+            let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+            scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: 1)!
 			scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 			scene.size = self.view.bounds.size
-			// Set the scale mode to scale to fit the window
 			scene.scaleMode = .aspectFill
-			
-			// Present the scene
 			view.presentScene(scene)
 			
             view.ignoresSiblingOrder = true
@@ -47,7 +45,6 @@ class GameViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
 
     override var prefersStatusBarHidden: Bool {

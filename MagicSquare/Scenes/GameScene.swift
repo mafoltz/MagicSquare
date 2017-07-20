@@ -39,11 +39,7 @@ class GameScene: SKScene, ActionHandlerDelegate {
         hud.movesLabel.text = String(currentLevel.playerMoves)
         
         if currentLevel.hasLevelWon() {
-            let scene: SKScene = MainMenuScene()
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.size = (self.view?.bounds.size)!
-            scene.scaleMode = .aspectFill
-            view?.presentScene(scene)
+            goToResultsScene()
         }
     }
     
@@ -60,6 +56,14 @@ class GameScene: SKScene, ActionHandlerDelegate {
         template = TemplateBoard()
         template.setTemplate(from: currentLevel, view: view)
         addChild(template)
+    }
+    
+    func goToResultsScene() {
+        let scene: ResultsScene = ResultsScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        super.view?.presentScene(scene)
     }
     
     func answerAction() {
@@ -81,10 +85,10 @@ class GameScene: SKScene, ActionHandlerDelegate {
         
         let scene: LevelsScene = LevelsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (view?.bounds.size)!
+        scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         scene.prepareScene(from: self.scene!)
-        view?.presentScene(scene)
+        super.view?.presentScene(scene)
     }
     
     func hintAction() {
