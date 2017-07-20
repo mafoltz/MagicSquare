@@ -12,7 +12,7 @@ import GameplayKit
 class TemplateBoard: SKSpriteNode {
     
     private var templateBaloon = SKShapeNode()
-    private var templateBoard : [[SKShapeNode]]!
+    private var templateBoard : BoardNode!
     
     private var baloonSize : CGSize!
     private var bottomSpacing : CGFloat!
@@ -41,6 +41,9 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.fillColor = UIColor.white
         templateBaloon.zPosition = 0.2
         addChild(templateBaloon)
+        
+        templateBoard = BoardNode(with: view.bounds.size, and: currentLevel)
+        templateBaloon.addChild(templateBoard)
     }
     
     func show() {
