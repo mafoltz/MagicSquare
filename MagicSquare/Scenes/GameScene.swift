@@ -9,13 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-enum Orientation {
-    case vertical
-    case horizontal
-    case neutral
-}
-
-
 class GameScene: SKScene, ActionHandlerDelegate {
     // MARK: - Properties
     
