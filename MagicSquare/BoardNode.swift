@@ -30,8 +30,8 @@ class BoardNode: SKNode {
     private var boardDisplay : SKCropNode!
     private var boardContentNode : SKNode!
     
-    private var sceneSize: CGSize!
-    
+	private var sceneSize: CGSize!
+		
     //MARK: - Touches in screen
     
     private var firstTouch : CGPoint!
@@ -42,7 +42,8 @@ class BoardNode: SKNode {
     private var moves : Int!
     
     // MARK: - Methods
-    
+	
+//	init(with size: CGSize, board: Board) {
 	init(with size: CGSize, level: Level, isPlayerBoard: Bool) {
         super.init()
         self.currentLevel = level
