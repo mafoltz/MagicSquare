@@ -37,6 +37,14 @@ class GameScene: SKScene, ActionHandlerDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         hud.movesLabel.text = String(currentLevel.playerMoves)
+        
+        if currentLevel.hasLevelWon() {
+            let scene: SKScene = MainMenuScene()
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            scene.size = (self.view?.bounds.size)!
+            scene.scaleMode = .aspectFill
+            view?.presentScene(scene)
+        }
     }
     
     func setHud(from view: SKView) {
