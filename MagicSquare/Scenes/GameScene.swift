@@ -63,6 +63,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
+        scene.currentLevel = currentLevel
         super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
     }
     

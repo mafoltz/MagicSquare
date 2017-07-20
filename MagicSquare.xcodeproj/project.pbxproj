@@ -23,6 +23,7 @@
 		576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD021F1FE8CF00AF38A7 /* Hud.swift */; };
 		576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */; };
 		576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */; };
+		7E9136C71F2162520036699C /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9136C61F2162520036699C /* BoardDelegate.swift */; };
 		91830DFE1F20152C001827A6 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */; };
 		91F832CA1F210E7B0089A998 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F832C91F210E7B0089A998 /* BoardNode.swift */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
@@ -47,6 +48,7 @@
 		576CAD021F1FE8CF00AF38A7 /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hud.swift; path = Scenes/Elements/Hud.swift; sourceTree = "<group>"; };
 		576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateBoard.swift; path = Scenes/Elements/TemplateBoard.swift; sourceTree = "<group>"; };
 		576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonReader.swift; path = Model/JsonReader.swift; sourceTree = "<group>"; };
+		7E9136C61F2162520036699C /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Elements/BoardDelegate.swift; sourceTree = "<group>"; };
 		91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerDelegate.swift; sourceTree = "<group>"; };
 		91F832C91F210E7B0089A998 /* BoardNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNode.swift; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
+				7E9136C61F2162520036699C /* BoardDelegate.swift */,
 				91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */,
 				91F832C91F210E7B0089A998 /* BoardNode.swift */,
 			);
@@ -162,7 +165,7 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = VXAGBDYAT9;
+						DevelopmentTeam = T72F5RH9V5;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -217,6 +220,7 @@
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,
 				571193FA1F15593800E1ECEA /* MainMenuScene.swift in Sources */,
+				7E9136C71F2162520036699C /* BoardDelegate.swift in Sources */,
 				576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */,
 				5728FEA31F14037D003774BF /* AppDelegate.swift in Sources */,
 			);
@@ -341,7 +345,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = T72F5RH9V5;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
@@ -354,7 +358,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = T72F5RH9V5;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
