@@ -2,22 +2,22 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Nível.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "nVel.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "Nível@2x.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "nVel@2x.png"
     },
     {
       "idiom" : "universal",
-      "filename" : "Nível@3x.png",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "nVel@3x.png"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "zeplin",
+    "version" : "1"
   }
 }

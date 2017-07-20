@@ -11,26 +11,33 @@ import GameplayKit
 
 class Hud: SKSpriteNode {
     
-    public var templateButton : SKSpriteNode!
-    public var levelsButton : SKSpriteNode!
-    public var hintButton : SKSpriteNode!
-    public var movesLabel : SKLabelNode!
-    public var levelLabel : SKLabelNode!
+    private var templateButton: SKSpriteNode!
+    private var levelsButton: SKSpriteNode!
+    private var hintButton: SKSpriteNode!
+    public var movesLabel: SKLabelNode!
+    private var levelLabel: SKLabelNode!
     
-    private var buttonWidthDistance : CGFloat!
-    private var buttonsLineHeight : CGFloat!
+    private var buttonWidthDistance: CGFloat!
+    private var buttonsLineHeight: CGFloat!
     
-    func setHud(from currentLevel: Level, view: SKView) {
+    var actionDelegate: ActionHandlerDelegate?
+    
+    func setHud(from currentLevel: Level) {
+        isUserInteractionEnabled = true
         zPosition = 1.0
         
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
-        templateButton = SKSpriteNode(imageNamed: "templateButton")
-        templateButton.size = CGSize(width: 1.28 * self.size.height / 3, height: 1.28 * self.size.height / 3)
-        templateButton.run(SKAction.moveBy(x: 0.0, y: buttonsLineHeight, duration: 0.0))
-        templateButton.zPosition = 0.1
+        templateButton = SKSpriteNode(imageNamed: "mascot")
+        templateButton.run(SKAction.moveBy(x: 0.0, y: -buttonsLineHeight / 2, duration: 0.0))
+        templateButton.zPosition = 2.0
         addChild(templateButton)
+        
+        let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
+        let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
+        let sequence = SKAction.sequence([moveDown, moveUp])
+        templateButton.run(SKAction.repeatForever(sequence))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
@@ -75,5 +82,17 @@ class Hud: SKSpriteNode {
         levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        
+        if levelsButton.contains(touchLocation!) {
+            actionDelegate?.levelsAction()
+        }
+            
+        else if templateButton.contains(touchLocation!) {
+            actionDelegate?.answerAction()
+        }
     }
 }

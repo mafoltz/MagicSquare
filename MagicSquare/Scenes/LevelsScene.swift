@@ -69,7 +69,7 @@ class LevelsScene: SKScene {
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
         backgroundScreen.name = "Background Screen"
-        backgroundScreen.zPosition = 2.1
+        backgroundScreen.zPosition = 5.1
         addChild(backgroundScreen)
         
         let roundedRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
@@ -80,7 +80,7 @@ class LevelsScene: SKScene {
         levelsScreen.name = "Levels Screen"
         levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         levelsScreen.fillColor = UIColor.white
-        levelsScreen.zPosition = 2.2
+        levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
         
         for i in 0..<json.count {
@@ -92,7 +92,7 @@ class LevelsScene: SKScene {
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
                                            y: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
-            spriteNode.zPosition = 2.3
+            spriteNode.zPosition = 5.3
             levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
             
@@ -101,7 +101,7 @@ class LevelsScene: SKScene {
             labelNode.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
             labelNode.fontSize = 18.0
             labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
-            labelNode.zPosition = 2.3
+            labelNode.zPosition = 5.3
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
@@ -209,3 +209,5 @@ class LevelsScene: SKScene {
         super.view?.presentScene(scene)
     }
 }
+
+
