@@ -55,12 +55,14 @@ class GameScene: SKScene, ActionHandlerDelegate {
     }
     
     func answerAction() {
-        if template.isHidden {
-            boardNode.disableGestureRecognizer()
-            template.show()
-        } else {
-            template.hide()
-            boardNode.addGestureRecognizer()
+        if template.isUserInteractionEnabled {
+            if template.isHidden {
+                boardNode.disableGestureRecognizer()
+                template.show()
+            } else {
+                template.hide()
+                boardNode.addGestureRecognizer()
+            }
         }
     }
     

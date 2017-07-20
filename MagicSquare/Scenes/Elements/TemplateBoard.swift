@@ -19,6 +19,7 @@ class TemplateBoard: SKSpriteNode {
     private let cornerRadius: CGFloat = 30
     
     func setTemplate(from currentLevel: Level, view: SKView) {
+        isUserInteractionEnabled = true
         isHidden = true
         anchorPoint = (view.scene?.anchorPoint)!
         zPosition = 2.0
@@ -34,7 +35,7 @@ class TemplateBoard: SKSpriteNode {
         let roundedRect = CGRect(x: (bottomSpacing - view.bounds.size.width) / 2,
                                  y: (bottomSpacing / 2),
                                  width: view.bounds.size.width - bottomSpacing,
-                                 height: 0.7 * view.bounds.size.height)
+                                 height: 0.65 * view.bounds.size.height)
         baloonSize = roundedRect.size
         templateBaloon.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         templateBaloon.fillColor = UIColor.white
@@ -43,6 +44,7 @@ class TemplateBoard: SKSpriteNode {
     }
     
     func show() {
+        isUserInteractionEnabled = false
         isHidden = false
         
         let speed = 0.3
@@ -58,13 +60,13 @@ class TemplateBoard: SKSpriteNode {
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
         
         templateBaloon.run(actionsGroup)
-    }
-    
-    func setHidden() {
-        isHidden = true
+        
+        Timer.scheduledTimer(timeInterval: speed + 0.1, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
     
     func hide() {
+        isUserInteractionEnabled = false
+        
         let speed = 0.3
         
         let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: speed)
@@ -80,5 +82,14 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.run(actionsGroup)
         
         Timer.scheduledTimer(timeInterval: speed, target: self, selector: #selector(self.setHidden), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: speed + 0.1, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
+    }
+    
+    func setHidden() {
+        isHidden = true
+    }
+    
+    func setUserInteractionEnabled() {
+        isUserInteractionEnabled = true
     }
 }
