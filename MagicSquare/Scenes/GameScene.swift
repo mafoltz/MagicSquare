@@ -9,14 +9,13 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, ActionHandlerDelegate {
+class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     // MARK: - Properties
     
     public var currentLevel : Level!
     private var hud : Hud!
     private var template : TemplateBoard!
     private var boardNode : BoardNode!
-    
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
@@ -26,7 +25,8 @@ class GameScene: SKScene, ActionHandlerDelegate {
         setHud(from: view)
         setTemplate(from: view)
         
-		boardNode = BoardNode(with: self.size, level: currentLevel, isPlayerBoard: true)
+		boardNode = BoardNode(with: self.size, board: currentLevel.playerBoard)
+		boardNode.boardDelegate = self
         addChild(boardNode)
         boardNode.addGestureRecognizer()
     }
@@ -94,4 +94,16 @@ class GameScene: SKScene, ActionHandlerDelegate {
     func hintAction() {
         
     }
+	
+	func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
+		if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
+			currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
+		} else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
+			currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
+		} else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
+			currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
+		} else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
+			currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+		}
+	}
 }

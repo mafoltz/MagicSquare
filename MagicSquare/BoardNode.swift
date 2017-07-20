@@ -31,6 +31,7 @@ class BoardNode: SKNode {
     private var boardContentNode : SKNode!
     
 	private var sceneSize: CGSize!
+	var boardDelegate : BoardDelegate?
 		
     //MARK: - Touches in screen
     
@@ -43,25 +44,18 @@ class BoardNode: SKNode {
     
     // MARK: - Methods
 	
-//	init(with size: CGSize, board: Board) {
-	init(with size: CGSize, level: Level, isPlayerBoard: Bool) {
+	init(with size: CGSize, board: Board) {
         super.init()
-        self.currentLevel = level
         sceneSize = size
 		
         boardDisplay = SKCropNode()
         boardDisplay.position = CGPoint(x: 0, y: (sceneSize.height)/2)
         
-        calculateSizes()
+        calculateSizes(board)
         
-        initCrop()
+        initCrop(board)
 		
-		if isPlayerBoard == true {
-			setPlayerBoard(board: currentLevel.playerBoard)
-		} else {
-			setPlayerBoard(board: currentLevel.templateBoard)
-		}
-		
+		setPlayerBoard(board: board)
         
         storeFirstNodePosition = playerBoard[1][1].position
         moves = 0
@@ -87,14 +81,14 @@ class BoardNode: SKNode {
         }
     }
     
-    func calculateSizes() {
+	func calculateSizes(_ board: Board) {
         self.bottomSpacing = ((sceneSize.height) * 0.045)
         self.cellsSpacing = ((sceneSize.height) * CGFloat(0.0375))
         let widthOffset = CGFloat((sceneSize.width) * 0.10667)
         let maxHeight = CGFloat((sceneSize.height) * CGFloat(0.6))
         let maxWidth = CGFloat((sceneSize.width) - (widthOffset * 2))
-        let rowsCount = CGFloat(currentLevel.playerBoard.cellsMatrix.count)
-        let columnsCount = CGFloat((currentLevel.playerBoard.cellsMatrix.first?.count)!)
+        let rowsCount = CGFloat(board.cellsMatrix.count)
+        let columnsCount = CGFloat((board.cellsMatrix.first?.count)!)
         
         let horizontalLength = (maxWidth - (cellsSpacing * (columnsCount - 1.0))) / columnsCount
         let verticalLength = (maxHeight - (cellsSpacing * (rowsCount - 1))) / rowsCount
@@ -540,16 +534,13 @@ class BoardNode: SKNode {
                     }
                 }
             }
-            
-            if direction == .vertical && firstTouch.y < lastTouch.y && column >= 0 && moves != 0 {
-                currentLevel.moveUpPlayerBoard(column: column - 1, moves: abs(moves))
-            } else if direction == .vertical && firstTouch.y > lastTouch.y && column >= 0 && moves != 0{
-                currentLevel.moveDownPlayerBoard(column: column - 1, moves:abs(moves))
-            } else if direction == .horizontal && firstTouch.x < lastTouch.x && row >= 0 && moves != 0 {
-                currentLevel.moveRightPlayerBoard(row: row - 1, moves: abs(moves))
-            } else if direction == .horizontal && firstTouch.x > lastTouch.x && row >= 0 && moves != 0 {
-                currentLevel.moveLeftPlayerBoard(row: row - 1, moves: abs(moves))
-            }
+			
+			if direction == .vertical {
+				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: column - 1, moves: moves)
+			} else {
+				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: row - 1, moves: moves)
+			}
+			
             moves = 0
             direction = .neutral
         }
@@ -583,23 +574,23 @@ class BoardNode: SKNode {
         return -1
     }
     
-    func initCrop() {
-        boardDisplay = cropBoard()
+	func initCrop(_ board: Board) {
+        boardDisplay = cropBoard(board)
         boardContentNode = SKNode()
         boardContentNode.scene?.size = CGSize(width: sceneSize.width, height: sceneSize.height)
         boardContentNode.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         boardContentNode.position = CGPoint(x: 0, y: 0)
     }
     
-    func cropBoard() -> SKCropNode {
+	func cropBoard(_ board: Board) -> SKCropNode {
         
         let cropNode = SKCropNode()
-        let acumWidth = cellsSize.width * CGFloat(currentLevel.playerBoard.cellsMatrix[0].count)
-        let acumHSpacing = cellsSpacing * CGFloat(currentLevel.playerBoard.cellsMatrix[0].count - 1)
-        let acumHeight = cellsSize.height * CGFloat(currentLevel.playerBoard.cellsMatrix.count)
-        let acumVSpacing = cellsSpacing * CGFloat(currentLevel.playerBoard.cellsMatrix.count - 1)
+        let acumWidth = cellsSize.width * CGFloat(board.cellsMatrix[0].count)
+        let acumHSpacing = cellsSpacing * CGFloat(board.cellsMatrix[0].count - 1)
+        let acumHeight = cellsSize.height * CGFloat(board.cellsMatrix.count)
+        let acumVSpacing = cellsSpacing * CGFloat(board.cellsMatrix.count - 1)
         
-        let midNodeY = (sceneSize.height * 0.345) - (CGFloat(currentLevel.playerBoard.cellsMatrix.count/2))
+        let midNodeY = (sceneSize.height * 0.345) - (CGFloat(board.cellsMatrix.count/2))
         
         let mask = SKShapeNode(rectOf: CGSize(width: (acumWidth + acumHSpacing + cellsSpacing), height: (acumHeight + acumVSpacing + cellsSpacing)))
         
