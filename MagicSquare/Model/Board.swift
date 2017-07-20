@@ -18,8 +18,12 @@ class Board: NSObject {
 	
     let colors = [UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0),
                   UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
-                  UIColor(red: 47/256, green: 66/256, blue: 76/256, alpha: 1.0),
-                  UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0)]
+                  UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0),
+                  UIColor(red: 160/256, green: 072/256, blue: 072/256, alpha: 1.0),
+                  UIColor(red: 211/256, green: 114/256, blue: 074/256, alpha: 1.0),
+                  UIColor(red: 047/256, green: 066/256, blue: 076/256, alpha: 1.0),
+                  UIColor(red: 066/256, green: 074/256, blue: 127/256, alpha: 1.0),
+                  UIColor(red: 120/256, green: 172/256, blue: 120/256, alpha: 1.0)]
     
     init(board: [[Int]]) {
         cellsMatrix = [[BoardCell]]()
