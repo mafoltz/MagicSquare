@@ -43,20 +43,24 @@ class BoardNode: SKNode {
     
     // MARK: - Methods
     
-    init(with size: CGSize, and level: Level) {
+	init(with size: CGSize, level: Level, isPlayerBoard: Bool) {
         super.init()
         self.currentLevel = level
         sceneSize = size
-        
-        
+		
         boardDisplay = SKCropNode()
         boardDisplay.position = CGPoint(x: 0, y: (sceneSize.height)/2)
         
         calculateSizes()
         
         initCrop()
-        
-        setPlayerBoard(board: currentLevel.playerBoard)
+		
+		if isPlayerBoard == true {
+			setPlayerBoard(board: currentLevel.playerBoard)
+		} else {
+			setPlayerBoard(board: currentLevel.templateBoard)
+		}
+		
         
         storeFirstNodePosition = playerBoard[1][1].position
         moves = 0
@@ -134,7 +138,6 @@ class BoardNode: SKNode {
         
         var xOffset = xHead
         var yOffset = yHead
-        
         
         playerBoard = [[SKShapeNode]]()
         // adiciona uma linha acima da matriz
@@ -276,11 +279,11 @@ class BoardNode: SKNode {
         self.addChild(boardDisplay)
         
     }
-    
+	
     func update(row: Int) {
         let positionXNode = playerBoard[row][1].position.x
         let diff = abs(positionXNode - storeFirstNodePosition.x)
-        
+		
         if diff > (cellsSpacing/2 + cellsSize.width/2) {
             var rowCopy = playerBoard[row]
             if positionXNode > storeFirstNodePosition.x {
@@ -292,11 +295,11 @@ class BoardNode: SKNode {
                 newCell?.strokeColor = rowCopy[rowCopy.count-2].strokeColor
                 newCell?.position = rowCopy[1].position
                 newCell?.position.x -= (cellsSize.width + cellsSpacing)
-                
+				
                 rowCopy[0] = newCell!
                 playerBoard[row] = rowCopy
                 moves = moves + 1
-                
+				
             }
             else {
                 for index in 1..<playerBoard[row].count {

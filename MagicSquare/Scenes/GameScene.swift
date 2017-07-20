@@ -26,7 +26,7 @@ class GameScene: SKScene, ActionHandlerDelegate {
         setHud(from: view)
         setTemplate(from: view)
         
-        boardNode = BoardNode(with: self.size, and: currentLevel)
+		boardNode = BoardNode(with: self.size, level: currentLevel, isPlayerBoard: true)
         addChild(boardNode)
         boardNode.addGestureRecognizer()
     }

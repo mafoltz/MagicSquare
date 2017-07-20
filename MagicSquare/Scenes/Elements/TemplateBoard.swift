@@ -42,7 +42,7 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.zPosition = 0.2
         addChild(templateBaloon)
         
-        templateBoard = BoardNode(with: view.bounds.size, and: currentLevel)
+		templateBoard = BoardNode(with: view.bounds.size, level: currentLevel, isPlayerBoard: false)
         templateBaloon.addChild(templateBoard)
     }
     
