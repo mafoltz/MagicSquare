@@ -60,12 +60,25 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.run(actionsGroup)
     }
     
+    func setHidden() {
+        isHidden = true
+    }
+    
     func hide() {
+        let speed = 0.3
+        
+        let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: speed)
+        let moveDown = SKAction.moveBy(x: 0.0, y: -baloonSize.height, duration: 0.0)
+        let moveSequence = SKAction.sequence([moveUp, moveDown])
+        
         let growUp = SKAction.scale(to: baloonSize, duration: 0.0)
         let decrease = SKAction.scale(to: 0.0, duration: 0.3)
         let actionsSequence = SKAction.sequence([growUp, decrease])
-        templateBaloon.run(actionsSequence)
         
-        isHidden = true
+        let actionsGroup = SKAction.group([moveSequence, actionsSequence])
+        
+        templateBaloon.run(actionsGroup)
+        
+        Timer.scheduledTimer(timeInterval: speed, target: self, selector: #selector(self.setHidden), userInfo: nil, repeats: false)
     }
 }
