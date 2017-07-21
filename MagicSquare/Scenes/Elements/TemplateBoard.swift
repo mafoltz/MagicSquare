@@ -39,15 +39,21 @@ class TemplateBoard: SKSpriteNode {
         backgroundScreen.zPosition = 0.1
         addChild(backgroundScreen)
         
+        let roundedRect1 = CGRect(x: -0.2 * view.bounds.size.width,
+                                  y: 0.83 * view.bounds.size.height,
+                                  width: 0.05 * view.bounds.size.width,
+                                  height: 0.05 * view.bounds.size.width)
         baloonNode1.fillColor = UIColor.white
-        baloonNode1.run(SKAction.moveBy(x: -0.18 * view.bounds.size.width, y: 0.85 * view.bounds.size.height, duration: 0.0))
-        baloonNode1.run(SKAction.scale(by: 0.12, duration: 0.0))
+        baloonNode1.path = UIBezierPath(roundedRect: roundedRect1, cornerRadius: cornerRadius).cgPath
         baloonNode1.zPosition = 0.2
         addChild(baloonNode1)
         
+        let roundedRect2 = CGRect(x: -0.31 * view.bounds.size.width,
+                                  y: 0.77 * view.bounds.size.height,
+                                  width: 0.1 * view.bounds.size.width,
+                                  height: 0.1 * view.bounds.size.width)
         baloonNode2.fillColor = UIColor.white
-        baloonNode2.run(SKAction.moveBy(x: -0.27 * view.bounds.size.width, y: 0.8 * view.bounds.size.height, duration: 0.0))
-        baloonNode2.run(SKAction.scale(by: 0.2, duration: 0.0))
+        baloonNode2.path = UIBezierPath(roundedRect: roundedRect2, cornerRadius: cornerRadius).cgPath
         baloonNode2.zPosition = 0.2
         addChild(baloonNode2)
         
