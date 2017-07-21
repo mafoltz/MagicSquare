@@ -13,12 +13,14 @@ class TemplateBoard: SKSpriteNode {
     
     // MARK: - Properties
     
-    private var baloonNode1 = SKShapeNode(circleOfRadius: 100)
-    private var baloonNode2 = SKShapeNode(circleOfRadius: 100)
+    private var smallBaloon1 = SKShapeNode(circleOfRadius: 100)
+    private var smallBaloon2 = SKShapeNode(circleOfRadius: 100)
     private var templateBaloon = SKShapeNode()
     private var templateBoard : BoardNode!
     private var templateText : SKLabelNode!
     
+    private var smallBaloon1Size : CGSize!
+    private var smallBaloon2Size : CGSize!
     private var baloonSize : CGSize!
     private var bottomSpacing : CGFloat!
     private let cornerRadius: CGFloat = 30
@@ -43,19 +45,21 @@ class TemplateBoard: SKSpriteNode {
                                   y: 0.83 * view.bounds.size.height,
                                   width: 0.05 * view.bounds.size.width,
                                   height: 0.05 * view.bounds.size.width)
-        baloonNode1.fillColor = UIColor.white
-        baloonNode1.path = UIBezierPath(roundedRect: roundedRect1, cornerRadius: cornerRadius).cgPath
-        baloonNode1.zPosition = 0.2
-        addChild(baloonNode1)
+        smallBaloon1Size = roundedRect1.size
+        smallBaloon1.fillColor = UIColor.white
+        smallBaloon1.path = UIBezierPath(roundedRect: roundedRect1, cornerRadius: cornerRadius).cgPath
+        smallBaloon1.zPosition = 0.2
+        addChild(smallBaloon1)
         
         let roundedRect2 = CGRect(x: -0.31 * view.bounds.size.width,
                                   y: 0.77 * view.bounds.size.height,
                                   width: 0.1 * view.bounds.size.width,
                                   height: 0.1 * view.bounds.size.width)
-        baloonNode2.fillColor = UIColor.white
-        baloonNode2.path = UIBezierPath(roundedRect: roundedRect2, cornerRadius: cornerRadius).cgPath
-        baloonNode2.zPosition = 0.2
-        addChild(baloonNode2)
+        smallBaloon2Size = roundedRect2.size
+        smallBaloon2.fillColor = UIColor.white
+        smallBaloon2.path = UIBezierPath(roundedRect: roundedRect2, cornerRadius: cornerRadius).cgPath
+        smallBaloon2.zPosition = 0.2
+        addChild(smallBaloon2)
         
         let roundedRect = CGRect(x: (bottomSpacing - view.bounds.size.width) / 2,
                                  y: (bottomSpacing / 2),
@@ -79,12 +83,35 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.addChild(templateBoard)
     }
     
-    func show() {
-        isUserInteractionEnabled = false
-        isHidden = false
+    private func showSmallBaloon1(with speed: TimeInterval) {
+        let moveUp = SKAction.moveBy(x: 0.0, y: smallBaloon1Size.height, duration: 0.0)
+        let moveDown = SKAction.moveBy(x: 0.0, y: -smallBaloon1Size.height, duration: speed)
+        let moveSequence = SKAction.sequence([moveUp, moveDown])
         
-        let speed = 0.3
+        let decrease = SKAction.scale(to: 0.0, duration: 0.0)
+        let growUp = SKAction.scale(to: smallBaloon1Size, duration: speed)
+        let actionsSequence = SKAction.sequence([decrease, growUp])
         
+        let actionsGroup = SKAction.group([moveSequence, actionsSequence])
+        
+        smallBaloon1.run(actionsGroup)
+    }
+    
+    private func showSmallBaloon2(with speed: TimeInterval) {
+        let moveUp = SKAction.moveBy(x: 0.0, y: smallBaloon2Size.height, duration: 0.0)
+        let moveDown = SKAction.moveBy(x: 0.0, y: -smallBaloon2Size.height, duration: speed)
+        let moveSequence = SKAction.sequence([moveUp, moveDown])
+        
+        let decrease = SKAction.scale(to: 0.0, duration: 0.0)
+        let growUp = SKAction.scale(to: smallBaloon2Size, duration: speed)
+        let actionsSequence = SKAction.sequence([decrease, growUp])
+        
+        let actionsGroup = SKAction.group([moveSequence, actionsSequence])
+        
+        smallBaloon2.run(actionsGroup)
+    }
+    
+    private func showTemplateBaloon(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: 0.0)
         let moveDown = SKAction.moveBy(x: 0.0, y: -baloonSize.height, duration: speed)
         let moveSequence = SKAction.sequence([moveUp, moveDown])
@@ -96,15 +123,50 @@ class TemplateBoard: SKSpriteNode {
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
         
         templateBaloon.run(actionsGroup)
+    }
+    
+    func show() {
+        isUserInteractionEnabled = false
+        isHidden = false
+        
+        let speed = 0.3
+        
+        //showSmallBaloon1(with: speed)
+        //showSmallBaloon2(with: speed)
+        showTemplateBaloon(with: speed)
         
         Timer.scheduledTimer(timeInterval: speed + 0.1, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
     
-    func hide() {
-        isUserInteractionEnabled = false
+    private func hideSmallBaloon1(with speed: TimeInterval) {
+        let moveUp = SKAction.moveBy(x: 0.0, y: smallBaloon1Size.height, duration: speed)
+        let moveDown = SKAction.moveBy(x: 0.0, y: -smallBaloon1Size.height, duration: 0.0)
+        let moveSequence = SKAction.sequence([moveUp, moveDown])
         
-        let speed = 0.3
+        let growUp = SKAction.scale(to: smallBaloon1Size, duration: 0.0)
+        let decrease = SKAction.scale(to: 0.0, duration: 0.3)
+        let actionsSequence = SKAction.sequence([growUp, decrease])
         
+        let actionsGroup = SKAction.group([moveSequence, actionsSequence])
+        
+        smallBaloon1.run(actionsGroup)
+    }
+    
+    private func hideSmallBaloon2(with speed: TimeInterval) {
+        let moveUp = SKAction.moveBy(x: 0.0, y: smallBaloon2Size.height, duration: speed)
+        let moveDown = SKAction.moveBy(x: 0.0, y: -smallBaloon2Size.height, duration: 0.0)
+        let moveSequence = SKAction.sequence([moveUp, moveDown])
+        
+        let growUp = SKAction.scale(to: smallBaloon2Size, duration: 0.0)
+        let decrease = SKAction.scale(to: 0.0, duration: 0.3)
+        let actionsSequence = SKAction.sequence([growUp, decrease])
+        
+        let actionsGroup = SKAction.group([moveSequence, actionsSequence])
+        
+        smallBaloon2.run(actionsGroup)
+    }
+    
+    private func hideTemplateBaloon(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: speed)
         let moveDown = SKAction.moveBy(x: 0.0, y: -baloonSize.height, duration: 0.0)
         let moveSequence = SKAction.sequence([moveUp, moveDown])
@@ -116,6 +178,16 @@ class TemplateBoard: SKSpriteNode {
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
         
         templateBaloon.run(actionsGroup)
+    }
+    
+    func hide() {
+        isUserInteractionEnabled = false
+        
+        let speed = 0.3
+        
+        //hideSmallBaloon1(with: speed)
+        //hideSmallBaloon2(with: speed)
+        hideTemplateBaloon(with: speed)
         
         Timer.scheduledTimer(timeInterval: speed, target: self, selector: #selector(self.setHidden), userInfo: nil, repeats: false)
         Timer.scheduledTimer(timeInterval: speed + 0.1, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
