@@ -586,6 +586,12 @@ class BoardNode: SKNode {
     }
     
     func getRow(with position: CGPoint) -> Int {
+        
+        if (firstTouch.x < playerBoard[1][1].position.x - cellsSize.width/2) ||
+            (firstTouch.x > playerBoard[1][playerBoard[1].count-2].position.x + cellsSize.height/2){
+            return -1
+        }
+        
         for (index, row) in playerBoard.enumerated() {
             
             if index > 0 && index < playerBoard.count-1{
@@ -601,6 +607,12 @@ class BoardNode: SKNode {
     }
     
     func getColumn(with position: CGPoint) -> Int {
+        
+        if (firstTouch.y > playerBoard[1][1].position.y + cellsSize.height/2) ||
+            (firstTouch.y < playerBoard[playerBoard.count-2][1].position.y - cellsSize.height/2){
+            return -1
+        }
+        
         for (index, column) in playerBoard[1].enumerated() {
             
             if index > 0 && index < playerBoard[1].count-1{
