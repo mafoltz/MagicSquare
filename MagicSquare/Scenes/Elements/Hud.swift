@@ -13,7 +13,7 @@ class Hud: SKSpriteNode {
     
     // MARK: - Properties
     
-    private var templateButton: SKSpriteNode!
+    private var mascotButton: SKSpriteNode!
     private var levelsButton: SKSpriteNode!
     private var configurationsButton: SKSpriteNode!
     public var movesLabel: SKLabelNode!
@@ -33,17 +33,18 @@ class Hud: SKSpriteNode {
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
-        templateButton = SKSpriteNode(imageNamed: "mascot")
-        templateButton.run(SKAction.moveBy(x: 0.0, y: -buttonsLineHeight / 2, duration: 0.0))
-        templateButton.zPosition = 2.0
-        addChild(templateButton)
+        mascotButton = SKSpriteNode(imageNamed: "mascot")
+        mascotButton.size = CGSize(width: 0.25 * self.size.width, height: 0.95 * self.size.height)
+        mascotButton.run(SKAction.moveBy(x: 0.0, y: -buttonsLineHeight / 2, duration: 0.0))
+        mascotButton.zPosition = 2.0
+        addChild(mascotButton)
         
         let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
         moveDown.timingMode = .easeInEaseOut
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
         moveUp.timingMode = .easeInEaseOut
         let sequence = SKAction.sequence([moveDown, moveUp])
-        templateButton.run(SKAction.repeatForever(sequence))
+        mascotButton.run(SKAction.repeatForever(sequence))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
@@ -97,7 +98,7 @@ class Hud: SKSpriteNode {
             actionDelegate?.levelsAction()
         }
             
-        else if templateButton.contains(touchLocation!) {
+        else if mascotButton.contains(touchLocation!) {
             actionDelegate?.answerAction()
         }
     }
