@@ -28,6 +28,12 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         setHud(from: view)
         setTemplate(from: view)
         setPlayerBoard(from: view)
+        
+        if !hasGameBegun {
+            template.show()
+        }
+        
+        hasGameBegun = true
     }
     
     override func didChangeSize(_ oldSize: CGSize) {

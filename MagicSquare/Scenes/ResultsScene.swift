@@ -25,7 +25,7 @@ class ResultsScene: SKScene {
             scene.size = (super.view?.bounds.size)!
             scene.scaleMode = .aspectFill
             scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: (currentLevel?.number)! + 1)
-            super.view?.presentScene(scene)
+            super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
         }
         else {
             let scene: LevelsScene = LevelsScene()
