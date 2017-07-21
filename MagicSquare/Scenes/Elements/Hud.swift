@@ -91,7 +91,7 @@ class Hud: SKSpriteNode {
         addChild(levelLabel)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         
         if mascotButton.contains(touchLocation!) {
