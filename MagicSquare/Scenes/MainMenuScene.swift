@@ -10,8 +10,13 @@ import SpriteKit
 import GameplayKit
 
 class MainMenuScene: SKScene {
-    var backgroundColorNode: SKSpriteNode!
-    var titleLabelNode: SKLabelNode!
+    
+    // MARK: - Properties
+    
+    private var backgroundColorNode: SKSpriteNode!
+    private var titleLabelNode: SKLabelNode!
+    
+    // MARK: - Methods
     
     override func didMove(to view: SKView) {
         backgroundColorNode = SKSpriteNode(color: UIColor.cyan, size: view.bounds.size)

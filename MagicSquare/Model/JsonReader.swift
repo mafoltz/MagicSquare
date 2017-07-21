@@ -10,6 +10,8 @@ import UIKit
 
 class JsonReader {
     
+    // MARK: - Methods
+    
     static func openJson(named filename: String) -> [[String: Any]]? {
         do {
             if let file = Bundle.main.url(forResource: filename, withExtension: "json") {

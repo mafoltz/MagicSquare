@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
+    
     // MARK: - Properties
     
     public var currentLevel : Level!

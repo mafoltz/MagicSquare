@@ -11,7 +11,11 @@ import GameplayKit
 
 class ResultsScene: SKScene {
     
+    // MARK: - Properties
+    
     public var currentLevel : Level?
+    
+    // MARK: - Methods
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let json: [[String: Any]] = JsonReader.openJson(named: "World")!

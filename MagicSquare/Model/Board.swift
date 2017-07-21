@@ -11,6 +11,8 @@ import SpriteKit
 
 class Board: NSObject {
     
+    // MARK: - Properties
+    
     var cellsMatrix: [[BoardCell?]]!
     let numRows: Int!
     let numColumns: Int!
@@ -24,6 +26,8 @@ class Board: NSObject {
                   UIColor(red: 047/256, green: 066/256, blue: 076/256, alpha: 1.0),
                   UIColor(red: 066/256, green: 074/256, blue: 127/256, alpha: 1.0),
                   UIColor(red: 120/256, green: 172/256, blue: 120/256, alpha: 1.0)]
+    
+    // MARK: - Methods
     
     init(board: [[Int]]) {
         cellsMatrix = [[BoardCell]]()

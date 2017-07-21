@@ -11,9 +11,11 @@ import GameplayKit
 
 class Hud: SKSpriteNode {
     
+    // MARK: - Properties
+    
     private var templateButton: SKSpriteNode!
     private var levelsButton: SKSpriteNode!
-    private var hintButton: SKSpriteNode!
+    private var configurationsButton: SKSpriteNode!
     public var movesLabel: SKLabelNode!
     private var levelLabel: SKLabelNode!
     
@@ -21,6 +23,8 @@ class Hud: SKSpriteNode {
     private var buttonsLineHeight: CGFloat!
     
     var actionDelegate: ActionHandlerDelegate?
+    
+    // MARK: - Methods
     
     func setHud(from currentLevel: Level) {
         isUserInteractionEnabled = true
@@ -45,11 +49,11 @@ class Hud: SKSpriteNode {
         levelsButton.zPosition = 0.1
         addChild(levelsButton)
         
-        hintButton = SKSpriteNode(imageNamed: "hintButton")
-        hintButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
-        hintButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
-        hintButton.zPosition = 0.1
-        addChild(hintButton)
+        configurationsButton = SKSpriteNode(imageNamed: "hintButton")
+        configurationsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
+        configurationsButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
+        configurationsButton.zPosition = 0.1
+        addChild(configurationsButton)
         
         let movesTitleLabel = SKLabelNode(text: "MOVES")
         movesTitleLabel.fontColor = UIColor.white

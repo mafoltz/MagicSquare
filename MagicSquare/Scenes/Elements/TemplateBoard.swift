@@ -11,12 +11,16 @@ import GameplayKit
 
 class TemplateBoard: SKSpriteNode {
     
+    // MARK: - Properties
+    
     private var templateBaloon = SKShapeNode()
     private var templateBoard : BoardNode!
     
     private var baloonSize : CGSize!
     private var bottomSpacing : CGFloat!
     private let cornerRadius: CGFloat = 30
+    
+    // MARK: - Methods
     
     func setTemplate(from currentLevel: Level, view: SKView) {
         isUserInteractionEnabled = true

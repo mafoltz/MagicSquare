@@ -11,7 +11,11 @@ import SpriteKit
 
 class BoardCell {
     
+    // MARK: - Properties
+    
     let color: UIColor!
+    
+    // MARK: - Methods
     
     init(color: UIColor) {
         self.color = color

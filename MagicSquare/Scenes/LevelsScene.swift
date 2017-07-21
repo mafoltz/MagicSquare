@@ -11,6 +11,8 @@ import GameplayKit
 
 class LevelsScene: SKScene {
     
+    // MARK: - Properties
+    
     private let json: [[String: Any]] = JsonReader.openJson(named: "World")!
     private var levels = [Level]()
     
@@ -40,6 +42,8 @@ class LevelsScene: SKScene {
     private let screenHorizontalSpacing: CGFloat = 50
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
+    
+    // MARK: - Methods
     
     func prepareScene(from previousScene: SKScene) {
         backgroundColor = UIColor.white

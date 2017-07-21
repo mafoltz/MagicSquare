@@ -10,6 +10,8 @@ import UIKit
 
 class Level: AnyObject {
     
+    // MARK: - Properties
+    
     let number: Int
     let ranking: Int
     let level: String
@@ -17,6 +19,8 @@ class Level: AnyObject {
     let templateBoard : Board!
     var playerMoves: Int
     let maxMoves: Int
+    
+    // MARK: - Methods
     
     init(from json: [String: Any], numberLevel: Int) {
         number = numberLevel
