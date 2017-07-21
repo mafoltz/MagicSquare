@@ -113,11 +113,11 @@ class ResultsScene: SKScene {
     
     // MARK: - Methods
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         if button.contains(touch!.location(in: self)){
             let json: [[String: Any]] = JsonReader.openJson(named: "World")!
-            if (currentLevel?.number)! < json.count - 1 {
+            if (currentLevel?.number)! < json.count {
                 let scene: GameScene = GameScene()
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
