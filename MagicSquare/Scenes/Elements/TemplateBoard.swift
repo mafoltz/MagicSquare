@@ -75,7 +75,7 @@ class TemplateBoard: SKSpriteNode {
         templateBaloon.zPosition = 0.2
         addChild(templateBaloon)
         
-        templateText = SKLabelNode(text: "I doubt that you'll find this!")
+        templateText = SKLabelNode(text: "I doubt you'll find this!")
         templateText.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
         templateText.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
         templateText.fontSize = 18.0
@@ -90,10 +90,12 @@ class TemplateBoard: SKSpriteNode {
     private func showSmallBaloon1(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: smallBaloon1Size.width / 2, y: smallBaloon1Size.height / 2, duration: 0.0)
         let moveDown = SKAction.moveBy(x: -smallBaloon1Size.width / 2, y: -smallBaloon1Size.height / 2, duration: speed)
+        moveDown.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let decrease = SKAction.scale(to: 0.0, duration: 0.0)
         let growUp = SKAction.scale(to: smallBaloon1Size, duration: speed)
+        growUp.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([decrease, growUp])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
@@ -104,10 +106,12 @@ class TemplateBoard: SKSpriteNode {
     private func showSmallBaloon2(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: smallBaloon2Size.width / 2, y: smallBaloon2Size.height / 2, duration: 0.0)
         let moveDown = SKAction.moveBy(x: -smallBaloon2Size.width / 2, y: -smallBaloon2Size.height / 2, duration: speed)
+        moveDown.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let decrease = SKAction.scale(to: 0.0, duration: 0.0)
         let growUp = SKAction.scale(to: smallBaloon2Size, duration: speed)
+        growUp.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([decrease, growUp])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
@@ -118,10 +122,12 @@ class TemplateBoard: SKSpriteNode {
     private func showTemplateBaloon(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: 0.0)
         let moveDown = SKAction.moveBy(x: 0.0, y: -baloonSize.height, duration: speed)
+        moveDown.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let decrease = SKAction.scale(to: 0.0, duration: 0.0)
         let growUp = SKAction.scale(to: baloonSize, duration: speed)
+        growUp.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([decrease, growUp])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
@@ -145,10 +151,12 @@ class TemplateBoard: SKSpriteNode {
     private func hideSmallBaloon1(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: smallBaloon1Size.width / 2, y: smallBaloon1Size.height / 2, duration: speed)
         let moveDown = SKAction.moveBy(x: -smallBaloon1Size.width / 2, y: -smallBaloon1Size.height / 2, duration: 0.0)
+        moveUp.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let growUp = SKAction.scale(to: smallBaloon1Size, duration: 0.0)
         let decrease = SKAction.scale(to: 0.0, duration: 0.3)
+        decrease.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([growUp, decrease])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
@@ -159,10 +167,12 @@ class TemplateBoard: SKSpriteNode {
     private func hideSmallBaloon2(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: smallBaloon2Size.width / 2, y: smallBaloon2Size.height / 2, duration: speed)
         let moveDown = SKAction.moveBy(x: -smallBaloon2Size.width / 2, y: -smallBaloon2Size.height / 2, duration: 0.0)
+        moveUp.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let growUp = SKAction.scale(to: smallBaloon2Size, duration: 0.0)
         let decrease = SKAction.scale(to: 0.0, duration: 0.3)
+        decrease.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([growUp, decrease])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
@@ -173,10 +183,12 @@ class TemplateBoard: SKSpriteNode {
     private func hideTemplateBaloon(with speed: TimeInterval) {
         let moveUp = SKAction.moveBy(x: 0.0, y: baloonSize.height, duration: speed)
         let moveDown = SKAction.moveBy(x: 0.0, y: -baloonSize.height, duration: 0.0)
+        moveUp.timingMode = .easeInEaseOut
         let moveSequence = SKAction.sequence([moveUp, moveDown])
         
         let growUp = SKAction.scale(to: baloonSize, duration: 0.0)
         let decrease = SKAction.scale(to: 0.0, duration: 0.3)
+        decrease.timingMode = .easeInEaseOut
         let actionsSequence = SKAction.sequence([growUp, decrease])
         
         let actionsGroup = SKAction.group([moveSequence, actionsSequence])
