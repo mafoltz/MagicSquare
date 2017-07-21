@@ -13,8 +13,11 @@ class TemplateBoard: SKSpriteNode {
     
     // MARK: - Properties
     
+    private var baloonNode1 = SKShapeNode(circleOfRadius: 100)
+    private var baloonNode2 = SKShapeNode(circleOfRadius: 100)
     private var templateBaloon = SKShapeNode()
     private var templateBoard : BoardNode!
+    private var templateText : SKLabelNode!
     
     private var baloonSize : CGSize!
     private var bottomSpacing : CGFloat!
@@ -36,15 +39,35 @@ class TemplateBoard: SKSpriteNode {
         backgroundScreen.zPosition = 0.1
         addChild(backgroundScreen)
         
+        baloonNode1.fillColor = UIColor.white
+        baloonNode1.run(SKAction.moveBy(x: -0.18 * view.bounds.size.width, y: 0.85 * view.bounds.size.height, duration: 0.0))
+        baloonNode1.run(SKAction.scale(by: 0.12, duration: 0.0))
+        baloonNode1.zPosition = 0.2
+        addChild(baloonNode1)
+        
+        baloonNode2.fillColor = UIColor.white
+        baloonNode2.run(SKAction.moveBy(x: -0.27 * view.bounds.size.width, y: 0.8 * view.bounds.size.height, duration: 0.0))
+        baloonNode2.run(SKAction.scale(by: 0.2, duration: 0.0))
+        baloonNode2.zPosition = 0.2
+        addChild(baloonNode2)
+        
         let roundedRect = CGRect(x: (bottomSpacing - view.bounds.size.width) / 2,
                                  y: (bottomSpacing / 2),
                                  width: view.bounds.size.width - bottomSpacing,
-                                 height: 0.65 * view.bounds.size.height)
+                                 height: 0.75 * view.bounds.size.height - bottomSpacing / 2)
         baloonSize = roundedRect.size
         templateBaloon.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         templateBaloon.fillColor = UIColor.white
         templateBaloon.zPosition = 0.2
         addChild(templateBaloon)
+        
+        templateText = SKLabelNode(text: "I doubt that you'll find this!")
+        templateText.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        templateText.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        templateText.fontSize = 18.0
+        templateText.run(SKAction.moveBy(x: 0.0, y: baloonSize.height - bottomSpacing, duration: 0.0))
+        templateText.zPosition = 0.1
+        templateBaloon.addChild(templateText)
         
 		templateBoard = BoardNode(with: view.bounds.size, board: currentLevel.templateBoard)
         templateBaloon.addChild(templateBoard)

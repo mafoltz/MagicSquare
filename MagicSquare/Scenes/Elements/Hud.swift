@@ -39,7 +39,9 @@ class Hud: SKSpriteNode {
         addChild(templateButton)
         
         let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
+        moveDown.timingMode = .easeInEaseOut
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
+        moveUp.timingMode = .easeInEaseOut
         let sequence = SKAction.sequence([moveDown, moveUp])
         templateButton.run(SKAction.repeatForever(sequence))
         
