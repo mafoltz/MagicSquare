@@ -23,9 +23,9 @@
 		576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD021F1FE8CF00AF38A7 /* Hud.swift */; };
 		576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */; };
 		576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */; };
-		7E9136C71F2162520036699C /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9136C61F2162520036699C /* BoardDelegate.swift */; };
-		91830DFE1F20152C001827A6 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */; };
-		91F832CA1F210E7B0089A998 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F832C91F210E7B0089A998 /* BoardNode.swift */; };
+		577188FC1F223C35003232B3 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FB1F223C35003232B3 /* BoardNode.swift */; };
+		577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */; };
+		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
 /* End PBXBuildFile section */
 
@@ -48,9 +48,9 @@
 		576CAD021F1FE8CF00AF38A7 /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hud.swift; path = Scenes/Elements/Hud.swift; sourceTree = "<group>"; };
 		576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateBoard.swift; path = Scenes/Elements/TemplateBoard.swift; sourceTree = "<group>"; };
 		576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonReader.swift; path = Model/JsonReader.swift; sourceTree = "<group>"; };
-		7E9136C61F2162520036699C /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Elements/BoardDelegate.swift; sourceTree = "<group>"; };
-		91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionHandlerDelegate.swift; sourceTree = "<group>"; };
-		91F832C91F210E7B0089A998 /* BoardNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardNode.swift; sourceTree = "<group>"; };
+		577188FB1F223C35003232B3 /* BoardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardNode.swift; path = Scenes/Elements/BoardNode.swift; sourceTree = "<group>"; };
+		577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionHandlerDelegate.swift; path = Scenes/Delegate/ActionHandlerDelegate.swift; sourceTree = "<group>"; };
+		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,6 +80,7 @@
 		571193F41F1558A600E1ECEA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				577188FA1F223B90003232B3 /* Delegate */,
 				576CAD011F1FE88600AF38A7 /* Elements */,
 				571193F91F15593800E1ECEA /* MainMenuScene.swift */,
 				571193F71F15592500E1ECEA /* LevelsScene.swift */,
@@ -124,13 +125,20 @@
 		576CAD011F1FE88600AF38A7 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				577188FB1F223C35003232B3 /* BoardNode.swift */,
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
-				7E9136C61F2162520036699C /* BoardDelegate.swift */,
-				91830DFD1F20152C001827A6 /* ActionHandlerDelegate.swift */,
-				91F832C91F210E7B0089A998 /* BoardNode.swift */,
 			);
 			name = Elements;
+			sourceTree = "<group>";
+		};
+		577188FA1F223B90003232B3 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */,
+				577188FE1F223C44003232B3 /* BoardDelegate.swift */,
+			);
+			name = Delegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,19 +216,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91F832CA1F210E7B0089A998 /* BoardNode.swift in Sources */,
 				576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */,
 				571193F81F15592500E1ECEA /* LevelsScene.swift in Sources */,
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
-				91830DFE1F20152C001827A6 /* ActionHandlerDelegate.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
+				577188FC1F223C35003232B3 /* BoardNode.swift in Sources */,
+				577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */,
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,
 				571193FA1F15593800E1ECEA /* MainMenuScene.swift in Sources */,
-				7E9136C71F2162520036699C /* BoardDelegate.swift in Sources */,
+				577189001F223C44003232B3 /* BoardDelegate.swift in Sources */,
 				576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */,
 				5728FEA31F14037D003774BF /* AppDelegate.swift in Sources */,
 			);

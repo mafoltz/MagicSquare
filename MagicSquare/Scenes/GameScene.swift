@@ -15,7 +15,9 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     public var currentLevel : Level!
     private var hud : Hud!
     private var template : TemplateBoard!
-    private var boardNode : BoardNode!
+    private var playerBoard : BoardNode!
+    private var hasGameBegun = false
+    
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
@@ -24,11 +26,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
 
         setHud(from: view)
         setTemplate(from: view)
-        
-		boardNode = BoardNode(with: self.size, board: currentLevel.playerBoard)
-		boardNode.boardDelegate = self
-        addChild(boardNode)
-        boardNode.addGestureRecognizer()
+        setPlayerBoard(from: view)
     }
     
     override func didChangeSize(_ oldSize: CGSize) {
@@ -38,7 +36,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     override func update(_ currentTime: TimeInterval) {
         hud.movesLabel.text = String(currentLevel.playerMoves)
         
-        if !boardNode.isMoving && currentLevel.hasLevelWon() {
+        if !playerBoard.isMoving && currentLevel.hasLevelWon() {
             goToResultsScene()
         }
     }
@@ -58,23 +56,21 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         addChild(template)
     }
     
-    func goToResultsScene() {
-        let scene: ResultsScene = ResultsScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.currentLevel = currentLevel
-        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+    func setPlayerBoard(from view: SKView) {
+        playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard)
+        playerBoard.boardDelegate = self
+        addChild(playerBoard)
+        playerBoard.addGestureRecognizer()
     }
     
     func answerAction() {
         if template.isUserInteractionEnabled {
             if template.isHidden {
-                boardNode.disableGestureRecognizer()
+                playerBoard.disableGestureRecognizer()
                 template.show()
             } else {
                 template.hide()
-                boardNode.addGestureRecognizer()
+                playerBoard.addGestureRecognizer()
             }
         }
     }
@@ -92,7 +88,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         super.view?.presentScene(scene)
     }
     
-    func hintAction() {
+    func configurationsAction() {
         
     }
 	
@@ -107,4 +103,13 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
 			currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
 		}
 	}
+    
+    func goToResultsScene() {
+        let scene: ResultsScene = ResultsScene()
+        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.currentLevel = currentLevel
+        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+    }
 }
