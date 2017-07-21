@@ -31,6 +31,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         if !hasGameBegun {
             template.show()
+        } else {
+            playerBoard.addGestureRecognizer()
         }
         
         hasGameBegun = true
