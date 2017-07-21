@@ -18,6 +18,7 @@ class TemplateBoard: SKSpriteNode {
     private var templateBaloon = SKShapeNode()
     private var templateBoard : BoardNode!
     private var templateText : SKLabelNode!
+    private var touchNode : SKSpriteNode!
     
     private var smallBaloon1Size : CGSize!
     private var smallBaloon2Size : CGSize!
@@ -85,6 +86,15 @@ class TemplateBoard: SKSpriteNode {
         
 		templateBoard = BoardNode(with: view.bounds.size, board: currentLevel.templateBoard)
         templateBaloon.addChild(templateBoard)
+        
+        touchNode = SKSpriteNode(color: UIColor.clear, size: view.bounds.size)
+        touchNode.zPosition = 2.0
+        addChild(touchNode)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let scene = self.scene as! GameScene
+        scene.answerAction()
     }
     
     private func showSmallBaloon1(with speed: TimeInterval) {

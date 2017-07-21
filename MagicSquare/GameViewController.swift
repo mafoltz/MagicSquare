@@ -22,7 +22,7 @@ class GameViewController: UIViewController {
 			scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 			scene.size = self.view.bounds.size
 			scene.scaleMode = .aspectFill
-			view.presentScene(scene)
+			view.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
 			
             view.ignoresSiblingOrder = true
             

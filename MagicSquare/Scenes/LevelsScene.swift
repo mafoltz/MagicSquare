@@ -113,8 +113,12 @@ class LevelsScene: SKScene {
         let hideLevels = SKAction.moveBy(x: view.bounds.size.width - screenHorizontalSpacing, y: 0.0, duration: 0.0)
         let moveLevels = SKAction.moveBy(x: screenHorizontalSpacing - view.bounds.size.width - 20.0, y: 0.0, duration: 0.3)
         let moveLevelsQuickly = SKAction.moveBy(x: 20.0, y: 0.0, duration: 0.01)
+        moveLevelsQuickly.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels, moveLevelsQuickly])
         levelsScreen.run(actionsSequence)
+        
+        isUserInteractionEnabled = false
+        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -154,10 +158,14 @@ class LevelsScene: SKScene {
         let limit = (view?.bounds.size.width)! - 2 * screenHorizontalSpacing - levelsScreenWidth!
         
         if levelsScreen.position.x < limit {
-            levelsScreen.run(SKAction.moveTo(x: limit, duration: 0.2))
+            let move = SKAction.moveTo(x: limit, duration: 0.2)
+            move.timingMode = .easeOut
+            levelsScreen.run(move)
         }
         else if levelsScreen.position.x > 0 {
-            levelsScreen.run(SKAction.moveTo(x: 0, duration: 0.2))
+            let move = SKAction.moveTo(x: 0, duration: 0.2)
+            move.timingMode = .easeOut
+            levelsScreen.run(move)
         }
         
         if indexOfTouchedLevel >= 0 && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance &&
@@ -192,6 +200,10 @@ class LevelsScene: SKScene {
                                        duration: 0.0))
     }
     
+    func setUserInteractionEnabled() {
+        isUserInteractionEnabled = true
+    }
+    
     func goBackToPreviousScene() {
         if let scene = previousScene as? MainMenuScene {
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -210,7 +222,7 @@ class LevelsScene: SKScene {
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         scene.currentLevel = level
-        super.view?.presentScene(scene)
+        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
     }
 }
 

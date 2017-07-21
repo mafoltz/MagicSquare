@@ -35,7 +35,7 @@ class MainMenuScene: SKScene {
         addChild(titleLabelNode)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let scene: LevelsScene = LevelsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         scene.size = (super.view?.bounds.size)!

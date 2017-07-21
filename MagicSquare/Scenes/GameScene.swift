@@ -28,6 +28,14 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         setHud(from: view)
         setTemplate(from: view)
         setPlayerBoard(from: view)
+        
+        if !hasGameBegun {
+            template.show()
+        } else {
+            playerBoard.addGestureRecognizer()
+        }
+        
+        hasGameBegun = true
     }
     
     override func didChangeSize(_ oldSize: CGSize) {
@@ -61,7 +69,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
-        playerBoard.addGestureRecognizer()
     }
     
     func answerAction() {
