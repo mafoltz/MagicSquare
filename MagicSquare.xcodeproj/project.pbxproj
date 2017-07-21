@@ -26,6 +26,7 @@
 		577188FC1F223C35003232B3 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FB1F223C35003232B3 /* BoardNode.swift */; };
 		577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */; };
 		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
+		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		577188FB1F223C35003232B3 /* BoardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardNode.swift; path = Scenes/Elements/BoardNode.swift; sourceTree = "<group>"; };
 		577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionHandlerDelegate.swift; path = Scenes/Delegate/ActionHandlerDelegate.swift; sourceTree = "<group>"; };
 		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
+		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 				571193F71F15592500E1ECEA /* LevelsScene.swift */,
 				571193F51F15590A00E1ECEA /* GameScene.swift */,
 				571193FB1F15594B00E1ECEA /* ResultsScene.swift */,
+				91BFD82D1F226C1E00F28356 /* ResultsScene.sks */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -173,7 +176,6 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = VXAGBDYAT9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -206,6 +208,7 @@
 				D71B5AA41F155E0C006B6A9D /* World.json in Resources */,
 				5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */,
 				5728FEA71F14037D003774BF /* Actions.sks in Resources */,
+				91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,12 +356,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -366,12 +370,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mafoltz.MagicSquare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
