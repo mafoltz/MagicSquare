@@ -116,6 +116,9 @@ class LevelsScene: SKScene {
         moveLevelsQuickly.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels, moveLevelsQuickly])
         levelsScreen.run(actionsSequence)
+        
+        isUserInteractionEnabled = false
+        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -195,6 +198,10 @@ class LevelsScene: SKScene {
         spriteNode.run(SKAction.moveBy(x: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
                                        y: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing,
                                        duration: 0.0))
+    }
+    
+    func setUserInteractionEnabled() {
+        isUserInteractionEnabled = true
     }
     
     func goBackToPreviousScene() {
