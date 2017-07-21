@@ -41,7 +41,7 @@ class BoardNode: SKNode {
     private var lastTouch : CGPoint!
     private var storeFirstNodePosition : CGPoint!
     private var moves : Int!
-    private var isMoving = false
+    public var isMoving = false
     
     // MARK: - Methods
 	
