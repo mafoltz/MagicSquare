@@ -94,12 +94,12 @@ class Hud: SKSpriteNode {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         
-        if levelsButton.contains(touchLocation!) {
-            actionDelegate?.levelsAction()
-        }
-            
-        else if mascotButton.contains(touchLocation!) {
+        if mascotButton.contains(touchLocation!) {
             actionDelegate?.answerAction()
+        }
+        
+        else if levelsButton.contains(touchLocation!) {
+            actionDelegate?.levelsAction()
         }
     }
 }

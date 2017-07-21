@@ -67,7 +67,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
-        playerBoard.addGestureRecognizer()
     }
     
     func answerAction() {
