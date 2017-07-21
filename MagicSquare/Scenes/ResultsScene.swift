@@ -112,7 +112,7 @@ class ResultsScene: SKScene {
         label2.position = label1.position
         label2.position.y -= label1.frame.height
         
-        label3.position = label2.positions
+        label3.position = label2.position
         label3.position.y -= label2.frame.height
         
         button.position.y = label3.position.y - label3.frame.height/2 - button.size.height/2 - (size.height * 0.037)
