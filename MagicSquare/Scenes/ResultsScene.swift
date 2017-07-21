@@ -64,14 +64,41 @@ class ResultsScene: SKScene {
         
         //Scales
         
-//        backgroung.xScale = 2
-//        backgroung.yScale = 2
-        
         star.xScale = 1.5
         star.yScale = 1.5
         
+        congratulations.xScale = 0.8
+        congratulations.yScale = 0.8
+        
         button.xScale = 1.5
         button.yScale = 1.5
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            let differenceScale = CGFloat(0.5)
+            
+            mascot.xScale += differenceScale
+            mascot.yScale += differenceScale
+            
+            star.xScale += differenceScale
+            star.yScale += differenceScale
+            
+            congratulations.xScale += differenceScale
+            congratulations.yScale += differenceScale
+            
+            label1.xScale += differenceScale
+            label1.yScale += differenceScale
+            
+            label2.xScale += differenceScale
+            label2.yScale += differenceScale
+            
+            label3.xScale += differenceScale
+            label3.yScale += differenceScale
+            
+            button.xScale += differenceScale
+            button.yScale += differenceScale
+            
+        }
         
         //Positions
         mascot.position.y += CGFloat(77)
@@ -80,15 +107,15 @@ class ResultsScene: SKScene {
         
         congratulations.position.y = mascot.position.y - mascot.size.height/2 - congratulations.size.height/2 - (size.height * 0.04)
         
-        label1.position.y = congratulations.position.y - congratulations.size.height/2 - label1.fontSize/2 - (size.height * 0.04)
+        label1.position.y = congratulations.position.y - congratulations.size.height/2 - label1.frame.height/2 - (size.height * 0.04)
         
         label2.position = label1.position
-        label2.position.y -= label1.fontSize
+        label2.position.y -= label1.frame.height
         
-        label3.position = label2.position
-        label3.position.y -= label1.fontSize
+        label3.position = label2.positions
+        label3.position.y -= label2.frame.height
         
-        button.position.y = label3.position.y - label3.fontSize/2 - button.size.height/2 - (size.height * 0.037)
+        button.position.y = label3.position.y - label3.frame.height/2 - button.size.height/2 - (size.height * 0.037)
         
         
         
