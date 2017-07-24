@@ -14,8 +14,13 @@ class ResultsScene: SKScene {
     // MARK: - Properties
     
     public var currentLevel : Level?
-    private let fontSize = CGFloat(20)
+    private var fontSize = CGFloat(20)
     private var button: SKSpriteNode!
+    private var starAngle = CGFloat(0)
+    private var starsPosition: CGPoint!
+    private var numberOfStars = 0
+    
+    private var time: TimeInterval!
     
     override func didMove(to view: SKView) {
         self.backgroundColor = UIColor.white
@@ -41,19 +46,19 @@ class ResultsScene: SKScene {
         let congratulations = SKSpriteNode(imageNamed: "congratulations")
         congratulations.zPosition = mascot.zPosition
         
-        let label1 = SKLabelNode()
+        let label1 = SKLabelNode(fontNamed: ".SFUIText-Regular")
         label1.fontSize = fontSize
         label1.zPosition = mascot.zPosition
         label1.text = "You won a Golden Star"
         label1.fontColor = UIColor.black
         
-        let label2 = SKLabelNode()
+        let label2 = SKLabelNode(fontNamed: ".SFUIText-Regular")
         label2.fontSize = fontSize
         label2.zPosition = mascot.zPosition
         label2.text = "You are now ready"
         label2.fontColor = UIColor.black
         
-        let label3 = SKLabelNode()
+        let label3 = SKLabelNode(fontNamed: ".SFUIText-Regular")
         label3.fontSize = fontSize
         label3.zPosition = mascot.zPosition
         label3.text = "to begin level \(currentLevel!.number + 1)"
@@ -86,14 +91,11 @@ class ResultsScene: SKScene {
             congratulations.xScale += differenceScale
             congratulations.yScale += differenceScale
             
-            label1.xScale += differenceScale
-            label1.yScale += differenceScale
+            fontSize = CGFloat(50)
             
-            label2.xScale += differenceScale
-            label2.yScale += differenceScale
-            
-            label3.xScale += differenceScale
-            label3.yScale += differenceScale
+            label1.fontSize = fontSize
+            label2.fontSize = fontSize
+            label3.fontSize = fontSize
             
             button.xScale += differenceScale
             button.yScale += differenceScale
@@ -136,7 +138,12 @@ class ResultsScene: SKScene {
         let sequence = SKAction.sequence([moveDown, moveUp])
         mascot.run(SKAction.repeatForever(sequence))
         
+        
+        self.starsPosition = mascot.position
+        
     }
+    
+    
     
     // MARK: - Methods
     
@@ -162,4 +169,54 @@ class ResultsScene: SKScene {
             }
         }
     }
+    
+    func degreesToRadians(degrees: CGFloat) -> CGFloat {
+        return degrees * (CGFloat.pi / 180)
+    }
+    
+    func getPoint(with angle: CGFloat) -> CGPoint {
+        return CGPoint(x: position.x + cos(degreesToRadians(degrees: angle)) * self.size.height, y: position.y + sin(degreesToRadians(degrees: angle))*self.size.height)
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if time == nil{
+            time = currentTime
+        }
+        if currentTime - time > 1{
+            let star = SKSpriteNode(imageNamed: "star")
+            star.position = starsPosition
+            star.zPosition = 1.5
+            self.starAngle = CGFloat(arc4random_uniform(360) + 1)
+            let move = SKAction.move(to: getPoint(with: self.starAngle), duration: 5)
+            self.addChild(star)
+            star.run(move)
+            numberOfStars+=1
+            
+            if numberOfStars == 10 {
+                time = currentTime
+                numberOfStars = 0
+            }
+        }
+    }
+    
+//    override func update(_ currentTime: TimeInterval) {
+//        //        if time == nil{
+//        //            time = currentTime
+//        //        }
+//        //        if currentTime - time > 2{
+//        let star = SKSpriteNode(imageNamed: "star")
+//        star.position = starsPosition
+//        star.zPosition = 3
+//        //            self.starAngle = CGFloat(arc4random_uniform(360) + 1)
+//        let move = SKAction.move(to: getPoint(with: self.starAngle), duration: 2)
+//        self.addChild(star)
+//        star.run(move)
+//        starAngle += 10
+//        //        if starAngle > 360 {
+//        //            starAngle = 0
+//        //        }
+//        //            time = currentTime
+//        //        }
+//    }
 }
+
