@@ -115,7 +115,6 @@ class BoardNode: SKNode {
     }
     
 	func setPlayerBoard(board: Board) {
-        let rowsCount = board.cellsMatrix.count
         let columnsCount = Int((board.cellsMatrix.first?.count)!)
         let folga = (cellsSize.width/2.0) + (cellsSpacing/2.0)
         let cellSpace = cellsSize.width * (CGFloat(columnsCount) / 2.0)
@@ -132,14 +131,18 @@ class BoardNode: SKNode {
             xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(columnsCount/2))
         }
         
-        if rowsCount % 2 == 0 {
-            yHead = (sceneSize.height * 0.6425) - (cellsSize.height * 0.5)
+        if board.numRows % 2 == 0 {
+			if board.numRows >= 6 {
+				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) - cellsSpacing * 0.25
+			} else {
+				yHead = (sceneSize.height * 0.6425) - (cellsSize.height * 0.5)
+			}
         } else {
-            if rowsCount <= 3 {
+            if board.numRows <= 3 {
                 yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
-            } else {
-                yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5)
-            }
+			} else {
+				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5)
+			}
         }
         
         var xOffset = xHead
