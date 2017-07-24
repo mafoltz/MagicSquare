@@ -13,11 +13,13 @@ class ResultsScene: SKScene {
     
     // MARK: - Properties
     
-    public var currentLevel : Level?
+    public var currentLevel : Level!
     private let fontSize = CGFloat(20)
     private var button: SKSpriteNode!
     
     override func didMove(to view: SKView) {
+        currentLevel.updateRecord()
+        
         self.backgroundColor = UIColor.white
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -35,7 +37,9 @@ class ResultsScene: SKScene {
         let mascot = SKSpriteNode(imageNamed: "mascot")
         mascot.zPosition = backgroung.zPosition + 1
         
-        let star = SKSpriteNode(imageNamed: "goldenLevel")
+        let star = CoinSpriteNode()
+        star.setCoinForCurrentGame(from: currentLevel)
+        star.size = CGSize(width: 76, height: 76)
         star.zPosition = mascot.zPosition
         
         let congratulations = SKSpriteNode(imageNamed: "congratulations")
@@ -64,8 +68,8 @@ class ResultsScene: SKScene {
         
         //Scales
         
-        star.xScale = 1.5
-        star.yScale = 1.5
+        star.xScale = 1.0
+        star.yScale = 1.0
         
         congratulations.xScale = 0.8
         congratulations.yScale = 0.8

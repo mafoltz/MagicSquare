@@ -8,28 +8,44 @@
 
 import UIKit
 
+enum Coin {
+    case golden
+    case silver
+    case bronze
+    case undone
+    case locked
+}
+
 class Level: AnyObject {
     
     // MARK: - Properties
     
     let number: Int
-    let ranking: Int
     let level: String
     var playerBoard: Board!
     let templateBoard : Board!
     var playerMoves: Int
-    let maxMoves: Int
+    let movesToGoldenCoin: Int
+    let movesToSilverCoin: Int
+    var recordMoves: Int
+    let locked = false
     
     // MARK: - Methods
     
     init(from json: [String: Any], numberLevel: Int) {
         number = numberLevel
-        ranking = 0
         level = json["level"] as! String
         playerBoard = Board(board: json["initialBoard"] as! [[Int]])
         templateBoard = Board(board: json["templateBoard"] as! [[Int]])
         playerMoves = 0
-        maxMoves = json["moves"] as! Int
+        movesToGoldenCoin = json["moves"] as! Int
+        movesToSilverCoin = Int(1.5 * CGFloat(movesToGoldenCoin))
+        
+        if UserDefaults.standard.object(forKey: level) != nil {
+            recordMoves = UserDefaults.standard.integer(forKey: level)
+        } else {
+            recordMoves = -1
+        }
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {
@@ -57,6 +73,61 @@ class Level: AnyObject {
         if !playerBoard.isMoving {
             playerBoard.moveRight(row: row, positions: moves)
             playerMoves += 1
+        }
+    }
+    
+    func getCoinForRecord() -> Coin {
+        if locked {
+            return .locked
+        }
+        else if recordMoves <= 0 {
+            return .undone
+        }
+        else if recordMoves <= movesToGoldenCoin {
+            return .golden
+        }
+        else if recordMoves <= movesToSilverCoin {
+            return .silver
+        }
+        else {
+            return .bronze
+        }
+    }
+    
+    func getCoinForCurrentGame() -> Coin {
+        if locked {
+            return .locked
+        }
+        else if playerMoves <= 0 {
+            return .undone
+        }
+        else if playerMoves <= movesToGoldenCoin {
+            return .golden
+        }
+        else if playerMoves <= movesToSilverCoin {
+            return .silver
+        }
+        else {
+            return .bronze
+        }
+    }
+    
+    func getCoinNameForCurrentGame() -> String {
+        if playerMoves <= movesToGoldenCoin {
+            return "Golden Star"
+        }
+        else if playerMoves <= movesToSilverCoin {
+            return "Silver Star"
+        }
+        else {
+            return "Bronze Star"
+        }
+    }
+    
+    func updateRecord() {
+        if playerMoves > recordMoves {
+            recordMoves = playerMoves
+            UserDefaults.standard.set(playerMoves, forKey: level)
         }
     }
     
