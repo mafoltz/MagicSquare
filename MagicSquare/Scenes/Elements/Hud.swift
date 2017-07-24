@@ -99,7 +99,7 @@ class Hud: SKSpriteNode {
             quoteLabel.fontSize = 50.0
         }
         quoteLabel.fontSize = 15.0
-        quoteLabel.position = CGPoint(x: 0.0, y: mascotButton.position.y - mascotButton.size.height/2 - 70)
+        quoteLabel.position = CGPoint(x: 0.0, y: mascotButton.position.y - mascotButton.size.height/2 - 50)
         quoteLabel.zPosition = 0.1
         addChild(quoteLabel)
 
