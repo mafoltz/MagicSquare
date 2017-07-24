@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import UIKit
 
+
 class TemplateBoard: SKSpriteNode {
     
     // MARK: - Properties
@@ -90,7 +91,7 @@ class TemplateBoard: SKSpriteNode {
         templateText.zPosition = 0.1
         templateBaloon.addChild(templateText)
         
-		templateBoard = BoardNode(with: view.bounds.size, board: currentLevel.templateBoard)
+		templateBoard = BoardNode(with: view.bounds.size, board: currentLevel.templateBoard, needsExtraCells: false)
         templateBaloon.addChild(templateBoard)
         
         touchNode = SKSpriteNode(color: UIColor.clear, size: view.bounds.size)

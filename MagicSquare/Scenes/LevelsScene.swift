@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class LevelsScene: SKScene {
     
@@ -90,7 +89,8 @@ class LevelsScene: SKScene {
         for i in 0..<json.count {
             levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
             
-            let spriteNode = SKSpriteNode(imageNamed: "undoneLevel")
+            let spriteNode = CoinSpriteNode()
+            spriteNode.setCoinForRecord(from: levels[i])
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
@@ -217,12 +217,14 @@ class LevelsScene: SKScene {
     }
     
     func goToGameScene(with level: Level) {
-        let scene: GameScene = GameScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.currentLevel = level
-        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+        if !level.locked {
+            let scene: GameScene = GameScene()
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+            scene.size = (super.view?.bounds.size)!
+            scene.scaleMode = .aspectFill
+            scene.currentLevel = level
+            super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+        }
     }
 }
 

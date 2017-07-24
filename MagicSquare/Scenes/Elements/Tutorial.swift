@@ -25,8 +25,8 @@ class Tutorial: BoardNode {
         
     }
     
-    override init(with size: CGSize, board: Board) {
-        super.init(with: size, board: board)
+    override init(with size: CGSize, board: Board, needsExtraCells: Bool) {
+        super.init(with: size, board: board, needsExtraCells: needExtraCells)
         vibrateColumn()
     }
     
