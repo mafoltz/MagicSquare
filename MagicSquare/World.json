@@ -1,7 +1,7 @@
 [
 {
     "level": "LEVEL 1",
-	"moves": 15,
+	"moves": 1,
 	"templateBoard": [
         [0, 0, 0],
         [0, 0, 0],
@@ -17,7 +17,7 @@
 },
 {
     "level": "LEVEL 2",
-	"moves": 15,
+	"moves": 3,
 	"templateBoard": [
         [0, 0, 0],
         [0, 0, 0],
@@ -33,7 +33,7 @@
 },
 {
     "level": "LEVEL 3",
-	"moves": 15,
+	"moves": 5,
 	"templateBoard": [
         [0, 0, 1],
         [0, 0, 1],
@@ -49,7 +49,7 @@
 },
 {
     "level": "LEVEL 4",
-	"moves": 15,
+	"moves": 4,
 	"templateBoard": [
         [0, 0, 1],
         [0, 0, 1],
@@ -65,7 +65,7 @@
 },
 {
     "level": "LEVEL 5",
-	"moves": 15,
+	"moves": 7,
 	"templateBoard": [
         [0, 1, 2],
         [0, 1, 2],
@@ -81,7 +81,7 @@
 },
 {
     "level": "LEVEL 6",
-	"moves": 15,
+	"moves": 10,
 	"templateBoard": [
         [0, 1, 2],
         [0, 1, 2],
@@ -97,7 +97,7 @@
 },
 {
     "level": "LEVEL 7",
-	"moves": 15,
+	"moves": 6,
 	"templateBoard": [
         [2, 2, 2],
         [2, 1, 2],
@@ -113,7 +113,7 @@
 },
 {
     "level": "LEVEL 8",
-	"moves": 15,
+	"moves": 9,
 	"templateBoard": [
         [2, 2, 2],
         [2, 1, 2],
@@ -177,7 +177,7 @@
 },
 {
     "level": "LEVEL 12",
-    "moves": 15,
+    "moves": 30,
     "templateBoard": [
         [1, 7, 2, 4],
         [1, 7, 2, 4],

@@ -90,7 +90,8 @@ class LevelsScene: SKScene {
         for i in 0..<json.count {
             levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
             
-            let spriteNode = SKSpriteNode(imageNamed: "undoneLevel")
+            let spriteNode = CoinSpriteNode()
+            spriteNode.setCoinForRecord(from: levels[i])
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),

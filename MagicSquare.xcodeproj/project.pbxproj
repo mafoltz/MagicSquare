@@ -20,6 +20,7 @@
 		5728FEAE1F14037D003774BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEAC1F14037D003774BF /* Main.storyboard */; };
 		5728FEB01F14037D003774BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEAF1F14037D003774BF /* Assets.xcassets */; };
 		5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEB11F14037D003774BF /* LaunchScreen.storyboard */; };
+		5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */; };
 		576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD021F1FE8CF00AF38A7 /* Hud.swift */; };
 		576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */; };
 		576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */; };
@@ -46,6 +47,7 @@
 		5728FEAF1F14037D003774BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5728FEB21F14037D003774BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5728FEB41F14037D003774BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoinSpriteNode.swift; path = Scenes/Elements/CoinSpriteNode.swift; sourceTree = "<group>"; };
 		576CAD021F1FE8CF00AF38A7 /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hud.swift; path = Scenes/Elements/Hud.swift; sourceTree = "<group>"; };
 		576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateBoard.swift; path = Scenes/Elements/TemplateBoard.swift; sourceTree = "<group>"; };
 		576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonReader.swift; path = Model/JsonReader.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				577188FB1F223C35003232B3 /* BoardNode.swift */,
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
+				5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */,
 			);
 			name = Elements;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
 				577188FC1F223C35003232B3 /* BoardNode.swift in Sources */,
+				5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */,
 				577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */,
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
