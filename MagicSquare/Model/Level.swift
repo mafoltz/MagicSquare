@@ -16,7 +16,7 @@ enum Coin {
     case locked
 }
 
-class Level: AnyObject {
+class Level {
     
     // MARK: - Properties
     
@@ -28,7 +28,7 @@ class Level: AnyObject {
     let movesToGoldenCoin: Int
     let movesToSilverCoin: Int
     var recordMoves: Int
-    let locked = false
+    var locked = false
     
     // MARK: - Methods
     
@@ -40,11 +40,10 @@ class Level: AnyObject {
         playerMoves = 0
         movesToGoldenCoin = json["moves"] as! Int
         movesToSilverCoin = 2 * movesToGoldenCoin
+        recordMoves = UserDefaults.standard.integer(forKey: "\(number)")
         
-        if UserDefaults.standard.object(forKey: level) != nil {
-            recordMoves = UserDefaults.standard.integer(forKey: level)
-        } else {
-            recordMoves = -1
+        if number > 1 && UserDefaults.standard.integer(forKey: "\(number - 1)") <= 0 {
+            locked = true
         }
     }
 	
@@ -95,13 +94,7 @@ class Level: AnyObject {
     }
     
     func getCoinForCurrentGame() -> Coin {
-        if locked {
-            return .locked
-        }
-        else if playerMoves <= 0 {
-            return .undone
-        }
-        else if playerMoves <= movesToGoldenCoin {
+        if playerMoves <= movesToGoldenCoin {
             return .golden
         }
         else if playerMoves <= movesToSilverCoin {
@@ -125,9 +118,9 @@ class Level: AnyObject {
     }
     
     func updateRecord() {
-        if playerMoves > recordMoves {
+        if recordMoves <= 0 || playerMoves < recordMoves {
             recordMoves = playerMoves
-            UserDefaults.standard.set(playerMoves, forKey: level)
+            UserDefaults.standard.set(playerMoves, forKey: "\(number)")
         }
     }
     
