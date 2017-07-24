@@ -39,7 +39,7 @@ class Level: AnyObject {
         templateBoard = Board(board: json["templateBoard"] as! [[Int]])
         playerMoves = 0
         movesToGoldenCoin = json["moves"] as! Int
-        movesToSilverCoin = 2 * CGFloat(movesToGoldenCoin)
+        movesToSilverCoin = 2 * movesToGoldenCoin
         
         if UserDefaults.standard.object(forKey: level) != nil {
             recordMoves = UserDefaults.standard.integer(forKey: level)
