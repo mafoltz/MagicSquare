@@ -28,7 +28,7 @@ class Level {
     let movesToGoldenCoin: Int
     let movesToSilverCoin: Int
     var recordMoves: Int
-    let locked = false
+    var locked = false
     
     // MARK: - Methods
     
@@ -40,7 +40,11 @@ class Level {
         playerMoves = 0
         movesToGoldenCoin = json["moves"] as! Int
         movesToSilverCoin = 2 * movesToGoldenCoin
-        recordMoves = UserDefaults.standard.integer(forKey: level)
+        recordMoves = UserDefaults.standard.integer(forKey: "\(number)")
+        
+        if number > 1 && UserDefaults.standard.integer(forKey: "\(number - 1)") <= 0 {
+            locked = true
+        }
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {
@@ -116,7 +120,7 @@ class Level {
     func updateRecord() {
         if recordMoves <= 0 || playerMoves < recordMoves {
             recordMoves = playerMoves
-            UserDefaults.standard.set(playerMoves, forKey: level)
+            UserDefaults.standard.set(playerMoves, forKey: "\(number)")
         }
     }
     

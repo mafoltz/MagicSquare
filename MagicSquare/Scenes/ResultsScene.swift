@@ -52,7 +52,7 @@ class ResultsScene: SKScene {
         let label1 = SKLabelNode(fontNamed: ".SFUIText-Regular")
         label1.fontSize = fontSize
         label1.zPosition = mascot.zPosition
-        label1.text = "You won a Golden Star"
+        label1.text = "You won a \(currentLevel.getCoinNameForCurrentGame())"
         label1.fontColor = UIColor.black
         
         let label2 = SKLabelNode(fontNamed: ".SFUIText-Regular")
@@ -94,7 +94,7 @@ class ResultsScene: SKScene {
             congratulations.xScale += differenceScale
             congratulations.yScale += differenceScale
             
-            fontSize = CGFloat(50)
+            fontSize = CGFloat(40)
             
             label1.fontSize = fontSize
             label2.fontSize = fontSize
@@ -143,6 +143,12 @@ class ResultsScene: SKScene {
         
         
         self.starsPosition = mascot.position
+        
+        if currentLevel.number == JsonReader.openJson(named: "World")?.count{
+            removeChildren(in: [label2, label3])
+            
+            button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
+        }
         
     }
     
@@ -201,25 +207,5 @@ class ResultsScene: SKScene {
             }
         }
     }
-    
-//    override func update(_ currentTime: TimeInterval) {
-//        //        if time == nil{
-//        //            time = currentTime
-//        //        }
-//        //        if currentTime - time > 2{
-//        let star = SKSpriteNode(imageNamed: "star")
-//        star.position = starsPosition
-//        star.zPosition = 3
-//        //            self.starAngle = CGFloat(arc4random_uniform(360) + 1)
-//        let move = SKAction.move(to: getPoint(with: self.starAngle), duration: 2)
-//        self.addChild(star)
-//        star.run(move)
-//        starAngle += 10
-//        //        if starAngle > 360 {
-//        //            starAngle = 0
-//        //        }
-//        //            time = currentTime
-//        //        }
-//    }
 }
 

@@ -217,12 +217,14 @@ class LevelsScene: SKScene {
     }
     
     func goToGameScene(with level: Level) {
-        let scene: GameScene = GameScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.currentLevel = level
-        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+        if !level.locked {
+            let scene: GameScene = GameScene()
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+            scene.size = (super.view?.bounds.size)!
+            scene.scaleMode = .aspectFill
+            scene.currentLevel = level
+            super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+        }
     }
 }
 
