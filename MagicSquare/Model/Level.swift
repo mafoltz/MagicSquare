@@ -125,7 +125,7 @@ class Level: AnyObject {
     }
     
     func updateRecord() {
-        if playerMoves > recordMoves {
+        if recordMoves > playerMoves {
             recordMoves = playerMoves
             UserDefaults.standard.set(playerMoves, forKey: level)
         }
