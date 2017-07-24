@@ -66,7 +66,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func setPlayerBoard(from view: SKView) {
-        playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard)
+		playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard, needsExtraCells: true)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
     }
