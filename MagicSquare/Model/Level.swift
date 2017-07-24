@@ -16,7 +16,7 @@ enum Coin {
     case locked
 }
 
-class Level: AnyObject {
+class Level {
     
     // MARK: - Properties
     
@@ -95,13 +95,7 @@ class Level: AnyObject {
     }
     
     func getCoinForCurrentGame() -> Coin {
-        if locked {
-            return .locked
-        }
-        else if playerMoves <= 0 {
-            return .undone
-        }
-        else if playerMoves <= movesToGoldenCoin {
+        if playerMoves <= movesToGoldenCoin {
             return .golden
         }
         else if playerMoves <= movesToSilverCoin {
@@ -125,7 +119,7 @@ class Level: AnyObject {
     }
     
     func updateRecord() {
-        if recordMoves > playerMoves {
+        if playerMoves < recordMoves {
             recordMoves = playerMoves
             UserDefaults.standard.set(playerMoves, forKey: level)
         }

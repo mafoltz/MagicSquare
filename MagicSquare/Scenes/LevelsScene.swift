@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class LevelsScene: SKScene {
     

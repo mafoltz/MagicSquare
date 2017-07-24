@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import SpriteKit
 
-class Board: NSObject {
+class Board {
     
     // MARK: - Properties
     
