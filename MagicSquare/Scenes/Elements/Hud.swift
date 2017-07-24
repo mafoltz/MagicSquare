@@ -24,6 +24,8 @@ class Hud: SKSpriteNode {
     
     var actionDelegate: ActionHandlerDelegate?
     
+    private var quoteLabel: SKLabelNode!
+    
     // MARK: - Methods
     
     func setHud(from currentLevel: Level) {
@@ -89,8 +91,25 @@ class Hud: SKSpriteNode {
         levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
+        
+        quoteLabel = SKLabelNode()
+        quoteLabel.fontColor = UIColor.black
+        quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 50.0)?.fontName
+            quoteLabel.fontSize = 50.0
+        }
+        quoteLabel.fontSize = 15.0
+        quoteLabel.position = CGPoint(x: 0.0, y: mascotButton.position.y - mascotButton.size.height/2 - 70)
+        quoteLabel.zPosition = 0.1
+        addChild(quoteLabel)
+
     }
     
+    func setQuoteLabel(with text: String) {
+        quoteLabel.text = text
+    }
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         

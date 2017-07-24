@@ -28,6 +28,7 @@
 		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
+		D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE701F265F6A00D05A9A /* Tutorial.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
+		D78CAE701F265F6A00D05A9A /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tutorial.swift; path = Scenes/Elements/Tutorial.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		576CAD011F1FE88600AF38A7 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				D78CAE701F265F6A00D05A9A /* Tutorial.swift */,
 				577188FB1F223C35003232B3 /* BoardNode.swift */,
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
@@ -176,7 +179,7 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = VXAGBDYAT9;
+						DevelopmentTeam = QY73PT43D9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -233,6 +236,7 @@
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,
 				571193FA1F15593800E1ECEA /* MainMenuScene.swift in Sources */,
 				577189001F223C44003232B3 /* BoardDelegate.swift in Sources */,
+				D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */,
 				576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */,
 				5728FEA31F14037D003774BF /* AppDelegate.swift in Sources */,
 			);
@@ -357,7 +361,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = QY73PT43D9;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -372,7 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = QY73PT43D9;
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

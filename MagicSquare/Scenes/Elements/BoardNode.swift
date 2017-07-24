@@ -19,7 +19,7 @@ class BoardNode: SKNode {
     // MARK: - Properties
     
     public var currentLevel : Level!
-    private var playerBoard : [[SKShapeNode]]!
+    internal var playerBoard : [[SKShapeNode]]!
     
     private var cellsSize : CGSize!
     private var cellsSpacing : CGFloat!
@@ -40,7 +40,7 @@ class BoardNode: SKNode {
     private var nextTouch : CGPoint!
     private var lastTouch : CGPoint!
     private var storeFirstNodePosition : CGPoint!
-    private var moves : Int!
+    internal var moves : Int!
     public var isMoving = false
     
     // MARK: - Methods

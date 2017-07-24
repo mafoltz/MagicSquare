@@ -27,7 +27,13 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
 
         setHud(from: view)
         setTemplate(from: view)
-        setPlayerBoard(from: view)
+        
+        if currentLevel.number == 1 {
+            setPlayerBoardTutorial(from: view)
+            hud.setQuoteLabel(with: "Move the indicated column to complete the level!")
+        } else {
+            setPlayerBoard(from: view)
+        }
         
         if !hasGameBegun {
             template.show()
@@ -67,6 +73,12 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     
     func setPlayerBoard(from view: SKView) {
         playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard)
+        playerBoard.boardDelegate = self
+        addChild(playerBoard)
+    }
+    
+    func setPlayerBoardTutorial(from view: SKView) {
+        playerBoard = Tutorial(with: view.bounds.size, board: currentLevel.playerBoard)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
     }
