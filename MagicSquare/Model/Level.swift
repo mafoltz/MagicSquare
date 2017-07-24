@@ -40,12 +40,7 @@ class Level {
         playerMoves = 0
         movesToGoldenCoin = json["moves"] as! Int
         movesToSilverCoin = 2 * movesToGoldenCoin
-        
-        if UserDefaults.standard.object(forKey: level) != nil {
-            recordMoves = UserDefaults.standard.integer(forKey: level)
-        } else {
-            recordMoves = -1
-        }
+        recordMoves = UserDefaults.standard.integer(forKey: level)
     }
 	
     func moveUpPlayerBoard(column: Int, moves: Int) {
@@ -119,7 +114,7 @@ class Level {
     }
     
     func updateRecord() {
-        if playerMoves < recordMoves {
+        if recordMoves <= 0 || playerMoves < recordMoves {
             recordMoves = playerMoves
             UserDefaults.standard.set(playerMoves, forKey: level)
         }
