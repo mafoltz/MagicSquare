@@ -40,7 +40,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
             playerBoard.addGestureRecognizer()
         }
         
-        MusicController.sharedInstance.backGroundMusic(music: "Esles_Main_Theme", type: "mp3")
+        MusicController.sharedInstance.playBackgroundMusic(music: "Esles_Main_Theme", type: "mp3")
         
         hasGameBegun = true
     }
@@ -126,7 +126,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
 	}
     
     func goToResultsScene() {
-        MusicController.sharedInstance.backGroundMusic(music: "Esles_Victory", type: "mp3")
+        MusicController.sharedInstance.playAudioEffect(audio: "Esles_Victory", type: "mp3")
+        MusicController.sharedInstance.stopBackgroundMusic()
         
         let scene: ResultsScene = ResultsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
