@@ -108,7 +108,11 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-        
+		let scene: ConfigScene = ConfigScene()
+		scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+		scene.size = (super.view?.bounds.size)!
+		scene.scaleMode = .aspectFill
+		super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
     }
 	
 	func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {

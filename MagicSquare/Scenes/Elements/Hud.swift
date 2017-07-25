@@ -53,7 +53,7 @@ class Hud: SKSpriteNode {
         levelsButton.zPosition = 0.1
         addChild(levelsButton)
         
-        configurationsButton = SKSpriteNode(imageNamed: "hintButton")
+        configurationsButton = SKSpriteNode(imageNamed: "config")
         configurationsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
         configurationsButton.run(SKAction.moveBy(x: buttonWidthDistance, y: buttonsLineHeight, duration: 0.0))
         configurationsButton.zPosition = 0.1
@@ -119,5 +119,9 @@ class Hud: SKSpriteNode {
         else if levelsButton.contains(touchLocation!) {
             actionDelegate?.levelsAction()
         }
+		
+		else if configurationsButton.contains(touchLocation!) {
+			actionDelegate?.configurationsAction()
+		}
     }
 }
