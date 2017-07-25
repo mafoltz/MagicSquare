@@ -25,7 +25,7 @@ class BoardNode: SKNode {
     
     public var currentLevel : Level!
     internal var playerBoard : [[SKShapeNode]]!
-
+	private var isColorBlind : Bool!
     
     private var cellsSize : CGSize!
     private var cellsSpacing : CGFloat!
@@ -54,6 +54,7 @@ class BoardNode: SKNode {
 	init(with size: CGSize, board: Board, needsExtraCells extra: Bool) {
         super.init()
         sceneSize = size
+		isColorBlind = true
 		
         boardDisplay = SKCropNode()
         boardDisplay.position = CGPoint(x: 0, y: (sceneSize.height)/2)
@@ -163,6 +164,11 @@ class BoardNode: SKNode {
                 if let color = cell?.color {
                     boardCell.fillColor = color
                     boardCell.strokeColor = color
+					if isColorBlind {
+						let cellSymbol = cell?.symbol
+						cellSymbol?.scale(to: CGSize(width: cellsSize.width/3, height: cellsSize.height/3))
+						boardCell.addChild(cellSymbol!)
+					}
                 }
                 boardCell.position = CGPoint(x: xOffset, y: yOffset)
                 boardContentNode.addChild(boardCell)
@@ -196,6 +202,10 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: playerBoard[0][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
+//			if isColorBlind {
+//				let cellSymbol = replicatedRow[cell.offset]?.symbol
+//				newCell.addChild(cellSymbol!)
+//			}
 			newBeginningRow.append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -208,6 +218,10 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: playerBoard[lastPlayerRow][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
+//			if isColorBlind {
+//				let cellSymbol = replicatedRow[cell.offset]?.symbol
+//				newCell.addChild(cellSymbol!)
+//			}
 			newEndingRow.append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -226,6 +240,10 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: xOffset, y: playerBoard[row.offset + 1][0].position.y)
 			newCell.fillColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
+			if isColorBlind {
+//				let cellSymbol = board.cellsMatrix[row.offset][board.numColumns - 1]?.symbol
+//				newCell.addChild(cellSymbol!)
+			}
 			playerBoard[row.offset + 1].insert(newCell, at: 0)
 			boardContentNode.addChild(newCell)
 		}
@@ -236,6 +254,10 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: xOffset, y: playerBoard[row.offset + 1][0].position.y)
 			newCell.fillColor = (board.cellsMatrix[row.offset][1]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][1]?.color)!
+			if isColorBlind {
+//				let cellSymbol = board.cellsMatrix[row.offset][1]?.symbol
+//				newCell.addChild(cellSymbol!)
+			}
 			playerBoard[row.offset + 1].append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -398,7 +420,11 @@ class BoardNode: SKNode {
                         if row >= 0 {
                             playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
                             playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
-                            
+//							if isColorBlind {
+//								let cellSymbol = replicatedRow[cell.offset]?.symbol
+//								newCell.addChild(cellSymbol!)
+//							}
+						
                             playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
                             playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
                         }

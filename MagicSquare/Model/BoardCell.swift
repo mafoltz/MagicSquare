@@ -7,16 +7,20 @@
 //
 
 import UIKit
+import SpriteKit
 
 class BoardCell {
     
     // MARK: - Properties
     
     let color: UIColor!
-    
+	let symbol: SKSpriteNode!
+	
     // MARK: - Methods
     
-    init(color: UIColor) {
+	init(color: UIColor, colorSymbol: Int) {
         self.color = color
+		let assetName = "cell" + colorSymbol.description
+		symbol = SKSpriteNode(imageNamed: assetName)
     }
 }

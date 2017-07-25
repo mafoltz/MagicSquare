@@ -37,7 +37,7 @@ class Board {
             var cellsColumn = [BoardCell]()
             
             for j in 0..<numColumns {
-                cellsColumn.append(BoardCell(color: colors[board[i][j]]))
+                cellsColumn.append(BoardCell(color: colors[board[i][j]], colorSymbol: board[i][j]))
             }
             
             cellsMatrix.insert(cellsColumn, at: i)
