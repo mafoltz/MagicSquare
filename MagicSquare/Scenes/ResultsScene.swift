@@ -21,6 +21,8 @@ class ResultsScene: SKScene {
     
     private var time: TimeInterval!
     
+    // MARK: - Methods
+    
     override func didMove(to view: SKView) {
         currentLevel.updateRecord()
         
@@ -150,11 +152,13 @@ class ResultsScene: SKScene {
             button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
         }
         
+        Timer.scheduledTimer(timeInterval: 1.0,
+                             target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
     }
     
-    
-    
-    // MARK: - Methods
+    func setClapsMusic() {
+        MusicController.sharedInstance.backGroundMusic(music: "Kids Cheering", type: "caf")
+    }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
