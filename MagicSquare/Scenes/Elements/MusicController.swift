@@ -1,37 +1,37 @@
 //
 //  MusicController.swift
-//  nanoChallenge3
+//  MagicSquare
 //
-//  Created by George Vilnei Arboite Gomes on 03/07/17.
-//
+//  Created by Marcelo Andrighetto Foltz on 25/07/17.
+//  Copyright © 2017 Marcelo Andrighetto Foltz. All rights reserved.
 //
 
 import AVFoundation
 
 public class MusicController {
     
-    public var backgroundMusic : AVAudioPlayer!
-    public var audioEffect : AVAudioPlayer!
-    var currentMusic : String!
+    public var music: AVAudioPlayer?
+    public var sound: AVAudioPlayer?
+    var currentMusic: String!
     
-    static let sharedInstance : MusicController = {
+    static let sharedInstance: MusicController = {
         let instance = MusicController()
         return instance
     }()
     
     private init(){}
     
-    func playBackgroundMusic(music : String, type : String){
+    func play(music: String, type: String){
         if (currentMusic == nil || currentMusic != music) {
             do {
                 let path = Bundle.main.path(forResource: music, ofType:type)!
                 let url = URL(fileURLWithPath: path)
                 
-                let sound = try AVAudioPlayer(contentsOf: url)
-                backgroundMusic = sound
-                sound.numberOfLoops = -1
-                sound.prepareToPlay()
-                sound.play()
+                let music = try AVAudioPlayer(contentsOf: url)
+                self.music = music
+                music.numberOfLoops = -1
+                music.prepareToPlay()
+                music.play()
             } catch {
                 print("couldn't load file")
             }
@@ -40,23 +40,24 @@ public class MusicController {
         }
     }
     
-    func stopBackgroundMusic() {
-        backgroundMusic.stop()
-        currentMusic = ""
-    }
-    
-    func playAudioEffect(audio : String, type : String){
+    func play(sound: String, type: String){
         do {
-            let path = Bundle.main.path(forResource: audio, ofType:type)!
+            let path = Bundle.main.path(forResource: sound, ofType:type)!
             let url = URL(fileURLWithPath: path)
             
             let sound = try AVAudioPlayer(contentsOf: url)
-            audioEffect = sound
+            self.sound = sound
             sound.numberOfLoops = 0
             sound.prepareToPlay()
             sound.play()
         } catch {
             print("couldn't load file")
         }
+    }
+    
+    func stop() {
+        music?.stop()
+        sound?.stop()
+        currentMusic = ""
     }
 }

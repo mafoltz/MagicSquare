@@ -216,11 +216,11 @@ class ResultsScene: SKScene {
             button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
         }
         
-        Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
     }
     
     func setClapsMusic() {
-        MusicController.sharedInstance.playBackgroundMusic(music: "Kids Cheering", type: "caf")
+        MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
