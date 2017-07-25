@@ -26,7 +26,7 @@ class Tutorial: BoardNode {
             //                isSet = true
             initialPoint = CGPoint(x: playerBoard[index][1].position.x, y: playerBoard[index][1].position.y)
             
-            let moveToInitial = SKAction.move(to: initialPoint, duration: 0.0)
+            //let moveToInitial = SKAction.move(to: initialPoint, duration: 0.0)
             let moveUp = SKAction.moveBy(x: 0.0, y: 8, duration: 0.1)
             let moveDown = SKAction.moveBy(x: 0.0, y: -8, duration: 0.1)
             let moves = SKAction.sequence([moveUp, moveDown])
