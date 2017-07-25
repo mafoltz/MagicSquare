@@ -110,18 +110,20 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     func configurationsAction() {
         
     }
-	
-	func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
-		if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
-			currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-		} else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
-			currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-		} else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
-			currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-		} else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
-			currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
-		}
-	}
+    
+    func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
+        //        let width = currentLevel.playerBoard.cellsMatrix[1].count
+        //        let height = currentLevel.playerBoard.cellsMatrix.count
+        if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
+            currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
+        } else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
+            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
+        } else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
+            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
+        } else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
+            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+        }
+    }
     
     func goToResultsScene() {
         let scene: ResultsScene = ResultsScene()

@@ -27,8 +27,8 @@ class BoardNode: SKNode {
     internal var playerBoard : [[SKShapeNode]]!
 
     
-    private var cellsSize : CGSize!
-    private var cellsSpacing : CGFloat!
+    internal var cellsSize : CGSize!
+    internal var cellsSpacing : CGFloat!
     private var bottomSpacing : CGFloat!
     private var direction = Orientation.neutral
     private var row : Int!
@@ -418,9 +418,6 @@ class BoardNode: SKNode {
                     lastTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
                     
                     if direction == .horizontal && row >= 0 {
-                        
-                        
-                        
                         let differenceX = abs(lastTouch.x - penultimateTouch.x)
                         
                         if lastTouch.x >= penultimateTouch.x {
