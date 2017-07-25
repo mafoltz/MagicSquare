@@ -575,7 +575,7 @@ class BoardNode: SKNode {
 			
 			if direction == .vertical {
 				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: column - 1, moves: moves)
-			} else {
+			} else if direction == .horizontal{
 				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: row - 1, moves: moves)
 			}
 			
