@@ -124,6 +124,10 @@ class Level {
         }
     }
     
+    func getRecord() -> Int {
+        return UserDefaults.standard.integer(forKey: "\(number)")
+    }
+    
 	func hasLevelWon() -> Bool {
         for i in 0..<playerBoard.numRows {
             for j in 0..<playerBoard.numColumns {

@@ -144,6 +144,8 @@ class BoardNode: SKNode {
                 yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
 			} else if board.numRows >= 5 && board.numColumns >= 5 {
 				yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
+			} else if board.numColumns == 4 {
+				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5)
 			} else {
 				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) + cellsSpacing
 			}
@@ -570,7 +572,7 @@ class BoardNode: SKNode {
 			
 			if direction == .vertical {
 				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: column - 1, moves: moves)
-			} else {
+			} else if direction == .horizontal{
 				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: row - 1, moves: moves)
 			}
 			
