@@ -63,7 +63,8 @@ class ConfigScene: SKScene {
 	
 	func prepareToGoBack() {
 		
-		previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
+//		previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
+		previousSceneChildren = SKSpriteNode()
 		previousSceneChildren.name = "Previous Scene Children"
 		previousSceneChildren.zPosition = 0.0
 		previousScene.removeAllChildren()
@@ -78,7 +79,7 @@ class ConfigScene: SKScene {
 	override func didMove(to view: SKView) {
 		
 		initScene()
-		prepareToGoBack()
+
 		screen = SKShapeNode()
 		screen.name = "screen"
 		let screenBackground = CGRect(x: 0, y: 0,
@@ -216,6 +217,7 @@ class ConfigScene: SKScene {
 	}
 	
 	func goBackClicked() {
+		prepareToGoBack()
 		if let scene = previousScene as? GameScene {
 			super.view?.presentScene(scene, transition: .fade(withDuration: 0.5))
 		}
