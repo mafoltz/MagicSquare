@@ -132,7 +132,8 @@ class TemplateBoard: SKSpriteNode {
         else if cont == 2 {
             templateText.position = CGPoint(x: 0.0, y: baloonSize.height - bottomSpacing + 10)
             setTemplateText(with: "I will be here to show you the answer")
-            secondTemplateText.text = "just tap me" }
+            secondTemplateText.text = "just tap me"
+        }
         else {
             scene.answerAction()
         }

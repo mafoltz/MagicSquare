@@ -94,8 +94,9 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                     if board.state == .touchInOctopus {
                         board.state = .octopusTouched
                     }
+                } else {
+                    playerBoard.blinkColor(from: currentLevel)
                 }
-                playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
         }
