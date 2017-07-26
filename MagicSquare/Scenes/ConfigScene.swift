@@ -235,6 +235,7 @@ class ConfigScene: SKScene {
 				musicButton.texture = SKTexture(imageNamed: "MusicOn")
 			}
 		}
+		UserDefaults.standard.set(isMusicOn, forKey: "isMusicOn")
 	}
 	
 	func changeSound() {
@@ -249,6 +250,7 @@ class ConfigScene: SKScene {
 				soundButton.texture = SKTexture(imageNamed: "SoundOn")
 			}
 		}
+		UserDefaults.standard.set(isSoundsOn, forKey: "isSoundsOn")
 	}
 	
 	func changeColorBlind() {
@@ -263,6 +265,7 @@ class ConfigScene: SKScene {
 				colorBlindButton.texture = SKTexture(imageNamed: "ColorBlindOn")
 			}
 		}
+		UserDefaults.standard.set(isColorBlind, forKey: "isColorBlind")
 	}
 	
 	func initScene() {
@@ -309,9 +312,9 @@ class ConfigScene: SKScene {
 		var soundStatus = "Sound"
 		var colorBlindStatus = "ColorBlind"
 		
-		isMusicOn = true
-		isSoundsOn = true
-		isColorBlind = false
+		isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
+		isSoundsOn = UserDefaults.standard.bool(forKey: "isSoundsOn")
+		isColorBlind = UserDefaults.standard.bool(forKey: "isColorBlind")
 		
 		if isMusicOn {
 			musicStatus.append("On")
