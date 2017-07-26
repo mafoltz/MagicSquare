@@ -53,6 +53,8 @@ class ConfigScene: SKScene {
 	private var isMoving = false
 	private let moveTolerance = CGFloat(10.0)
 	private var selectedButton: String!
+	private var upperLimit: CGFloat!
+	private var lowerLimit: CGFloat!
 	
 	let font = ".SFUIText-Medium"
 	let fontColor = UIColor.black
@@ -84,7 +86,7 @@ class ConfigScene: SKScene {
 		screen.path = UIBezierPath(rect: screenBackground).cgPath
 		screen.fillColor = UIColor.white
 		screen.zPosition = 2.0
-		screen.position = CGPoint(x: 0, y: -self.size.height)
+		screen.position = CGPoint(x: 0, y: lowerLimit)
 		self.addChild(screen)
 		
 		let goBackButton = SKSpriteNode(imageNamed: "goBack")
@@ -128,8 +130,6 @@ class ConfigScene: SKScene {
 	
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if !isMoving {
-			let upperLimit = -bottomSpacement!
-			let lowerLimit = -self.size.height
 			
 			if screen.position.y < lowerLimit {
 				let moveBack = SKAction.moveTo(y: lowerLimit, duration: 0.0)
@@ -155,8 +155,6 @@ class ConfigScene: SKScene {
 	
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		isMoving = true
-		let upperLimit = -bottomSpacement!
-		let lowerLimit = -self.size.height
 		
 		if screen.position.y < lowerLimit {
 			let moveBack = SKAction.moveTo(y: lowerLimit, duration: 0.2)
@@ -270,7 +268,18 @@ class ConfigScene: SKScene {
 	
 	func initScene() {
 		self.backgroundColor = UIColor.white
-		screenSize = CGSize(width: self.size.width, height: self.size.height * 2)
+		
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			screenSize = CGSize(width: self.size.width, height: self.size.height * 3)
+			bottomSpacement = CGFloat(screenSize.height * 0.15)
+			upperLimit = -bottomSpacement!
+			lowerLimit = -self.size.height * 2
+		} else {
+			screenSize = CGSize(width: self.size.width, height: self.size.height * 2)
+			bottomSpacement = CGFloat(screenSize.height * 0.1)
+			upperLimit = -bottomSpacement!
+			lowerLimit = -self.size.height
+		}
 		
 		goBackButtonSize = CGSize(width: screenSize.width * 0.133, height: screenSize.width * 0.133)
 		goBackButtonPosition = CGPoint(x: screenSize.width * 0.053 + goBackButtonSize.width/2,
@@ -296,7 +305,6 @@ class ConfigScene: SKScene {
 		bannerSize = CGSize(width: screenSize.width * 0.9, height: (screenSize.width * 0.9)/aspectRatio)
 		
 		bannerSpacement = CGFloat(screenSize.height * 0.0157)
-		bottomSpacement = CGFloat(screenSize.height * 0.1)
 		banner5Pos = CGPoint(x: screenSize.width/2, y: bottomSpacement + bannerSpacement + bannerSize.height/2)
 		banner4Pos = CGPoint(x: screenSize.width/2, y: banner5Pos.y + bannerSpacement + bannerSize.height)
 		banner3Pos = CGPoint(x: screenSize.width/2, y: banner4Pos.y + bannerSpacement + bannerSize.height)
