@@ -10,4 +10,5 @@ import Foundation
 
 protocol BoardDelegate {
 	func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) -> Void
+    func setQuoteLabel(with txtOne: String, and txtTwo: String) -> Void
 }

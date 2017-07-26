@@ -37,7 +37,7 @@ class BoardNode: SKNode {
     private var boardContentNode : SKNode!
     
 	private var sceneSize: CGSize!
-	var boardDelegate : BoardDelegate?
+	internal var boardDelegate : BoardDelegate?
 		
     //MARK: - Touches in screen
     

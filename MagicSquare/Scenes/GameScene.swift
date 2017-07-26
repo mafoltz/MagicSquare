@@ -29,7 +29,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         if currentLevel.number == 1 {
             setPlayerBoardTutorial(from: view)
-            hud.setQuoteLabel(with: "Move the indicated column to complete the level!")
         } else {
             setPlayerBoard(from: view)
         }
@@ -91,6 +90,11 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                 template.show()
             } else {
                 template.hide()
+                if let board = playerBoard as? Tutorial {
+                    if board.state == .touchInOctopus {
+                        board.state = .octopusTouched
+                    }
+                }
                 playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
@@ -144,5 +148,9 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         scene.scaleMode = .aspectFill
         scene.currentLevel = currentLevel
         super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+    }
+    
+    func setQuoteLabel(with txtOne: String, and txtTwo: String) {
+        hud.setQuoteLabel(with: txtOne)
     }
 }
