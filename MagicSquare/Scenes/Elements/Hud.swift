@@ -59,37 +59,37 @@ class Hud: SKSpriteNode {
         configurationsButton.zPosition = 0.1
         addChild(configurationsButton)
         
-        let movesTitleLabel = SKLabelNode(text: "MOVES")
-        movesTitleLabel.fontColor = UIColor.white
-        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        movesTitleLabel.fontSize = 18.0
-        movesTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
-        movesTitleLabel.zPosition = 0.1
-        addChild(movesTitleLabel)
-        
         let levelTitleLabel = SKLabelNode(text: "LEVEL")
         levelTitleLabel.fontColor = UIColor.white
         levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
         levelTitleLabel.fontSize = 18.0
-        levelTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        levelTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
         levelTitleLabel.zPosition = 0.1
         addChild(levelTitleLabel)
-        
-        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
-        movesLabel.fontColor = UIColor.white
-        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
-        movesLabel.fontSize = 18.0
-        movesLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
-        movesLabel.zPosition = 0.1
-        addChild(movesLabel)
         
         levelLabel = SKLabelNode(text: String(currentLevel.number))
         levelLabel.fontColor = UIColor.white
         levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
         levelLabel.fontSize = 18.0
-        levelLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        levelLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
+        
+        let movesTitleLabel = SKLabelNode(text: "MOVES")
+        movesTitleLabel.fontColor = UIColor.white
+        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
+        movesTitleLabel.fontSize = 18.0
+        movesTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        movesTitleLabel.zPosition = 0.1
+        addChild(movesTitleLabel)
+        
+        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
+        movesLabel.fontColor = UIColor.white
+        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
+        movesLabel.fontSize = 18.0
+        movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        movesLabel.zPosition = 0.1
+        addChild(movesLabel)
         
         quoteLabel = SKLabelNode()
         quoteLabel.fontColor = UIColor.black
