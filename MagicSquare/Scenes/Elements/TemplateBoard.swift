@@ -124,15 +124,19 @@ class TemplateBoard: SKSpriteNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let scene = self.scene as! GameScene
         if isTutorial {
-            cont = cont + 1 }
+            cont = cont + 1
+        }
         if cont == 1 {
-            setTemplateText(with: "This is the right answer for passing level") }
+            setTemplateText(with: "This is the right answer for passing level")
+        }
         else if cont == 2 {
             templateText.position = CGPoint(x: 0.0, y: baloonSize.height - bottomSpacing + 10)
             setTemplateText(with: "Whenever you need help I'll be here")
-            secondTemplateText.text = "for this, just tap me =D" }
+            secondTemplateText.text = "for this, just tap me =D"
+        }
         else {
-            scene.answerAction() }
+            scene.answerAction()
+        }
     }
     
     private func showSmallBaloon1(with speed: TimeInterval) {

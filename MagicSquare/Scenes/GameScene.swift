@@ -91,6 +91,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                 template.show()
             } else {
                 template.hide()
+                playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
         }
@@ -125,6 +126,12 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         } else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
             currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
         }
+        
+        Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(self.blinkPlayerBoard), userInfo: nil, repeats: false)
+    }
+    
+    func blinkPlayerBoard() {
+        playerBoard.blinkColor(from: currentLevel)
     }
     
     func goToResultsScene() {

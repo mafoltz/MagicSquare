@@ -31,6 +31,7 @@
 		577188FC1F223C35003232B3 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FB1F223C35003232B3 /* BoardNode.swift */; };
 		577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */; };
 		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
+		5783B7151F2909810081D261 /* BoardCellSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
 		D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE701F265F6A00D05A9A /* Tutorial.swift */; };
@@ -63,6 +64,7 @@
 		577188FB1F223C35003232B3 /* BoardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardNode.swift; path = Scenes/Elements/BoardNode.swift; sourceTree = "<group>"; };
 		577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionHandlerDelegate.swift; path = Scenes/Delegate/ActionHandlerDelegate.swift; sourceTree = "<group>"; };
 		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
+		5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCellSpriteNode.swift; path = Scenes/Elements/BoardCellSpriteNode.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
 		D78CAE701F265F6A00D05A9A /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tutorial.swift; path = Scenes/Elements/Tutorial.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				D78CAE701F265F6A00D05A9A /* Tutorial.swift */,
 				577188FB1F223C35003232B3 /* BoardNode.swift */,
+				5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */,
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
 				5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */,
@@ -259,6 +262,7 @@
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
+				5783B7151F2909810081D261 /* BoardCellSpriteNode.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
 				572F867A1F27D8F800C0AD3B /* MusicController.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,

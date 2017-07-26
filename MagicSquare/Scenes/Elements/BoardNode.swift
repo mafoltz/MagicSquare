@@ -24,7 +24,7 @@ class BoardNode: SKNode {
     // MARK: - Properties
     
     public var currentLevel : Level!
-    internal var playerBoard : [[SKShapeNode]]!
+    internal var playerBoard : [[BoardCellSpriteNode]]!
 
     
     internal var cellsSize : CGSize!
@@ -154,12 +154,12 @@ class BoardNode: SKNode {
         var xOffset = xHead
         var yOffset = yHead
         
-        playerBoard = [[SKShapeNode]]()
+        playerBoard = [[BoardCellSpriteNode]]()
         for row in board.cellsMatrix {
-            var elementsRow = [SKShapeNode]()
+            var elementsRow = [BoardCellSpriteNode]()
 			
             for cell in row {
-                let boardCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+                let boardCell = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
                 if let color = cell?.color {
                     boardCell.fillColor = color
                     boardCell.strokeColor = color
@@ -188,11 +188,11 @@ class BoardNode: SKNode {
 		let newPos = cellsSpacing + cellsSize.height
 		var replicatedRow = board.cellsMatrix[board.numRows - 1] // Replica a última coluna da matriz lógica
 		var newY = playerBoard[0][0].position.y + newPos
-		var newBeginningRow = [SKShapeNode]()
-		var newEndingRow = [SKShapeNode]()
+		var newBeginningRow = [BoardCellSpriteNode]()
+		var newEndingRow = [BoardCellSpriteNode]()
 		
 		for cell in replicatedRow.enumerated() {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			let newCell = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.position = CGPoint(x: playerBoard[0][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
@@ -204,7 +204,7 @@ class BoardNode: SKNode {
 		newY = playerBoard[board.numRows - 1][0].position.y - newPos
 		
 		for cell in replicatedRow.enumerated() {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			let newCell = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.position = CGPoint(x: playerBoard[lastPlayerRow][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
@@ -222,7 +222,7 @@ class BoardNode: SKNode {
 		var xOffset = playerBoard[1][0].position.x - newPos
 		
 		for row in board.cellsMatrix.enumerated() {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			let newCell = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.position = CGPoint(x: xOffset, y: playerBoard[row.offset + 1][0].position.y)
 			newCell.fillColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
@@ -232,7 +232,7 @@ class BoardNode: SKNode {
 		
 		xOffset = playerBoard[1][playerBoard[1].count - 1].position.x + newPos
 		for row in board.cellsMatrix.enumerated() {
-			let newCell = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+			let newCell = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.position = CGPoint(x: xOffset, y: playerBoard[row.offset + 1][0].position.y)
 			newCell.fillColor = (board.cellsMatrix[row.offset][1]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][1]?.color)!
@@ -251,28 +251,28 @@ class BoardNode: SKNode {
 	func addCornerCells(_ newPos: CGFloat) {
 		let lastRow = playerBoard.count - 1
 		
-		let newCell1 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		let newCell1 = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 		newCell1.position = CGPoint(x: playerBoard[0][0].position.x - newPos, y: playerBoard[0][0].position.y)
 		newCell1.fillColor = UIColor.clear
 		newCell1.strokeColor = UIColor.red
 		playerBoard[0].insert(newCell1, at: 0)
 		boardContentNode.addChild(newCell1)
 		
-		let newCell2 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		let newCell2 = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 		newCell2.position = CGPoint(x: playerBoard[0][playerBoard[0].count - 1].position.x + newPos, y: playerBoard[0][0].position.y)
 		newCell2.fillColor = UIColor.clear
 		newCell2.strokeColor = UIColor.red
 		playerBoard[0].append(newCell2)
 		boardContentNode.addChild(newCell2)
 		
-		let newCell3 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		let newCell3 = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 		newCell3.position = CGPoint(x: playerBoard[playerBoard.count - 1][0].position.x - newPos, y: playerBoard[playerBoard.count - 1][0].position.y)
 		newCell3.fillColor = UIColor.clear
 		newCell3.strokeColor = UIColor.red
 		playerBoard[lastRow].insert(newCell3, at: 0)
 		boardContentNode.addChild(newCell3)
 		
-		let newCell4 = SKShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
+		let newCell4 = BoardCellSpriteNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 		newCell4.position = CGPoint(x: playerBoard[playerBoard.count - 1][playerBoard[playerBoard.count - 1].count - 1].position.x + newPos, y: playerBoard[playerBoard.count - 1][0].position.y)
 		newCell4.fillColor = UIColor.clear
 		newCell4.strokeColor = UIColor.red
@@ -325,7 +325,7 @@ class BoardNode: SKNode {
         let positionYNode = playerBoard[1][column].position.y
         let diff =  abs(positionYNode - storeFirstNodePosition.y)
         if diff > (cellsSpacing/2 + cellsSize.height/2) {
-            var columnCopy = [SKShapeNode](repeating: playerBoard[1][1], count:playerBoard.count)
+            var columnCopy = [BoardCellSpriteNode](repeating: playerBoard[1][1], count:playerBoard.count)
             if positionYNode > storeFirstNodePosition.y {
                 for index in 0..<playerBoard.count-1 {
                     columnCopy[index] = playerBoard[index+1][column]
@@ -401,6 +401,8 @@ class BoardNode: SKNode {
                             
                             playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
                             playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
+                            
+                            stopBlinkColor(inRow: row)
                         }
                     } else {
                         direction = .vertical
@@ -411,6 +413,8 @@ class BoardNode: SKNode {
                             
                             playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
                             playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
+                            
+                            stopBlinkColor(inColumn: column)
                         }
                     }
                 }
@@ -570,14 +574,14 @@ class BoardNode: SKNode {
                     }
                 }
 			
-			if direction == .vertical {
-				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: column - 1, moves: moves)
-			} else if direction == .horizontal{
-				boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: row - 1, moves: moves)
-			}
-			
-            moves = 0
-            direction = .neutral
+                if direction == .vertical {
+                    boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: column - 1, moves: moves)
+                } else if direction == .horizontal{
+                    boardDelegate?.updateMatrixAction(orientation: direction, columnOrRow: row - 1, moves: moves)
+                }
+                
+                moves = 0
+                direction = .neutral
 			}
         }
     }
@@ -644,7 +648,7 @@ class BoardNode: SKNode {
         
         let midNodeY = (sceneSize.height * 0.345) - (CGFloat(board.cellsMatrix.count/2))
         
-        let mask = SKShapeNode(rectOf: CGSize(width: (acumWidth + acumHSpacing + cellsSpacing), height: (acumHeight + acumVSpacing + cellsSpacing)))
+        let mask = BoardCellSpriteNode(rectOf: CGSize(width: (acumWidth + acumHSpacing + cellsSpacing), height: (acumHeight + acumVSpacing + cellsSpacing)))
         
         mask.fillColor = .black
         mask.position = CGPoint(x: 0, y: midNodeY)
@@ -653,4 +657,25 @@ class BoardNode: SKNode {
         return cropNode
     }
     
+    func blinkColor(from level: Level) {
+        for (i, row) in playerBoard.dropFirst().dropLast().enumerated() {
+            for (j, cell) in row.dropFirst().dropLast().enumerated() {
+                if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
+                    cell.blinkColor()
+                }
+            }
+        }
+    }
+    
+    func stopBlinkColor(inRow row: Int) {
+        for cell in playerBoard[row].dropFirst().dropLast() {
+            cell.stopBlinkColor()
+        }
+    }
+    
+    func stopBlinkColor(inColumn column: Int) {
+        for row in playerBoard.dropFirst().dropLast() {
+            row[column].stopBlinkColor()
+        }
+    }
 }
