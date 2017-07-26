@@ -21,6 +21,8 @@ class ResultsScene: SKScene {
     
     private var time: TimeInterval!
     
+    // MARK: - Methods
+    
     override func didMove(to view: SKView) {
         currentLevel.updateRecord()
         
@@ -45,6 +47,43 @@ class ResultsScene: SKScene {
         star.setCoinForCurrentGame(from: currentLevel)
         star.size = CGSize(width: 76, height: 76)
         star.zPosition = mascot.zPosition
+        
+        let movesBanner = SKSpriteNode(imageNamed: "movesBanner")
+        movesBanner.zPosition = mascot.zPosition
+        
+        let numberOfMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Bold")
+        numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
+        numberOfMovesLabel.fontSize = 22
+        numberOfMovesLabel.fontColor = UIColor(colorLiteralRed: 238.0/255.0, green: 161.0/255.0, blue: 48.0/255.0, alpha: 1)
+        numberOfMovesLabel.zPosition = movesBanner.zPosition + 1
+        
+        let movesLabel = SKLabelNode(fontNamed: ".SFUIText-Regular")
+        movesLabel.text = currentLevel.playerMoves>1 ? "moves" : "move"
+        movesLabel.fontSize = 15
+        movesLabel.fontColor = numberOfMovesLabel.fontColor
+        movesLabel.zPosition = numberOfMovesLabel.zPosition
+        
+        let bestLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
+        bestLabel.text = "BEST"
+        bestLabel.fontSize = 12
+        bestLabel.fontColor = UIColor.gray
+        bestLabel.zPosition = numberOfMovesLabel.zPosition
+        var distanceBestLabelY = CGFloat(0)
+        
+        let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
+        
+        var bestMoves = currentLevel.getRecord()
+        if bestMoves == 0 {
+            bestMoves = currentLevel.playerMoves
+        }
+        else if currentLevel.playerMoves < bestMoves{
+            bestMoves = currentLevel.playerMoves
+        }
+        
+        bestMovesLabel.text = "\(bestMoves)"
+        bestMovesLabel.fontSize = bestLabel.fontSize
+        bestMovesLabel.fontColor = bestLabel.fontColor
+        bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
         
         let congratulations = SKSpriteNode(imageNamed: "congratulations")
         congratulations.zPosition = mascot.zPosition
@@ -72,9 +111,6 @@ class ResultsScene: SKScene {
         
         //Scales
         
-        star.xScale = 1.0
-        star.yScale = 1.0
-        
         congratulations.xScale = 0.8
         congratulations.yScale = 0.8
         
@@ -90,6 +126,15 @@ class ResultsScene: SKScene {
             
             star.xScale += differenceScale
             star.yScale += differenceScale
+            
+            movesBanner.xScale += differenceScale
+            movesBanner.yScale += differenceScale
+            
+            numberOfMovesLabel.fontSize += CGFloat(10)
+            movesLabel.fontSize += CGFloat(10)
+            bestLabel.fontSize += CGFloat(10)
+            distanceBestLabelY = CGFloat(3)
+            bestMovesLabel.fontSize += CGFloat(10)
             
             congratulations.xScale += differenceScale
             congratulations.yScale += differenceScale
@@ -110,6 +155,23 @@ class ResultsScene: SKScene {
         
         star.position.y = mascot.position.y + mascot.size.height/2 + star.size.height/2 + (size.height * 0.04)
         
+        movesBanner.position.x = size.width/2 - movesBanner.size.width/2
+        movesBanner.position.y = star.position.y + star.size.height/2 - movesBanner.size.height/2
+        
+        numberOfMovesLabel.position.x = (size.width*0.5) - (movesBanner.size.width) + (movesBanner.size.width*0.2)
+        
+        
+        numberOfMovesLabel.position.y = movesBanner.position.y + (movesBanner.size.height*0.5) - (numberOfMovesLabel.frame.size.height) - 6
+        
+        movesLabel.position.x = numberOfMovesLabel.position.x + numberOfMovesLabel.frame.size.width/2 + movesLabel.frame.size.width/2 + movesBanner.size.width*0.05
+        movesLabel.position.y = numberOfMovesLabel.position.y
+        
+        bestLabel.position.x = movesLabel.position.x + movesLabel.frame.size.width/2 - bestLabel.frame.size.width/2
+        bestLabel.position.y = movesLabel.position.y - movesLabel.frame.size.height/2 - bestLabel.frame.size.height/2 - distanceBestLabelY
+        
+        bestMovesLabel.position.y = bestLabel.position.y
+        bestMovesLabel.position.x = bestLabel.position.x - bestLabel.frame.size.width/2 - bestMovesLabel.frame.size.width/2
+        
         congratulations.position.y = mascot.position.y - mascot.size.height/2 - congratulations.size.height/2 - (size.height * 0.04)
         
         label1.position.y = congratulations.position.y - congratulations.size.height/2 - label1.frame.height/2 - (size.height * 0.04)
@@ -124,10 +186,14 @@ class ResultsScene: SKScene {
         
         
         
-        
         addChild(backgroung)
         addChild(mascot)
         addChild(star)
+        addChild(movesBanner)
+        addChild(numberOfMovesLabel)
+        addChild(movesLabel)
+        addChild(bestLabel)
+        addChild(bestMovesLabel)
         addChild(congratulations)
         addChild(label1)
         addChild(label2)
@@ -150,11 +216,12 @@ class ResultsScene: SKScene {
             button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
         }
         
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
     }
     
-    
-    
-    // MARK: - Methods
+    func setClapsMusic() {
+        MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
+    }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
@@ -175,14 +242,6 @@ class ResultsScene: SKScene {
                 scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: 1)
                 super.view?.presentScene(scene)
             }
-            /*else {
-                let scene: LevelsScene = LevelsScene()
-                scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-                scene.size = (super.view?.bounds.size)!
-                scene.scaleMode = .aspectFill
-                scene.prepareScene(from: self.scene!)
-                super.view?.presentScene(scene)
-            }*/
         }
     }
     

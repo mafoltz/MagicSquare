@@ -20,6 +20,10 @@
 		5728FEAE1F14037D003774BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEAC1F14037D003774BF /* Main.storyboard */; };
 		5728FEB01F14037D003774BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEAF1F14037D003774BF /* Assets.xcassets */; };
 		5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5728FEB11F14037D003774BF /* LaunchScreen.storyboard */; };
+		572F86771F27D5E800C0AD3B /* Esles_Main_Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 572F86751F27D5E800C0AD3B /* Esles_Main_Theme.mp3 */; };
+		572F86781F27D5E800C0AD3B /* Esles_Victory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 572F86761F27D5E800C0AD3B /* Esles_Victory.mp3 */; };
+		572F867A1F27D8F800C0AD3B /* MusicController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572F86791F27D8F800C0AD3B /* MusicController.swift */; };
+		572F867C1F27DE1300C0AD3B /* Kids Cheering.caf in Resources */ = {isa = PBXBuildFile; fileRef = 572F867B1F27DE1300C0AD3B /* Kids Cheering.caf */; };
 		5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */; };
 		576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD021F1FE8CF00AF38A7 /* Hud.swift */; };
 		576CAD051F1FEF5100AF38A7 /* TemplateBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */; };
@@ -27,6 +31,8 @@
 		577188FC1F223C35003232B3 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FB1F223C35003232B3 /* BoardNode.swift */; };
 		577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */; };
 		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
+		5783B7151F2909810081D261 /* BoardCellSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */; };
+		7ED859771F29477000F5767A /* ConfigScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED859761F29477000F5767A /* ConfigScene.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
 		D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE701F265F6A00D05A9A /* Tutorial.swift */; };
@@ -48,6 +54,10 @@
 		5728FEAF1F14037D003774BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5728FEB21F14037D003774BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5728FEB41F14037D003774BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		572F86751F27D5E800C0AD3B /* Esles_Main_Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Esles_Main_Theme.mp3; path = Audios/Esles_Main_Theme.mp3; sourceTree = "<group>"; };
+		572F86761F27D5E800C0AD3B /* Esles_Victory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Esles_Victory.mp3; path = Audios/Esles_Victory.mp3; sourceTree = "<group>"; };
+		572F86791F27D8F800C0AD3B /* MusicController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MusicController.swift; path = Scenes/Elements/MusicController.swift; sourceTree = "<group>"; };
+		572F867B1F27DE1300C0AD3B /* Kids Cheering.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Kids Cheering.caf"; path = "Audios/Kids Cheering.caf"; sourceTree = "<group>"; };
 		5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoinSpriteNode.swift; path = Scenes/Elements/CoinSpriteNode.swift; sourceTree = "<group>"; };
 		576CAD021F1FE8CF00AF38A7 /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Hud.swift; path = Scenes/Elements/Hud.swift; sourceTree = "<group>"; };
 		576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TemplateBoard.swift; path = Scenes/Elements/TemplateBoard.swift; sourceTree = "<group>"; };
@@ -55,6 +65,8 @@
 		577188FB1F223C35003232B3 /* BoardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardNode.swift; path = Scenes/Elements/BoardNode.swift; sourceTree = "<group>"; };
 		577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionHandlerDelegate.swift; path = Scenes/Delegate/ActionHandlerDelegate.swift; sourceTree = "<group>"; };
 		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
+		5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCellSpriteNode.swift; path = Scenes/Elements/BoardCellSpriteNode.swift; sourceTree = "<group>"; };
+		7ED859761F29477000F5767A /* ConfigScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigScene.swift; path = Scenes/ConfigScene.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
 		D78CAE701F265F6A00D05A9A /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tutorial.swift; path = Scenes/Elements/Tutorial.swift; sourceTree = "<group>"; };
@@ -91,6 +103,7 @@
 				571193F91F15593800E1ECEA /* MainMenuScene.swift */,
 				571193F71F15592500E1ECEA /* LevelsScene.swift */,
 				571193F51F15590A00E1ECEA /* GameScene.swift */,
+				7ED859761F29477000F5767A /* ConfigScene.swift */,
 				571193FB1F15594B00E1ECEA /* ResultsScene.swift */,
 				91BFD82D1F226C1E00F28356 /* ResultsScene.sks */,
 			);
@@ -116,6 +129,7 @@
 		5728FEA11F14037D003774BF /* MagicSquare */ = {
 			isa = PBXGroup;
 			children = (
+				572F86741F27D5D800C0AD3B /* Audios */,
 				571193F41F1558A600E1ECEA /* Scenes */,
 				571193EF1F15584700E1ECEA /* Model */,
 				5728FEA21F14037D003774BF /* AppDelegate.swift */,
@@ -129,14 +143,26 @@
 			path = MagicSquare;
 			sourceTree = "<group>";
 		};
+		572F86741F27D5D800C0AD3B /* Audios */ = {
+			isa = PBXGroup;
+			children = (
+				572F867B1F27DE1300C0AD3B /* Kids Cheering.caf */,
+				572F86751F27D5E800C0AD3B /* Esles_Main_Theme.mp3 */,
+				572F86761F27D5E800C0AD3B /* Esles_Victory.mp3 */,
+			);
+			name = Audios;
+			sourceTree = "<group>";
+		};
 		576CAD011F1FE88600AF38A7 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
 				D78CAE701F265F6A00D05A9A /* Tutorial.swift */,
 				577188FB1F223C35003232B3 /* BoardNode.swift */,
+				5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */,
 				576CAD021F1FE8CF00AF38A7 /* Hud.swift */,
 				576CAD041F1FEF5100AF38A7 /* TemplateBoard.swift */,
 				5736E3171F2680D600402BA7 /* CoinSpriteNode.swift */,
+				572F86791F27D8F800C0AD3B /* MusicController.swift */,
 			);
 			name = Elements;
 			sourceTree = "<group>";
@@ -212,10 +238,13 @@
 			files = (
 				5728FEAE1F14037D003774BF /* Main.storyboard in Resources */,
 				5728FEB01F14037D003774BF /* Assets.xcassets in Resources */,
+				572F86781F27D5E800C0AD3B /* Esles_Victory.mp3 in Resources */,
 				D71B5AA41F155E0C006B6A9D /* World.json in Resources */,
 				5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */,
 				5728FEA71F14037D003774BF /* Actions.sks in Resources */,
+				572F867C1F27DE1300C0AD3B /* Kids Cheering.caf in Resources */,
 				91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */,
+				572F86771F27D5E800C0AD3B /* Esles_Main_Theme.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,13 +259,16 @@
 				571193F81F15592500E1ECEA /* LevelsScene.swift in Sources */,
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
+				7ED859771F29477000F5767A /* ConfigScene.swift in Sources */,
 				577188FC1F223C35003232B3 /* BoardNode.swift in Sources */,
 				5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */,
 				577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */,
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
+				5783B7151F2909810081D261 /* BoardCellSpriteNode.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
+				572F867A1F27D8F800C0AD3B /* MusicController.swift in Sources */,
 				571193F31F15589600E1ECEA /* BoardCell.swift in Sources */,
 				571193FA1F15593800E1ECEA /* MainMenuScene.swift in Sources */,
 				577189001F223C44003232B3 /* BoardDelegate.swift in Sources */,

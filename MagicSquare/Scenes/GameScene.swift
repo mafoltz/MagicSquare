@@ -29,7 +29,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         if currentLevel.number == 1 {
             setPlayerBoardTutorial(from: view)
-            hud.setQuoteLabel(with: "Move the indicated column to complete the level!")
         } else {
             setPlayerBoard(from: view)
         }
@@ -39,6 +38,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         } else {
             playerBoard.addGestureRecognizer()
         }
+        
+        MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
         
         hasGameBegun = true
     }
@@ -89,6 +90,12 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                 template.show()
             } else {
                 template.hide()
+                if let board = playerBoard as? Tutorial {
+                    if board.state == .touchInOctopus {
+                        board.state = .octopusTouched
+                    }
+                }
+                playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
         }
@@ -108,27 +115,48 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-        
+		let scene: ConfigScene = ConfigScene()
+		scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+		scene.size = (super.view?.bounds.size)!
+		scene.scaleMode = .aspectFill
+		scene.previousScene = self.scene!
+		playerBoard.disableGestureRecognizer()
+		super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
     }
-	
-	func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
-		if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
-			currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-		} else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
-			currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-		} else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
-			currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-		} else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
-			currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
-		}
-	}
+    
+    func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
+        //        let width = currentLevel.playerBoard.cellsMatrix[1].count
+        //        let height = currentLevel.playerBoard.cellsMatrix.count
+        if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
+            currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
+        } else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
+            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
+        } else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
+            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
+        } else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
+            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+        }
+        
+        Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(self.blinkPlayerBoard), userInfo: nil, repeats: false)
+    }
+    
+    func blinkPlayerBoard() {
+        playerBoard.blinkColor(from: currentLevel)
+    }
     
     func goToResultsScene() {
+        MusicController.sharedInstance.stop()
+        MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        
         let scene: ResultsScene = ResultsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         scene.currentLevel = currentLevel
         super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+    }
+    
+    func setQuoteLabel(with txtOne: String, and txtTwo: String) {
+        hud.setQuoteLabel(with: txtOne)
     }
 }
