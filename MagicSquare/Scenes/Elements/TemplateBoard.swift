@@ -113,7 +113,7 @@ class TemplateBoard: SKSpriteNode {
             templateText.text = "I doubt you'll find this!"
         }
         
-        if UIDevice.current.modelName == "iPhone 5" || UIDevice.current.modelName == "iPhone 5s" || UIDevice.current.modelName == "iPhone 5c" {print("AAAAAAAA")}
+        if UIDevice.current.modelName == "iPhone 5" || UIDevice.current.modelName == "iPhone 5s" || UIDevice.current.modelName == "iPhone 5c" || UIDevice.current.modelName == "iPod Touch 5" {print("AAAAAAAA")}
         
     }
     
@@ -129,8 +129,8 @@ class TemplateBoard: SKSpriteNode {
             setTemplateText(with: "This is the right answer for passing level") }
         else if cont == 2 {
             templateText.position = CGPoint(x: 0.0, y: baloonSize.height - bottomSpacing + 10)
-            setTemplateText(with: "Whenever you need help I'll be here")
-            secondTemplateText.text = "for this, just tap me =D" }
+            setTemplateText(with: "I will be here to show you the answer")
+            secondTemplateText.text = "just tap me" }
         else {
             scene.answerAction() }
     }

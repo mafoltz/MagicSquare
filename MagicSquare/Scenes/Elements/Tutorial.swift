@@ -11,12 +11,20 @@ import SpriteKit
 enum Move {
     case row
     case column
+    case touchInOctopus
+    case octopusTouched
 }
 
 class Tutorial: BoardNode {
     
     private var initialPoint : CGPoint!
-    private var state: Move = .row
+    public var state: Move = .row {
+        didSet {
+            if state == .octopusTouched {
+                updateState()
+            }
+        }
+    }
     
     func vibrateColumn() {
         
@@ -27,12 +35,12 @@ class Tutorial: BoardNode {
             initialPoint = CGPoint(x: playerBoard[index][1].position.x, y: playerBoard[index][1].position.y)
             
             //let moveToInitial = SKAction.move(to: initialPoint, duration: 0.0)
-            let moveUp = SKAction.moveBy(x: 0.0, y: 8, duration: 0.1)
-            let moveDown = SKAction.moveBy(x: 0.0, y: -8, duration: 0.1)
+            let moveUp = SKAction.moveBy(x: 0.0, y: -8, duration: 0.1)
+            let moveDown = SKAction.moveBy(x: 0.0, y: 8, duration: 0.1)
             let moves = SKAction.sequence([moveUp, moveDown])
             let wait = SKAction.wait(forDuration: 1.5)
-            let bounceUp = SKAction.moveBy(x: 0.0, y: 3.0, duration: 0.1)
-            let bounceDown = SKAction.moveBy(x: 0.0, y: -3.0, duration: 0.1)
+            let bounceUp = SKAction.moveBy(x: 0.0, y: -3.0, duration: 0.1)
+            let bounceDown = SKAction.moveBy(x: 0.0, y: 3.0, duration: 0.1)
             let sequence = SKAction.sequence([moves, moves, bounceUp, bounceDown, wait])
             vibrateColumn = SKAction.repeatForever(sequence)
             
@@ -48,7 +56,14 @@ class Tutorial: BoardNode {
     
     override init(with size: CGSize, board: Board, needsExtraCells: Bool) {
         super.init(with: size, board: board, needsExtraCells: needsExtraCells)
+        
         vibrateRow()
+    }
+    
+    override var boardDelegate: BoardDelegate? {
+        didSet{
+            boardDelegate?.setQuoteLabel(with: "Move the indicated row to the right position", and: "")
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -103,9 +118,17 @@ class Tutorial: BoardNode {
     }
     
     func updateState() {
-        if playerBoard[playerBoard.count-2][1].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0) {
-            state = .column
+        if playerBoard[playerBoard.count-2][1].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0)  && state == .row{
+            state = .touchInOctopus
+            boardDelegate?.setQuoteLabel(with: "Tap the octopus to see the answer.", and: "")
             removeVibrateRows()
+        }
+        else if state == .octopusTouched {
+            boardDelegate?.setQuoteLabel(with: "Move the indicate column down.", and: "")
+            state = .column
+            vibrateColumn()
+        }
+        else if state == .column {
             vibrateColumn()
         }
         else {
