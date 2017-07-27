@@ -220,7 +220,9 @@ class ResultsScene: SKScene {
     }
     
     func setClapsMusic() {
-        MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
+        if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+            MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -667,6 +667,22 @@ class BoardNode: SKNode {
         }
     }
     
+    /*func blinkColor(inRow row: Int, level: Level) {
+        for cell in playerBoard[row].dropFirst().dropLast() {
+            if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
+                cell.blinkColor()
+            }
+        }
+    }
+    
+    func blinkColor(inColumn column: Int, level: Level) {
+        for row in playerBoard.dropFirst().dropLast() {
+            if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
+                row[column].blinkColor()
+            }
+        }
+    }*/
+    
     func stopBlinkColor(inRow row: Int) {
         for cell in playerBoard[row].dropFirst().dropLast() {
             cell.stopBlinkColor()

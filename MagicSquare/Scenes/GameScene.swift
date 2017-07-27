@@ -152,7 +152,9 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     
     func goToResultsScene() {
         MusicController.sharedInstance.stop()
-        MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+            MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        }
         
         let scene: ResultsScene = ResultsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
