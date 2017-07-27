@@ -35,6 +35,7 @@
 		57C74E3B1F2940AE00A3242E /* SplashScreenScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C74E3A1F2940AE00A3242E /* SplashScreenScene.swift */; };
 		7ED859771F29477000F5767A /* ConfigScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED859761F29477000F5767A /* ConfigScene.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
+		91CE3D711F2964C3001541E3 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CE3D701F2964C3001541E3 /* Label.swift */; };
 		D71B5AA41F155E0C006B6A9D /* World.json in Resources */ = {isa = PBXBuildFile; fileRef = D71B5AA31F155E0C006B6A9D /* World.json */; };
 		D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE701F265F6A00D05A9A /* Tutorial.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		57C74E3A1F2940AE00A3242E /* SplashScreenScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenScene.swift; sourceTree = "<group>"; };
 		7ED859761F29477000F5767A /* ConfigScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigScene.swift; path = Scenes/ConfigScene.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
+		91CE3D701F2964C3001541E3 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		D71B5AA31F155E0C006B6A9D /* World.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = World.json; sourceTree = "<group>"; };
 		D78CAE701F265F6A00D05A9A /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tutorial.swift; path = Scenes/Elements/Tutorial.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,6 +161,7 @@
 		576CAD011F1FE88600AF38A7 /* Elements */ = {
 			isa = PBXGroup;
 			children = (
+				91CE3D701F2964C3001541E3 /* Label.swift */,
 				D78CAE701F265F6A00D05A9A /* Tutorial.swift */,
 				577188FB1F223C35003232B3 /* BoardNode.swift */,
 				5783B7141F2909810081D261 /* BoardCellSpriteNode.swift */,
@@ -211,7 +214,6 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = VXAGBDYAT9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -262,6 +264,7 @@
 				571193F81F15592500E1ECEA /* LevelsScene.swift in Sources */,
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
+				91CE3D711F2964C3001541E3 /* Label.swift in Sources */,
 				7ED859771F29477000F5767A /* ConfigScene.swift in Sources */,
 				577188FC1F223C35003232B3 /* BoardNode.swift in Sources */,
 				5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */,
@@ -401,7 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -416,7 +419,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VXAGBDYAT9;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MagicSquare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
