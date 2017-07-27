@@ -23,7 +23,7 @@ class Hud: SKSpriteNode {
     
     var actionDelegate: ActionHandlerDelegate?
     
-    private var quoteLabel: SKLabelNode!
+    private var quoteLabel: Label!
     
     // MARK: - Methods
     
@@ -90,23 +90,23 @@ class Hud: SKSpriteNode {
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
-        
-        quoteLabel = SKLabelNode()
-        quoteLabel.fontColor = UIColor.black
-        quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 50.0)?.fontName
-            quoteLabel.fontSize = 50.0
-        }
-        quoteLabel.fontSize = 15.0
-        quoteLabel.position = CGPoint(x: 0.0, y: mascotButton.position.y - mascotButton.size.height/2 - 50)
-        quoteLabel.zPosition = 0.1
-        addChild(quoteLabel)
 
     }
     
     func setQuoteLabel(with text: String) {
-        quoteLabel.text = text
+        if quoteLabel != nil {
+            removeChildren(in: [quoteLabel])
+        }
+        
+        let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 18.0, width: size.width*0.808, fontColor: fontColor)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: size.width*0.608, fontColor: fontColor)
+        }
+        
+        quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
+        quoteLabel.zPosition = 0.1
+        addChild(quoteLabel)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

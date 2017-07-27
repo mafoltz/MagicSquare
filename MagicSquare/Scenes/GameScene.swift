@@ -41,6 +41,11 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
         
+        let isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
+        if !isMusicOn{
+            MusicController.sharedInstance.music?.pause()
+        }
+        
         hasGameBegun = true
     }
     
@@ -57,7 +62,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func setHud(from view: SKView) {
-        hud = Hud(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
+        let color = UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0)
+        hud = Hud(color: color,
                   size: CGSize(width: view.bounds.size.width, height: 0.225 * view.bounds.size.height))
         hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
         hud.setHud(from: currentLevel)
@@ -156,7 +162,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
     }
     
-    func setQuoteLabel(with txtOne: String, and txtTwo: String) {
+    func setQuoteLabel(with txtOne: String) {
         hud.setQuoteLabel(with: txtOne)
     }
 }

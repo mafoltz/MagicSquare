@@ -11,6 +11,12 @@ import SpriteKit
 class ConfigScene: SKScene {
 	
 	// MARK: - Properties
+    
+    var links = ["https://www.linkedin.com/in/arthur-giachini-11a03b141/",
+                 "https://www.linkedin.com/in/athos-lagemann-60416599/",
+                 "https://www.linkedin.com/in/eduardo-segura-fornari-a23728a7/",
+                 "https://luisascaletsky.myportfolio.com",
+                 "https://www.linkedin.com/in/marcelo-andrighetto-foltz-b238ba111/"]
 	
 	internal var isMusicOn: Bool!
 	internal var isSoundsOn: Bool!
@@ -168,6 +174,8 @@ class ConfigScene: SKScene {
 			moveBack.timingMode = .easeOut
 			screen.run(moveBack)
 		}
+        
+        var link: Int!
 		
 		if selectedButton != "nil" && (abs((touchLocation?.y)! - (firstTouchLocation?.y)!) < moveTolerance) {
 			switch selectedButton {
@@ -184,25 +192,32 @@ class ConfigScene: SKScene {
 				changeColorBlind()
 				break
 			case "Arthur":
-				print("Arthur")
+                link = 0
 				break
 			case "Athos":
-				print("Athos")
+                link = 1
 				break
 			case "Eduardo":
-				print("Eduardo")
+                link = 2
 				break
 			case "Luisa":
-				print("Luisa")
+                link = 3
 				break
 			case "Marcelo":
-				print("Marcelo")
+                link = 4
 				break
 			default:
 				break
 			}
 			
 		}
+        
+        if link != nil {
+            let url = URL(string: links[link])!
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
 		
 		isUserInteractionEnabled = true
 	}
@@ -225,11 +240,13 @@ class ConfigScene: SKScene {
 	
 	func changeMusic() {
 		if isMusicOn {
+            MusicController.sharedInstance.music?.pause()
 			isMusicOn = false
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOff")
 			}
 		} else {
+            MusicController.sharedInstance.music?.play()
 			isMusicOn = true
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOn")
