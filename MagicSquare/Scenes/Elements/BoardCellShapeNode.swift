@@ -1,5 +1,5 @@
 //
-//  BoardCellSpriteNode.swift
+//  BoardCellShapeNode.swift
 //  MagicSquare
 //
 //  Created by Marcelo Andrighetto Foltz on 26/07/17.
@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class BoardCellSpriteNode: SKShapeNode {
+class BoardCellShapeNode: SKShapeNode {
     
     // MARK: - Properties
     
