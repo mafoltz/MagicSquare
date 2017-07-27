@@ -40,7 +40,7 @@ class Label: SKNode{
                     break
                 }
                 else{
-                    textLabel += " \(addWord)"
+                    textLabel += "\(addWord)"
                     
                     words.removeFirst()
                 }
