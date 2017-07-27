@@ -99,7 +99,7 @@ class TemplateBoard: SKSpriteNode {
     
     func setTemplateText(with text: String) {
         if templateText != nil {
-            removeChildren(in: [templateText])
+            templateBaloon.removeChildren(in: [templateText])
         }
         
         let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
@@ -109,8 +109,8 @@ class TemplateBoard: SKSpriteNode {
         }
         
         templateText.position = CGPoint(x: 0.0, y: self.baloonSize.height*0.95)
-        templateText.zPosition = 2.0
-        addChild(templateText)
+        templateText.zPosition = 0.1
+        templateBaloon.addChild(templateText)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
