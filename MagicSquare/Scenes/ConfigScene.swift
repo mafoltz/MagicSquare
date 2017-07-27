@@ -240,11 +240,13 @@ class ConfigScene: SKScene {
 	
 	func changeMusic() {
 		if isMusicOn {
+            MusicController.sharedInstance.music?.pause()
 			isMusicOn = false
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOff")
 			}
 		} else {
+            MusicController.sharedInstance.music?.play()
 			isMusicOn = true
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOn")

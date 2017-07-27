@@ -41,6 +41,11 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
         
+        let isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
+        if !isMusicOn{
+            MusicController.sharedInstance.music?.pause()
+        }
+        
         hasGameBegun = true
     }
     
