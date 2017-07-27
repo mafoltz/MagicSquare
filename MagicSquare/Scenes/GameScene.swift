@@ -23,7 +23,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     override func didMove(to view: SKView) {
         self.scene?.backgroundColor = UIColor.white
         self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-
+        
         setHud(from: view)
         setTemplate(from: view)
         
@@ -78,7 +78,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func setPlayerBoard(from view: SKView) {
-		playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard, needsExtraCells: true)
+        playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard, needsExtraCells: true)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
     }
@@ -121,25 +121,25 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-		let scene: ConfigScene = ConfigScene()
-		scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-		scene.size = (super.view?.bounds.size)!
-		scene.scaleMode = .aspectFill
-		scene.previousScene = self.scene!
-		playerBoard.disableGestureRecognizer()
-		super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
+        let scene: ConfigScene = ConfigScene()
+        scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.previousScene = self.scene!
+        playerBoard.disableGestureRecognizer()
+        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
     }
     
     func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
-        //        let width = currentLevel.playerBoard.cellsMatrix[1].count
-        //        let height = currentLevel.playerBoard.cellsMatrix.count
-        if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
+        let width = currentLevel.playerBoard.cellsMatrix[1].count
+        let height = currentLevel.playerBoard.cellsMatrix.count
+        if orientation == .vertical && (moves > 0 && moves != height) && columnOrRow >= 0 {
             currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-        } else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
+        } else if orientation == .vertical && (moves < 0 && moves != -height) && columnOrRow >= 0 {
             currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-        } else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
+        } else if orientation == .horizontal && (moves > 0 && moves != width) && columnOrRow >= 0 {
             currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-        } else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
+        } else if orientation == .horizontal && (moves < 0 && moves != -width) && columnOrRow >= 0 {
             currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
         }
         
