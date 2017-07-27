@@ -15,7 +15,7 @@ class ConfigScene: SKScene {
     var links = ["https://www.linkedin.com/in/arthur-giachini-11a03b141/",
                  "https://www.linkedin.com/in/athos-lagemann-60416599/",
                  "https://www.linkedin.com/in/eduardo-segura-fornari-a23728a7/",
-                 "https://www.behance.net/luisascaletsky",
+                 "https://luisascaletsky.myportfolio.com",
                  "https://www.linkedin.com/in/marcelo-andrighetto-foltz-b238ba111/"]
 	
 	internal var isMusicOn: Bool!
