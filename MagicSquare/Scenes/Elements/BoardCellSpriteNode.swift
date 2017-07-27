@@ -22,8 +22,8 @@ class BoardCellSpriteNode: SKShapeNode {
             isBlinking = true
             
             borderNode = self.copy() as! SKShapeNode
-            borderNode.xScale = 1.2
-            borderNode.yScale = 1.2
+            borderNode.xScale = 1.1
+            borderNode.yScale = 1.1
             borderNode.zPosition -= 0.1
             
             borderNode.position = CGPoint(x: 0.0, y: 0.0)
@@ -40,7 +40,7 @@ class BoardCellSpriteNode: SKShapeNode {
             let fadeOut = SKAction.fadeOut(withDuration: fadeTime)
             fadeOut.timingMode = .easeInEaseOut
             
-            let sequence = SKAction.sequence([fadeIn, fadeOut, fadeIn, fadeOut])
+            let sequence = SKAction.sequence([fadeIn, fadeOut])
             
             borderNode.run(sequence, withKey: "blink")
             addChild(borderNode)
