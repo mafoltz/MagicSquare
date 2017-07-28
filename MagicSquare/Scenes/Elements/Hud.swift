@@ -12,7 +12,7 @@ class Hud: SKSpriteNode {
     
     // MARK: - Properties
     
-    private var mascotButton: SKSpriteNode!
+    private var esleButton: SKSpriteNode!
     private var levelsButton: SKSpriteNode!
     private var configurationsButton: SKSpriteNode!
     public var movesLabel: SKLabelNode!
@@ -34,18 +34,18 @@ class Hud: SKSpriteNode {
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
-        mascotButton = SKSpriteNode(imageNamed: "mascot")
-        mascotButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
-        mascotButton.run(SKAction.moveBy(x: 0.0, y: -0.3 * buttonsLineHeight, duration: 0.0))
-        mascotButton.zPosition = 2.0
-        addChild(mascotButton)
+        esleButton = SKSpriteNode(imageNamed: "mascot")
+        esleButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
+        esleButton.run(SKAction.moveBy(x: 0.0, y: -0.3 * buttonsLineHeight, duration: 0.0))
+        esleButton.zPosition = 2.0
+        addChild(esleButton)
         
         let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
         moveDown.timingMode = .easeInEaseOut
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
         moveUp.timingMode = .easeInEaseOut
         let sequence = SKAction.sequence([moveDown, moveUp])
-        mascotButton.run(SKAction.repeatForever(sequence))
+        esleButton.run(SKAction.repeatForever(sequence))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
@@ -112,7 +112,7 @@ class Hud: SKSpriteNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         
-        if mascotButton.contains(touchLocation!) {
+        if esleButton.contains(touchLocation!) {
             actionDelegate?.answerAction()
         }
         
