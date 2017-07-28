@@ -667,21 +667,21 @@ class BoardNode: SKNode {
         }
     }
     
-    /*func blinkColor(inRow row: Int, level: Level) {
-        for cell in playerBoard[row].dropFirst().dropLast() {
-            if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
+    func blinkColor(inRow row: Int, level: Level) {
+        for (j, cell) in playerBoard[row + 1].dropFirst().dropLast().enumerated() {
+            if cell.fillColor == level.templateBoard.cellsMatrix[row][j]?.color {
                 cell.blinkColor()
             }
         }
     }
     
     func blinkColor(inColumn column: Int, level: Level) {
-        for row in playerBoard.dropFirst().dropLast() {
-            if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
-                row[column].blinkColor()
+        for (i, row) in playerBoard.dropFirst().dropLast().enumerated() {
+            if row[column + 1].fillColor == level.templateBoard.cellsMatrix[i][column]?.color {
+                row[column + 1].blinkColor()
             }
         }
-    }*/
+    }
     
     func stopBlinkColor(inRow row: Int) {
         for cell in playerBoard[row].dropFirst().dropLast() {

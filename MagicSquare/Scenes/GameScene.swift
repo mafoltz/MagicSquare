@@ -101,7 +101,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                         board.state = .octopusTouched
                     }
                 }
-                playerBoard.blinkColor(from: currentLevel)
+                //playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
         }
@@ -133,21 +133,39 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
         let width = currentLevel.playerBoard.cellsMatrix[1].count
         let height = currentLevel.playerBoard.cellsMatrix.count
+        
         if orientation == .vertical && (moves > 0 && moves != height) && columnOrRow >= 0 {
             currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-        } else if orientation == .vertical && (moves < 0 && moves != -height) && columnOrRow >= 0 {
-            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-        } else if orientation == .horizontal && (moves > 0 && moves != width) && columnOrRow >= 0 {
-            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-        } else if orientation == .horizontal && (moves < 0 && moves != -width) && columnOrRow >= 0 {
-            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
         }
-        
-        Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(self.blinkPlayerBoard), userInfo: nil, repeats: false)
+        else if orientation == .vertical && (moves < 0 && moves != -height) && columnOrRow >= 0 {
+            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
+        }
+        else if orientation == .horizontal && (moves > 0 && moves != width) && columnOrRow >= 0 {
+            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+        }
+        else if orientation == .horizontal && (moves < 0 && moves != -width) && columnOrRow >= 0 {
+            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+        }
     }
     
     func blinkPlayerBoard() {
         playerBoard.blinkColor(from: currentLevel)
+    }
+    
+    func blinkPlayerBoardInRow(timer: Timer) {
+        let info = timer.userInfo as! NSDictionary
+        let row = info.value(forKey: "row") as! Int
+        playerBoard.blinkColor(inRow: row, level: currentLevel)
+    }
+    
+    func blinkPlayerBoardInColumn(timer: Timer) {
+        let info = timer.userInfo as! NSDictionary
+        let column = info.value(forKey: "column") as! Int
+        playerBoard.blinkColor(inColumn: column, level: currentLevel)
     }
     
     func goToResultsScene() {
