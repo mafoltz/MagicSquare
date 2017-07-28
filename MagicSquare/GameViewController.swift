@@ -16,13 +16,11 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
-			let scene = GameScene()
-            let json: [[String: Any]] = JsonReader.openJson(named: "World")!
-            scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: 1)!
+			let scene = SplashScreenScene()
 			scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 			scene.size = self.view.bounds.size
 			scene.scaleMode = .aspectFill
-			view.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+			view.presentScene(scene)
 			
             view.ignoresSiblingOrder = true
             
