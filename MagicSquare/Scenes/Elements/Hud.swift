@@ -12,7 +12,7 @@ class Hud: SKSpriteNode {
     
     // MARK: - Properties
     
-    private var mascotButton: SKSpriteNode!
+    private var esleButton: SKSpriteNode!
     private var levelsButton: SKSpriteNode!
     private var configurationsButton: SKSpriteNode!
     public var movesLabel: SKLabelNode!
@@ -23,7 +23,7 @@ class Hud: SKSpriteNode {
     
     var actionDelegate: ActionHandlerDelegate?
     
-    private var quoteLabel: SKLabelNode!
+    private var quoteLabel: Label!
     
     // MARK: - Methods
     
@@ -34,18 +34,18 @@ class Hud: SKSpriteNode {
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
-        mascotButton = SKSpriteNode(imageNamed: "mascot")
-        mascotButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
-        mascotButton.run(SKAction.moveBy(x: 0.0, y: -0.3 * buttonsLineHeight, duration: 0.0))
-        mascotButton.zPosition = 2.0
-        addChild(mascotButton)
+        esleButton = SKSpriteNode(imageNamed: "mascot")
+        esleButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
+        esleButton.run(SKAction.moveBy(x: 0.0, y: -0.3 * buttonsLineHeight, duration: 0.0))
+        esleButton.zPosition = 2.0
+        addChild(esleButton)
         
         let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
         moveDown.timingMode = .easeInEaseOut
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
         moveUp.timingMode = .easeInEaseOut
         let sequence = SKAction.sequence([moveDown, moveUp])
-        mascotButton.run(SKAction.repeatForever(sequence))
+        esleButton.run(SKAction.repeatForever(sequence))
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
@@ -90,29 +90,29 @@ class Hud: SKSpriteNode {
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
-        
-        quoteLabel = SKLabelNode()
-        quoteLabel.fontColor = UIColor.black
-        quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            quoteLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 50.0)?.fontName
-            quoteLabel.fontSize = 50.0
-        }
-        quoteLabel.fontSize = 15.0
-        quoteLabel.position = CGPoint(x: 0.0, y: mascotButton.position.y - mascotButton.size.height/2 - 50)
-        quoteLabel.zPosition = 0.1
-        addChild(quoteLabel)
 
     }
     
     func setQuoteLabel(with text: String) {
-        quoteLabel.text = text
+        if quoteLabel != nil {
+            removeChildren(in: [quoteLabel])
+        }
+        
+        let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 18.0, width: size.width*0.808, fontColor: fontColor)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: size.width*0.608, fontColor: fontColor)
+        }
+        
+        quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
+        quoteLabel.zPosition = 0.1
+        addChild(quoteLabel)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
         
-        if mascotButton.contains(touchLocation!) {
+        if esleButton.contains(touchLocation!) {
             actionDelegate?.answerAction()
         }
         

@@ -23,7 +23,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     override func didMove(to view: SKView) {
         self.scene?.backgroundColor = UIColor.white
         self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-
+        
         setHud(from: view)
         setTemplate(from: view)
         
@@ -41,6 +41,11 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
         
+        let isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
+        if !isMusicOn{
+            MusicController.sharedInstance.music?.pause()
+        }
+        
         hasGameBegun = true
     }
     
@@ -57,7 +62,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func setHud(from view: SKView) {
-        hud = Hud(color: UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
+        let color = UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0)
+        hud = Hud(color: color,
                   size: CGSize(width: view.bounds.size.width, height: 0.225 * view.bounds.size.height))
         hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
         hud.setHud(from: currentLevel)
@@ -72,7 +78,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func setPlayerBoard(from view: SKView) {
-		playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard, needsExtraCells: true)
+        playerBoard = BoardNode(with: view.bounds.size, board: currentLevel.playerBoard, needsExtraCells: true)
         playerBoard.boardDelegate = self
         addChild(playerBoard)
     }
@@ -95,7 +101,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
                         board.state = .octopusTouched
                     }
                 }
-                playerBoard.blinkColor(from: currentLevel)
+                //playerBoard.blinkColor(from: currentLevel)
                 playerBoard.addGestureRecognizer()
             }
         }
@@ -115,38 +121,54 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-		let scene: ConfigScene = ConfigScene()
-		scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-		scene.size = (super.view?.bounds.size)!
-		scene.scaleMode = .aspectFill
-		scene.previousScene = self.scene!
-		playerBoard.disableGestureRecognizer()
-		super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
+        let scene: ConfigScene = ConfigScene()
+        scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        scene.size = (super.view?.bounds.size)!
+        scene.scaleMode = .aspectFill
+        scene.previousScene = self.scene!
+        playerBoard.disableGestureRecognizer()
+        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
     }
     
     func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
-        //        let width = currentLevel.playerBoard.cellsMatrix[1].count
-        //        let height = currentLevel.playerBoard.cellsMatrix.count
-        if orientation == .vertical && moves > 0 && columnOrRow >= 0 {
-            currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-        } else if orientation == .vertical && moves < 0 && columnOrRow >= 0 {
-            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-        } else if orientation == .horizontal && moves > 0 && columnOrRow >= 0 {
-            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-        } else if orientation == .horizontal && moves < 0 && columnOrRow >= 0 {
-            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
-        }
+        let width = currentLevel.playerBoard.cellsMatrix[1].count
+        let height = currentLevel.playerBoard.cellsMatrix.count
         
-        Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(self.blinkPlayerBoard), userInfo: nil, repeats: false)
+        if orientation == .vertical && (moves > 0 && moves != height) && columnOrRow >= 0 {
+            currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
+        }
+        else if orientation == .vertical && (moves < 0 && moves != -height) && columnOrRow >= 0 {
+            currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
+        }
+        else if orientation == .horizontal && (moves > 0 && moves != width) && columnOrRow >= 0 {
+            currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+        }
+        else if orientation == .horizontal && (moves < 0 && moves != -width) && columnOrRow >= 0 {
+            currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+        }
     }
     
-    func blinkPlayerBoard() {
-        playerBoard.blinkColor(from: currentLevel)
+    func blinkPlayerBoardInRow(timer: Timer) {
+        let info = timer.userInfo as! NSDictionary
+        let row = info.value(forKey: "row") as! Int
+        playerBoard.blinkColor(inRow: row, level: currentLevel)
+    }
+    
+    func blinkPlayerBoardInColumn(timer: Timer) {
+        let info = timer.userInfo as! NSDictionary
+        let column = info.value(forKey: "column") as! Int
+        playerBoard.blinkColor(inColumn: column, level: currentLevel)
     }
     
     func goToResultsScene() {
         MusicController.sharedInstance.stop()
-        MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+            MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        }
         
         let scene: ResultsScene = ResultsScene()
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
@@ -156,7 +178,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
     }
     
-    func setQuoteLabel(with txtOne: String, and txtTwo: String) {
+    func setQuoteLabel(with txtOne: String) {
         hud.setQuoteLabel(with: txtOne)
     }
 }
