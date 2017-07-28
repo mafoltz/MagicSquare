@@ -152,10 +152,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         }
     }
     
-    func blinkPlayerBoard() {
-        playerBoard.blinkColor(from: currentLevel)
-    }
-    
     func blinkPlayerBoardInRow(timer: Timer) {
         let info = timer.userInfo as! NSDictionary
         let row = info.value(forKey: "row") as! Int
