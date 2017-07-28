@@ -29,7 +29,7 @@ class BoardCellShapeNode: SKShapeNode {
             borderNode.position = CGPoint(x: 0.0, y: 0.0)
             borderNode.run(SKAction.fadeOut(withDuration: 0.0))
             
-            let fadeTime = 0.5
+            let fadeTime = 0.3
             
             let fadeAlpha = SKAction.fadeAlpha(to: 0.5, duration: fadeTime)
             fadeAlpha.timingMode = .easeInEaseOut
@@ -40,7 +40,7 @@ class BoardCellShapeNode: SKShapeNode {
             let fadeOut = SKAction.fadeOut(withDuration: fadeTime)
             fadeOut.timingMode = .easeInEaseOut
             
-            let sequence = SKAction.sequence([fadeIn, fadeOut])
+            let sequence = SKAction.sequence([fadeAlpha, fadeOut])
             
             borderNode.run(sequence, withKey: "blink")
             addChild(borderNode)
