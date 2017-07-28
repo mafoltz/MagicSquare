@@ -18,10 +18,8 @@ class SplashScreenScene: SKScene {
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
-        let splashScreenSpriteNode = SKSpriteNode(imageNamed: "mascot")
-        
         esle = SKSpriteNode(imageNamed: "1")
-        esle.size = splashScreenSpriteNode.size
+        esle.size = CGSize(width: 94, height: 145)
         esle.zPosition = 0.2
         let movement = SKAction.animate(with: [SKTexture(imageNamed: "1"), SKTexture(imageNamed: "2"),
                                                SKTexture(imageNamed: "3"), SKTexture(imageNamed: "4"),
