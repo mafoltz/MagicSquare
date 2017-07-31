@@ -122,7 +122,7 @@ class TemplateBoard: SKSpriteNode {
             setTemplateText(with: "This is the right answer for passing level")
         }
         else if cont == 2 {
-            setTemplateText(with: "I will be here to show you the answer just tap me")
+            setTemplateText(with: "I will be here to show you the answer, just tap me")
         }
         else {
             scene.answerAction()
