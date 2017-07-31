@@ -47,6 +47,15 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         }
         
         hasGameBegun = true
+        
+//        var level : Int!
+//        level = UserDefaults.standard.integer(forKey: "level")
+    
+        if UserDefaults.standard.integer(forKey: "level") == 0 {
+            UserDefaults.standard.set(currentLevel.number, forKey: "level")
+            UserDefaults.standard.synchronize()
+        }
+        
     }
     
     override func didChangeSize(_ oldSize: CGSize) {
@@ -168,6 +177,13 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         MusicController.sharedInstance.stop()
         if UserDefaults.standard.bool(forKey: "isSoundsOn") {
             MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
+        }
+        
+        if currentLevel.number+1 > UserDefaults.standard.integer(forKey: "level") && (JsonReader.openJson(named: "World")?.count)! > UserDefaults.standard.integer(forKey: "level") {
+            
+            UserDefaults.standard.set(currentLevel.number+1, forKey: "level")
+            UserDefaults.standard.synchronize()
+            print("LEVEL USER DEFAULTS:\(UserDefaults.standard.integer(forKey: "level"))")
         }
         
         let scene: ResultsScene = ResultsScene()
