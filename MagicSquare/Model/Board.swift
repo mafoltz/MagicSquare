@@ -17,14 +17,14 @@ class Board {
     let numColumns: Int!
     var isMoving = false
 	
-    let colors = [UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0),
-                  UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
-                  UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0),
-                  UIColor(red: 160/256, green: 072/256, blue: 072/256, alpha: 1.0),
-                  UIColor(red: 211/256, green: 114/256, blue: 074/256, alpha: 1.0),
-                  UIColor(red: 047/256, green: 066/256, blue: 076/256, alpha: 1.0),
-                  UIColor(red: 066/256, green: 074/256, blue: 127/256, alpha: 1.0),
-                  UIColor(red: 120/256, green: 172/256, blue: 120/256, alpha: 1.0)]
+	let colors = ["color0" : UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0),
+                  "color1" : UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
+                  "color2" : UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0),
+                  "color3" : UIColor(red: 160/256, green: 072/256, blue: 072/256, alpha: 1.0),
+                  "color4" : UIColor(red: 211/256, green: 114/256, blue: 074/256, alpha: 1.0),
+                  "color5" : UIColor(red: 047/256, green: 066/256, blue: 076/256, alpha: 1.0),
+                  "color6" : UIColor(red: 066/256, green: 074/256, blue: 127/256, alpha: 1.0),
+                  "color7" : UIColor(red: 120/256, green: 172/256, blue: 120/256, alpha: 1.0)]
     
     // MARK: - Methods
     
@@ -35,9 +35,9 @@ class Board {
         
         for i in 0..<numRows {
             var cellsColumn = [BoardCell]()
-            
+			
             for j in 0..<numColumns {
-                cellsColumn.append(BoardCell(color: colors[board[i][j]], colorSymbol: board[i][j]))
+				cellsColumn.append(BoardCell(color: colors["color" + (board[i][j]).description]! , colorSymbol: board[i][j]))
             }
             
             cellsMatrix.insert(cellsColumn, at: i)

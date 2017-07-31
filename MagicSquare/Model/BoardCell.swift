@@ -14,13 +14,12 @@ class BoardCell {
     // MARK: - Properties
     
     let color: UIColor!
-	let symbol: SKSpriteNode!
+	let symbol: String!
 	
     // MARK: - Methods
     
 	init(color: UIColor, colorSymbol: Int) {
         self.color = color
-		let assetName = "cell" + colorSymbol.description
-		symbol = SKSpriteNode(imageNamed: assetName)
+		self.symbol = String("cell" + colorSymbol.description)
     }
 }
