@@ -206,6 +206,7 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: playerBoard[0][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
+			
 			newBeginningRow.append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -218,6 +219,7 @@ class BoardNode: SKNode {
 			newCell.position = CGPoint(x: playerBoard[lastPlayerRow][cell.offset].position.x, y: newY)
 			newCell.fillColor = (replicatedRow[cell.offset]?.color)!
 			newCell.strokeColor = (replicatedRow[cell.offset]?.color)!
+			
 			newEndingRow.append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -237,18 +239,20 @@ class BoardNode: SKNode {
 			newCell.name = "cell" + (row.offset - 1).description + "-1"
 			newCell.fillColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][board.numColumns - 1]?.color)!
+			
 			playerBoard[row.offset + 1].insert(newCell, at: 0)
 			boardContentNode.addChild(newCell)
 		}
 		
 		xOffset = playerBoard[1][playerBoard[1].count - 1].position.x + newPos
-//		xOffset = playerBoard[1][playerBoard[1].count - 1].position.x + newPos/3
+
 		for row in board.cellsMatrix.enumerated() {
 			let newCell = BoardCellShapeNode(rectOf: cellsSize, cornerRadius: (cellsSize.width * 0.20))
 			newCell.position = CGPoint(x: xOffset, y: playerBoard[row.offset + 1][0].position.y)
 			newCell.name = "cell" + (row.offset - 1).description + (playerBoard[1].count - 1).description
 			newCell.fillColor = (board.cellsMatrix[row.offset][0]?.color)!
 			newCell.strokeColor = (board.cellsMatrix[row.offset][0]?.color)!
+			
 			playerBoard[row.offset + 1].append(newCell)
 			boardContentNode.addChild(newCell)
 		}
@@ -276,17 +280,19 @@ class BoardNode: SKNode {
 	}
 	
 	func addColorBlindSymbolsWithExtraCells(board: Board) {
-		for row in playerBoard.dropFirst().dropLast().enumerated() {
-			for column in row.element.dropFirst().dropLast().enumerated() {
-				if let symbolName = board.cellsMatrix[row.offset][column.offset]?.symbol {
-					let cell = boardContentNode.childNode(withName: "cell" + row.offset.description + column.offset.description)
-					let symbol = SKSpriteNode(imageNamed: symbolName)
-					symbol.name = "symbol"
-					symbol.scale(to: CGSize(width: cellsSize.width/3, height: cellsSize.height/3))
-					cell?.addChild(symbol)
-				}
-			}
-		}
+//		for row in playerBoard.dropFirst().dropLast().enumerated() {
+//			for column in row.element.dropFirst().dropLast().enumerated() {
+//				if let symbolName = board.cellsMatrix[row.offset][column.offset]?.symbol {
+//					let cell = boardContentNode.childNode(withName: "cell" + row.offset.description + column.offset.description)
+//					let symbol = SKSpriteNode(imageNamed: symbolName)
+//					symbol.name = "symbol"
+//					symbol.scale(to: CGSize(width: cellsSize.width/3, height: cellsSize.height/3))
+//					cell?.addChild(symbol)
+//				}
+//			}
+//		}
+		
+		addSymbolsToMatrix(to: playerBoard)
 	}
 	
 	func addCornerCells(_ newPos: CGFloat) {
@@ -416,7 +422,7 @@ class BoardNode: SKNode {
 				
                 columnCopy[columnCopy.count-1] = newCell
                 moves = moves + 1
-                
+				
                 for index in 0..<playerBoard.count{
                     playerBoard[index][column] = columnCopy[index]
                 }
@@ -448,7 +454,7 @@ class BoardNode: SKNode {
                 
                 columnCopy[0] = newCell
                 moves = moves - 1
-                
+				
                 for index in 0..<playerBoard.count{
                     playerBoard[index][column] = columnCopy[index]
                 }
@@ -463,7 +469,7 @@ class BoardNode: SKNode {
         guard let scene = self.scene else {
             return
         }
-        
+		
         if !isMoving {
             if recognizer.state == .began {
                 firstTouch = scene.convertPoint(fromView: recognizer.location(in: recognizer.view))
@@ -486,20 +492,15 @@ class BoardNode: SKNode {
                             playerBoard[row][0].fillColor = playerBoard[row][playerBoard[row].count-2].fillColor
                             playerBoard[row][0].strokeColor = playerBoard[row][playerBoard[row].count-2].strokeColor
 							
-							if isColorBlind {
-								addColorBlindSymbolToCell(from: playerBoard[row][playerBoard[row].count-2],
-								                          to: playerBoard[row][0])
-							}
-						
-                            playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
+							playerBoard[row][playerBoard[row].count-1].fillColor = playerBoard[row][1].fillColor
                             playerBoard[row][playerBoard[row].count-1].strokeColor = playerBoard[row][1].strokeColor
 							
 							if isColorBlind {
+								addColorBlindSymbolToCell(from: playerBoard[row][playerBoard[row].count-2],
+								                          to: playerBoard[row][0])
 								addColorBlindSymbolToCell(from: playerBoard[row][1],
 								                          to: playerBoard[row][playerBoard[row].count-1])
 							}
-                            
-                            stopBlinkColor(inRow: row)
                         }
                     } else {
                         direction = .vertical
@@ -507,21 +508,16 @@ class BoardNode: SKNode {
                         if column >= 0 {
                             playerBoard.first![column].fillColor = playerBoard[playerBoard.count-2][column].fillColor
                             playerBoard.first![column].strokeColor = playerBoard[playerBoard.count-2][column].strokeColor
-							
-							if isColorBlind {
-								addColorBlindSymbolToCell(from: playerBoard[playerBoard.count-2][column],
-								                          to: playerBoard.first![column])
-							}
                             
                             playerBoard.last![column].fillColor = playerBoard[1][column].fillColor
                             playerBoard.last![column].strokeColor = playerBoard[1][column].strokeColor
 							
 							if isColorBlind {
+								addColorBlindSymbolToCell(from: playerBoard[playerBoard.count-2][column],
+								                          to: playerBoard.first![column])
 								addColorBlindSymbolToCell(from: playerBoard[1][column],
 								                          to: playerBoard.last![column])
 							}
-                            
-                            stopBlinkColor(inColumn: column)
                         }
                     }
                 }
@@ -789,18 +785,25 @@ class BoardNode: SKNode {
             }
         }
     }
-    
-    func stopBlinkColor(inRow row: Int) {
-        for cell in playerBoard[row].dropFirst().dropLast() {
-            cell.stopBlinkColor()
-        }
-    }
-    
-    func stopBlinkColor(inColumn column: Int) {
-        for row in playerBoard.dropFirst().dropLast() {
-            row[column].stopBlinkColor()
-        }
-    }
+	
+	func addSymbolsToMatrix(to matrix: [[BoardCellShapeNode]]) {
+		for row in matrix {
+			addMissingSymbols(to: row)
+		}
+	}
+	
+	func addMissingSymbols(to destination: [BoardCellShapeNode]) {
+		for cell in destination {
+			if cell.childNode(withName: "symbol") == nil {
+				let symbolName = getSymbolNameFromColor(color: cell.fillColor)
+				let newSymbol = SKSpriteNode(imageNamed: symbolName.replacingOccurrences(of: "color", with: "cell"))
+				newSymbol.scale(to: CGSize(width: cellsSize.width/3, height: cellsSize.height/3))
+				newSymbol.name = "symbol"
+				newSymbol.zPosition = 0.01
+				cell.addChild(newSymbol)
+			}
+		}
+	}
 	
 	func getSymbolNameFromColor(color: UIColor) -> String {
 		let newSymbol = color.description
