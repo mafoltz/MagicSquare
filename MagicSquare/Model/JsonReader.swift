@@ -34,8 +34,8 @@ class JsonReader {
         return nil
     }
     
-    static func loadLevel(from json: [[String: Any]], numberOfLevel: Int) -> Level? {
-        return Level(from: json[numberOfLevel-1], numberLevel: numberOfLevel)
+    static func loadLevel(from json: [[String: Any]], worldName: String, numberOfLevel: Int) -> Level? {
+        return Level(from: json[numberOfLevel-1], worldName: worldName, numberLevel: numberOfLevel)
     }
 }
 

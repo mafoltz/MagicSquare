@@ -234,14 +234,14 @@ class ResultsScene: SKScene {
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
                 scene.scaleMode = .aspectFill
-                scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: (currentLevel?.number)! + 1)
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: (currentLevel?.number)! + 1)
                 super.view?.presentScene(scene)
             } else {
                 let scene: GameScene = GameScene()
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
                 scene.scaleMode = .aspectFill
-                scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel: 1)
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: 1)
                 super.view?.presentScene(scene)
             }
         }

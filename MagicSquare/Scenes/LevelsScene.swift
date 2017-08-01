@@ -87,7 +87,7 @@ class LevelsScene: SKScene {
         addChild(levelsScreen)
         
         for i in 0..<json.count {
-            levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
+            levels.append(JsonReader.loadLevel(from: json, worldName: "World4x3", numberOfLevel: i+1)!)
             
             let spriteNode = CoinSpriteNode()
             spriteNode.setCoinForRecord(from: levels[i])
