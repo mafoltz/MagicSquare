@@ -27,14 +27,11 @@ class Tutorial: BoardNode {
     }
     
     func vibrateColumn() {
-        
+        initialPoint = CGPoint(x: playerBoard[playerBoard.count-2][1].position.x, y: playerBoard[playerBoard.count-2][1].position.y)
         for index in 0..<playerBoard.count {
             var vibrateColumn: SKAction = SKAction()
-            //            if isSet == false {
-            //                isSet = true
-            initialPoint = CGPoint(x: playerBoard[index][1].position.x, y: playerBoard[index][1].position.y)
             
-            //let moveToInitial = SKAction.move(to: initialPoint, duration: 0.0)
+            let moveToInitial = SKAction.move(to: initialPoint, duration: 0.0)
             let moveUp = SKAction.moveBy(x: 0.0, y: -8, duration: 0.1)
             let moveDown = SKAction.moveBy(x: 0.0, y: 8, duration: 0.1)
             let moves = SKAction.sequence([moveUp, moveDown])
@@ -43,11 +40,6 @@ class Tutorial: BoardNode {
             let bounceDown = SKAction.moveBy(x: 0.0, y: 3.0, duration: 0.1)
             let sequence = SKAction.sequence([moves, moves, bounceUp, bounceDown, wait])
             vibrateColumn = SKAction.repeatForever(sequence)
-            
-            //            }
-            //            let moveToInitialPosition = SKAction.moveTo(y: initialPoint.y + index*(cellsSize.height + cellsSpacing), duration: 0.0)
-            //            playerBoard[index][1].run(moveToInitialPosition)
-            //            playerBoard[index][1].removeAllActions()
             
             playerBoard[index][1].run(vibrateColumn, withKey: "vibrate")
         }
@@ -72,15 +64,16 @@ class Tutorial: BoardNode {
     
     override func handlePan(recognizer: UIPanGestureRecognizer) {
         super.handlePan(recognizer: recognizer)
-        if state == .row{
-            if recognizer.state == .changed{
+        if state == .row || state == .column {
+            if recognizer.state == .began {
                 removeVibrateRows()
                 removeVibrateColumn()
             }
-            else if recognizer.state == .ended{
-                updateState()
+            else if recognizer.state == .ended {
+                self.updateState()
             }
         }
+        
     }
     
     override func getRow(with position: CGPoint) -> Int {
@@ -118,7 +111,8 @@ class Tutorial: BoardNode {
     }
     
     func updateState() {
-        if playerBoard[playerBoard.count-2][1].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0)  && state == .row{
+        print(state)
+        if playerBoard[playerBoard.count-2][1].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0)  && state == .row {
             state = .touchInOctopus
             boardDelegate?.setQuoteLabel(with: "Tap the octopus to see the answer.")
             removeVibrateRows()
@@ -133,17 +127,24 @@ class Tutorial: BoardNode {
         }
         else {
             state = .row
+            if playerBoard[playerBoard.count-2][2].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0) {
+                
+                //initialPoint = CGPoint(x: playerBoard[index][], y: <#T##CGFloat#>)
+            } else {
+                
+            }
             vibrateRow()
         }
     }
     
     func vibrateRow() {
+         initialPoint = CGPoint(x: playerBoard[playerBoard.count-2][1].position.x, y: playerBoard[playerBoard.count-2][1].position.y)
         for index in 0..<playerBoard[0].count {
             var vibrateRow: SKAction = SKAction()
-            initialPoint = CGPoint(x: playerBoard[index][1].position.x, y: playerBoard[index][1].position.y)
+            //initialPoint = CGPoint(x: playerBoard[index][1].position.x, y: playerBoard[index][1].position.y)
             
-            let moveLeft = SKAction.moveBy(x: -8.0, y: 0.0, duration: 0.1)
-            let moveRight = SKAction.moveBy(x: 8.0, y: 0.0, duration: 0.1)
+            let moveLeft = SKAction.moveBy(x: -8, y: 0, duration: 0.1)
+            let moveRight = SKAction.moveBy(x: 8, y: 0, duration: 0.1)
             let moves = SKAction.sequence([moveLeft, moveRight])
             let wait = SKAction.wait(forDuration: 1.5)
             let bounceLeft = SKAction.moveBy(x: -3.0, y: 0.0, duration: 0.1)
@@ -151,23 +152,41 @@ class Tutorial: BoardNode {
             let sequence = SKAction.sequence([moves, moves, bounceLeft, bounceRight, wait])
             vibrateRow = SKAction.repeatForever(sequence)
             
-            
             playerBoard[playerBoard.count-2][index].run(vibrateRow, withKey: "vibrate")
         }
     }
     
-    //MARK ------------------------------------------ REMOVE VIBRATES
+//MARK ------------------------------------------ REMOVE VIBRATES
     
     func removeVibrateColumn() {
+        let diff = abs(playerBoard[playerBoard.count-2][1].position.y - initialPoint.y)
         for index in 0..<playerBoard.count {
-            playerBoard[index][1].removeAction(forKey: "vibrate") }
+            playerBoard[index][1].removeAction(forKey: "vibrate")
+        }
+        if diff > 0 {
+            for index in 0..<playerBoard.count {
+                playerBoard[index][1].position.y += diff
+            }
+        }
     }
-    
+
     func removeVibrateRows() {
+        let diff = abs(playerBoard[playerBoard.count-2][1].position.x - initialPoint.x)
         for index in 0..<playerBoard[0].count {
             playerBoard[playerBoard.count-2][index].removeAction(forKey: "vibrate")
         }
+        if diff > 0 {
+            for index in 0..<playerBoard[0].count {
+                playerBoard[playerBoard.count-2][index].position.x += diff
+            }
+        }
     }
+//    func removeVibrate() {
+//        for index in 0..<self.playerBoard.count {
+//            let line = playerBoard[index]
+//            line.forEach{ $0.removeAction(forKey: "vibrate") }
+//        }
+//    }
 }
 
 //MARK ------------------------------------------ EXTENSION
