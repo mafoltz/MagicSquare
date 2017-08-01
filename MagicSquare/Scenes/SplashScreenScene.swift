@@ -41,9 +41,25 @@ class SplashScreenScene: SKScene {
     
     func goToGameScene() {
         let scene = GameScene()
-        let json: [[String: Any]] = JsonReader.openJson(named: "World")!
-        scene.currentLevel = JsonReader.loadLevel(from: json, numberOfLevel:UserDefaults.standard.integer(forKey: "level"))!
-        //JsonReader.loadLevel(from: json, numberOfLevel: 1)!
+        
+        let world = UserDefaults.standard.string(forKey: "world")
+        let level = UserDefaults.standard.integer(forKey: "level")
+        
+        if world != nil {
+            let json: [[String: Any]] = JsonReader.openJson(named: world!)!
+            
+            if level >= 1 {
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: level)!
+            } else {
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: 1)!
+            }
+        } else {
+            let initialWorld = "World4x3"
+            UserDefaults.standard.set(initialWorld, forKey: "world")
+            
+            let json: [[String: Any]] = JsonReader.openJson(named: initialWorld)!
+            scene.currentLevel = JsonReader.loadLevel(from: json, worldName: initialWorld, numberOfLevel: 1)!
+        }
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         scene.size = (self.view?.bounds.size)!
         scene.scaleMode = .aspectFill

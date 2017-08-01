@@ -20,6 +20,7 @@ class Level {
     
     // MARK: - Properties
     
+    let world: String
     let number: Int
     let level: String
     var playerBoard: Board!
@@ -32,7 +33,8 @@ class Level {
     
     // MARK: - Methods
     
-    init(from json: [String: Any], numberLevel: Int) {
+    init(from json: [String: Any], worldName: String, numberLevel: Int) {
+        world = worldName
         number = numberLevel
         level = json["level"] as! String
         playerBoard = Board(board: json["initialBoard"] as! [[Int]])

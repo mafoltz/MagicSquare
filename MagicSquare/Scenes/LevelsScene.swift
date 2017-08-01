@@ -12,7 +12,7 @@ class LevelsScene: SKScene {
     
     // MARK: - Properties
     
-    private let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+    private let json: [[String: Any]] = JsonReader.openJson(named: UserDefaults.standard.string(forKey: "world")!)!
     private var levels = [Level]()
     
     private var previousScene: SKScene!
@@ -87,7 +87,8 @@ class LevelsScene: SKScene {
         addChild(levelsScreen)
         
         for i in 0..<json.count {
-            levels.append(JsonReader.loadLevel(from: json, numberOfLevel: i+1)!)
+            let world = UserDefaults.standard.string(forKey: "world")
+            levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
             
             let spriteNode = CoinSpriteNode()
             spriteNode.setCoinForRecord(from: levels[i])
