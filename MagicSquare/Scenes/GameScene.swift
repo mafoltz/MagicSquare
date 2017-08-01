@@ -179,7 +179,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
             MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
         }
         
-        if currentLevel.number+1 > UserDefaults.standard.integer(forKey: "level") && (JsonReader.openJson(named: "World4x3")?.count)! > UserDefaults.standard.integer(forKey: "level") {
+        if currentLevel.number+1 > UserDefaults.standard.integer(forKey: "level") && (JsonReader.openJson(named: currentLevel.world)?.count)! > UserDefaults.standard.integer(forKey: "level") {
             
             UserDefaults.standard.set(currentLevel.number+1, forKey: "level")
             UserDefaults.standard.synchronize()
