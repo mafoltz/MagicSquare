@@ -29,7 +29,7 @@ class Level {
     let movesToGoldenCoin: Int
     let movesToSilverCoin: Int
     var recordMoves: Int
-    var locked = false
+    var locked = true
     
     // MARK: - Methods
     
@@ -42,10 +42,26 @@ class Level {
         playerMoves = 0
         movesToGoldenCoin = json["moves"] as! Int
         movesToSilverCoin = 2 * movesToGoldenCoin
-        recordMoves = UserDefaults.standard.integer(forKey: "\(number)")
         
-        if number > 1 && UserDefaults.standard.integer(forKey: "\(number - 1)") <= 0 {
-            locked = true
+        if number == 1 {
+            locked = false
+        }
+        
+        if let recordsDictionary = UserDefaults.standard.dictionary(forKey: world) {
+            // Set the record
+            if let index = recordsDictionary.index(forKey: "\(number)") {
+                recordMoves = recordsDictionary[index].value as! Int
+            } else {
+                recordMoves = 0
+            }
+            
+            if number > 1, let index = recordsDictionary.index(forKey: "\(number - 1)"), let previousRecord = recordsDictionary[index].value as? Int {
+                if previousRecord > 0 {
+                    locked = false
+                }
+            }
+        } else {
+            recordMoves = 0
         }
     }
 	
@@ -122,12 +138,16 @@ class Level {
     func updateRecord() {
         if recordMoves <= 0 || playerMoves < recordMoves {
             recordMoves = playerMoves
-            UserDefaults.standard.set(playerMoves, forKey: "\(number)")
+            
+            if var recordsDictionary = UserDefaults.standard.dictionary(forKey: world) {
+                recordsDictionary.updateValue(playerMoves, forKey: "\(number)")
+                UserDefaults.standard.set(recordsDictionary, forKey: world)
+            } else {
+                var recordsDictionary = Dictionary<String, Any>()
+                recordsDictionary.updateValue(playerMoves, forKey: "\(number)")
+                UserDefaults.standard.set(recordsDictionary, forKey: world)
+            }
         }
-    }
-    
-    func getRecord() -> Int {
-        return UserDefaults.standard.integer(forKey: "\(number)")
     }
     
 	func hasLevelWon() -> Bool {

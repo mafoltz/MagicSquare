@@ -72,8 +72,8 @@ class ResultsScene: SKScene {
         
         let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         
-        var bestMoves = currentLevel.getRecord()
-        if bestMoves == 0 {
+        var bestMoves = currentLevel.recordMoves
+        if bestMoves <= 0 {
             bestMoves = currentLevel.playerMoves
         }
         else if currentLevel.playerMoves < bestMoves{
