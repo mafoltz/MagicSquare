@@ -7,16 +7,19 @@
 //
 
 import UIKit
+import SpriteKit
 
 class BoardCell {
     
     // MARK: - Properties
     
     let color: UIColor!
-    
+	let symbol: String!
+	
     // MARK: - Methods
     
-    init(color: UIColor) {
+	init(color: UIColor, colorSymbol: Int) {
         self.color = color
+		self.symbol = String("cell" + colorSymbol.description)
     }
 }

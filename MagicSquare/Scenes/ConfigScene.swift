@@ -283,6 +283,7 @@ class ConfigScene: SKScene {
 			}
 		}
 		UserDefaults.standard.set(isColorBlind, forKey: "isColorBlind")
+		
 	}
 	
 	func initScene() {
