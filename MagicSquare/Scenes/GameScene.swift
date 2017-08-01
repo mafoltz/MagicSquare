@@ -66,6 +66,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         hud.movesLabel.text = String(currentLevel.playerMoves)
         
         if !playerBoard.isMoving && currentLevel.hasLevelWon() {
+            playerBoard.disableGestureRecognizer()
             goToResultsScene()
         }
     }
