@@ -210,7 +210,7 @@ class ResultsScene: SKScene {
         
         self.starsPosition = mascot.position
         
-        if currentLevel.number == JsonReader.openJson(named: "World")?.count{
+        if currentLevel.number == JsonReader.openJson(named: "World4x3")?.count{
             removeChildren(in: [label2, label3])
             
             button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
@@ -228,7 +228,7 @@ class ResultsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         if button.contains(touch!.location(in: self)){
-            let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+            let json: [[String: Any]] = JsonReader.openJson(named: "World4x3")!
             if (currentLevel?.number)! < json.count {
                 let scene: GameScene = GameScene()
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)

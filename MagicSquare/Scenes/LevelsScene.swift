@@ -12,7 +12,7 @@ class LevelsScene: SKScene {
     
     // MARK: - Properties
     
-    private let json: [[String: Any]] = JsonReader.openJson(named: "World")!
+    private let json: [[String: Any]] = JsonReader.openJson(named: "World4x3")!
     private var levels = [Level]()
     
     private var previousScene: SKScene!
