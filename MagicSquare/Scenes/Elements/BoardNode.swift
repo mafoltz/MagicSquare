@@ -371,7 +371,7 @@ class BoardNode: SKNode {
     }
     
     func handlePan(recognizer:UIPanGestureRecognizer) {
-        //recognizer.maximumNumberOfTouches = 1
+        recognizer.maximumNumberOfTouches = 1
         
         guard let scene = self.scene else {
             return
