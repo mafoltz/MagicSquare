@@ -42,6 +42,7 @@
 		D78CAE761F2BA31800D05A9A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D78CAE741F2BA31800D05A9A /* Fabric.framework */; };
 		D78CAE771F2BA31800D05A9A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D78CAE751F2BA31800D05A9A /* Crashlytics.framework */; };
 		D78CAE791F2BA48D00D05A9A /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE781F2BA48D00D05A9A /* GameConfiguration.swift */; };
+		D7CBD5521F326039005EFBBA /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBD5511F326039005EFBBA /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		D78CAE741F2BA31800D05A9A /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		D78CAE751F2BA31800D05A9A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		D78CAE781F2BA48D00D05A9A /* GameConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameConfiguration.swift; sourceTree = "<group>"; };
+		D7CBD5511F326039005EFBBA /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			children = (
 				571193ED1F15584000E1ECEA /* Level.swift */,
 				571193F01F15586700E1ECEA /* Board.swift */,
+				D7CBD5511F326039005EFBBA /* UIColorExtension.swift */,
 				571193F21F15589600E1ECEA /* BoardCell.swift */,
 				576CAD061F1FF1FE00AF38A7 /* JsonReader.swift */,
 				D71B5AA31F155E0C006B6A9D /* World.json */,
@@ -245,6 +248,7 @@
 				TargetAttributes = {
 					5728FE9E1F14037D003774BF = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = QY73PT43D9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -319,6 +323,7 @@
 				577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */,
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				575ECE901F30D2BB0064079A /* SplashScreenScene.swift in Sources */,
+				D7CBD5521F326039005EFBBA /* UIColorExtension.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
 				575ECE921F30D35E0064079A /* Label.swift in Sources */,
@@ -453,7 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QY73PT43D9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -472,7 +477,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = QY73PT43D9;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

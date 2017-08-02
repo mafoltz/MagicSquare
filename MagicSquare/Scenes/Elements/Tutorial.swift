@@ -111,7 +111,7 @@ class Tutorial: BoardNode {
     
     func updateState() {
         print(state)
-        if playerBoard[playerBoard.count-2][1].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0)  && state == .row {
+        if playerBoard[playerBoard.count-2][1].fillColor.description == UIColor(hex: 0x738691).description  && state == .row {
             state = .touchInOctopus
             boardDelegate?.setQuoteLabel(with: "Tap the octopus to see the answer.")
             removeVibrateRows()
@@ -126,7 +126,7 @@ class Tutorial: BoardNode {
         }
         else {
             state = .row
-            if playerBoard[playerBoard.count-2][2].fillColor == UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0) {
+            if playerBoard[playerBoard.count-2][2].fillColor.description == UIColor(hex: 0x738691).description {
                 
                 //initialPoint = CGPoint(x: playerBoard[index][], y: <#T##CGFloat#>)
             } else {
