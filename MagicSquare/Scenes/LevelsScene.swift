@@ -37,8 +37,8 @@ class LevelsScene: SKScene {
     private var firstLevelMargin: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
-    private let screenVerticalSpacing: CGFloat = 20
-    private let screenHorizontalSpacing: CGFloat = 20
+    private var screenVerticalSpacing: CGFloat!
+    private var screenHorizontalSpacing: CGFloat!
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
     
@@ -67,7 +67,7 @@ class LevelsScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        calculateSizes()
+        calculateSizes(from: view)
         
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
@@ -191,10 +191,14 @@ class LevelsScene: SKScene {
         }
     }
     
-    func calculateSizes() {
+    func calculateSizes(from view: SKView) {
+        screenVerticalSpacing = 20 * view.bounds.size.width / 375
+        screenHorizontalSpacing = screenVerticalSpacing
+        
         numLevels = json.count
         numLevelsRows = ((numLevels - 1) / levelsByRow) + 1
-        levelsScreenWidth = (super.view?.bounds.size.width)! - 2 * screenHorizontalSpacing
+        
+        levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
         firstLevelMargin = 0.07 * levelsScreenWidth
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
