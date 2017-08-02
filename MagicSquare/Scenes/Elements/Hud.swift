@@ -107,6 +107,18 @@ class Hud: SKSpriteNode {
         quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
         quoteLabel.zPosition = 0.1
         addChild(quoteLabel)
+        animatePopLabel(quoteLabel)
+    }
+    
+    func animatePopLabel(_ label: SKNode) {
+        let grow = SKAction.scale(by: 1.15, duration: 0.3)
+        let shrink = SKAction.scale(to: 1.0, duration: 0.3)
+        let wait = SKAction.wait(forDuration: 0.15)
+        let waitClose = SKAction.wait(forDuration: 0.4)
+        
+        let sequence = SKAction.sequence([waitClose, grow, wait, shrink])
+        let repeatSequence = SKAction.repeat(sequence, count: 2)
+        label.run(repeatSequence)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
