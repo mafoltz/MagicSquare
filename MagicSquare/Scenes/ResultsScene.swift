@@ -121,17 +121,10 @@ class ResultsScene: SKScene {
             secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
         }
         
-        //Scales
+        //Fonts
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-//            let differenceScale = CGFloat(1)
             let differenceFont = CGFloat(5)
-            
-//            medal.xScale += differenceScale
-//            medal.yScale += differenceScale
-            
-//            levelUpBanner.xScale += differenceScale
-//            levelUpBanner.yScale += differenceScale
             
             totalMovesLabel.fontSize += differenceFont
             totalMovesLabel.fontSize += differenceFont
