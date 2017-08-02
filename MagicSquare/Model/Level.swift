@@ -31,6 +31,12 @@ class Level {
     var recordMoves: Int
     var locked = true
     
+    let medalColors: [Coin: UIColor] = [.golden: UIColor(colorLiteralRed: 240/256, green: 162/256, blue: 25/256, alpha: 1.0),
+                                        .silver: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0),
+                                        .bronze: UIColor(colorLiteralRed: 141/256, green: 81/256, blue: 56/256, alpha: 1.0),
+                                        .undone: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0),
+                                        .locked: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0)]
+    
     // MARK: - Methods
     
     init(from json: [String: Any], worldName: String, numberLevel: Int) {
@@ -109,6 +115,10 @@ class Level {
         else {
             return .bronze
         }
+    }
+    
+    func getMedalColorForRecord() -> UIColor {
+        return medalColors[getCoinForRecord()]!
     }
     
     func getCoinForCurrentGame() -> Coin {

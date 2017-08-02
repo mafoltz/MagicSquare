@@ -29,16 +29,16 @@ class LevelsScene: SKScene {
     private var isMoving = false
     
     private var numLevels: Int!
-    private var numLevelsColumns: Int!
-    private let levelsByColumn: Int! = 4
+    private var numLevelsRows: Int!
+    private let levelsByRow: Int! = 4
     private var levelsSize: CGFloat!
     private var levelsScreenWidth: CGFloat!
     private var levelsScreenHeight: CGFloat!
-    private var verticalSpacingFromTopAndBottom: CGFloat!
+    private var firstLevelMargin: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
-    private let screenVerticalSpacing: CGFloat = 67
-    private let screenHorizontalSpacing: CGFloat = 50
+    private let screenVerticalSpacing: CGFloat = 20
+    private let screenHorizontalSpacing: CGFloat = 20
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
     
@@ -94,8 +94,8 @@ class LevelsScene: SKScene {
             spriteNode.setCoinForRecord(from: levels[i])
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
-            spriteNode.run(SKAction.moveBy(x: horizontalSpacingBetweenLevels + CGFloat(i / levelsByColumn) * (levelsSize + horizontalSpacingBetweenLevels),
-                                           y: -verticalSpacingFromTopAndBottom - CGFloat(i % levelsByColumn) * (levelsSize + verticalSpacingBetweenLevels),
+            spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
+                                           y: -verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
             spriteNode.zPosition = 5.3
             levelsScreen.addChild(spriteNode)
@@ -103,20 +103,19 @@ class LevelsScene: SKScene {
             
             let labelNode = SKLabelNode(text: levels[i].level)
             labelNode.fontColor = UIColor(colorLiteralRed: 92/256, green: 91/256, blue: 91/256, alpha: 1)
-            labelNode.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-            labelNode.fontSize = 18.0
-            labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0))
+            labelNode.fontName = UIFont(name: ".SFUIText-Medium", size: 16.0)?.fontName
+            labelNode.fontSize = 16.0
+            labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0)) // ARRUMAR DEPOIS ISSO AQUI
             labelNode.zPosition = 5.3
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
         
-        let hideLevels = SKAction.moveBy(x: view.bounds.size.width - screenHorizontalSpacing, y: 0.0, duration: 0.0)
-        let moveLevels = SKAction.moveBy(x: screenHorizontalSpacing - view.bounds.size.width - 20.0, y: 0.0, duration: 0.3)
-        let moveLevelsQuickly = SKAction.moveBy(x: 20.0, y: 0.0, duration: 0.01)
-        moveLevelsQuickly.timingMode = .easeOut
-        let actionsSequence = SKAction.sequence([hideLevels, moveLevels, moveLevelsQuickly])
-        levelsScreen.run(actionsSequence)
+        let hideLevels = SKAction.moveBy(x: 0.0, y: screenVerticalSpacing - view.bounds.size.height, duration: 0.0)
+        let moveLevels = SKAction.moveBy(x: 0.0, y: view.bounds.size.height - screenVerticalSpacing, duration: 0.3)
+        moveLevels.timingMode = .easeOut
+        let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
+        //levelsScreen.run(actionsSequence)
         
         isUserInteractionEnabled = false
         Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
@@ -134,8 +133,8 @@ class LevelsScene: SKScene {
         }
         
         for i in 0..<levelsNodes.count {
-            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)! - levelsScreen.position.x,
-                                               y: (touchLocation?.y)!)) {
+            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!,
+                                               y: (touchLocation?.y)! - levelsScreen.position.y)) {
                 indexOfTouchedLevel = i
                 break
             } else {
@@ -149,29 +148,29 @@ class LevelsScene: SKScene {
             let touch: UITouch = touches.first as UITouch!
             let newTouchLocation = touch.location(in: self)
         
-            levelsScreen.run(SKAction.moveBy(x: newTouchLocation.x - (touchLocation?.x)!, y: 0, duration: 0.0))
+            levelsScreen.run(SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0))
             touchLocation = newTouchLocation
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
-        let limit = (view?.bounds.size.width)! - 2 * screenHorizontalSpacing - levelsScreenWidth!
+        let limit = (view?.bounds.size.height)! - 2 * screenVerticalSpacing - levelsScreenHeight!
         
-        if levelsScreen.position.x < limit {
-            let move = SKAction.moveTo(x: limit, duration: 0.2)
+        if levelsScreen.position.y < limit {
+            let move = SKAction.moveTo(y: limit, duration: 0.2)
             move.timingMode = .easeOut
             levelsScreen.run(move)
         }
-        else if levelsScreen.position.x > 0 {
-            let move = SKAction.moveTo(x: 0, duration: 0.2)
+        else if levelsScreen.position.y > 0 {
+            let move = SKAction.moveTo(y: 0.0, duration: 0.2)
             move.timingMode = .easeOut
             levelsScreen.run(move)
         }
         
-        if indexOfTouchedLevel >= 0 && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance &&
-            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)! - levelsScreen.position.x,
-                                                              y: (touchLocation?.y)!)) {
+        if indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
+            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)!,
+                                                              y: (touchLocation?.y)! - levelsScreen.position.y)) {
             goToGameScene(with: levels[indexOfTouchedLevel])
         }
         
@@ -186,13 +185,13 @@ class LevelsScene: SKScene {
     
     func calculateSizes() {
         numLevels = json.count
-        numLevelsColumns = ((numLevels - 1) / levelsByColumn) + 1
-        levelsScreenHeight = (super.view?.bounds.size.height)! - 2 * screenVerticalSpacing
-        levelsSize = 0.156 * levelsScreenHeight
-        verticalSpacingFromTopAndBottom = 0.051 * levelsScreenHeight
-        verticalSpacingBetweenLevels = 0.08 * levelsScreenHeight
-        horizontalSpacingBetweenLevels = 0.075 * levelsScreenHeight
-        levelsScreenWidth = CGFloat(numLevelsColumns) * (levelsSize + horizontalSpacingBetweenLevels) + horizontalSpacingBetweenLevels
+        numLevelsRows = ((numLevels - 1) / levelsByRow) + 1
+        levelsScreenWidth = (super.view?.bounds.size.width)! - 2 * screenHorizontalSpacing
+        levelsSize = 0.17 * levelsScreenWidth
+        firstLevelMargin = 0.08 * levelsScreenWidth
+        verticalSpacingBetweenLevels = 0.058 * levelsScreenWidth
+        horizontalSpacingBetweenLevels = 0.058 * levelsScreenWidth
+        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels
     }
     
     func resetAnchor(of spriteNode: SKSpriteNode) {
