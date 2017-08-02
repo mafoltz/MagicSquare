@@ -80,19 +80,19 @@ class ResultsScene: SKScene {
         numberOfMovesLabel.zPosition = medal.zPosition
         numberOfMovesLabel.fontColor = UIColor(colorLiteralRed: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
         numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
-        numberOfMovesLabel.fontSize = 80
-        
+		numberOfMovesLabel.fontSize = getFontSize(fontSize: 80, screenHeight: self.size.height)
+		
         let totalMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Bold")
         totalMovesLabel.zPosition = numberOfMovesLabel.zPosition
         totalMovesLabel.fontColor = numberOfMovesLabel.fontColor
         totalMovesLabel.text = "TOTAL MOVES"
-        totalMovesLabel.fontSize = 22
+        totalMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
         
         let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
         bestMovesLabel.fontColor = UIColor(colorLiteralRed: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
         bestMovesLabel.text = "\(bestMoves) best"
-        bestMovesLabel.fontSize = 22
+        bestMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
         
         
         buttonRetray.size = CGSize(width: buttonRetraySize, height: buttonRetraySize)
@@ -111,7 +111,7 @@ class ResultsScene: SKScene {
         
         let secondButtonLabel = SKLabelNode(fontNamed: ".SFUIText-Medium")
         secondButtonLabel.zPosition = secondButton.zPosition + 1
-        secondButtonLabel.fontSize = 18
+        secondButtonLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
         secondButtonLabel.fontColor = UIColor.white
         
         if isLastLevel {
@@ -120,26 +120,7 @@ class ResultsScene: SKScene {
         else{
             secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
         }
-        
-        //Fonts
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let differenceFont = CGFloat(5)
-            
-            totalMovesLabel.fontSize += differenceFont
-            totalMovesLabel.fontSize += differenceFont
-            
-            numberOfMovesLabel.fontSize += differenceFont
-            numberOfMovesLabel.fontSize += differenceFont
-            
-            bestMovesLabel.fontSize += differenceFont
-            bestMovesLabel.fontSize += differenceFont
-            
-            secondButtonLabel.fontSize += differenceFont
-            secondButtonLabel.fontSize += differenceFont
-            
-        }
-        
+		
         //Positions
         
         medal.position.y = size.height*0.5 - medal.size.height*0.5
