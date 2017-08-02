@@ -123,15 +123,15 @@ class Level {
         }
     }
     
-    func getCoinNameForCurrentGame() -> String {
+    func getMedalNameForCurrentGame() -> String {
         if playerMoves <= movesToGoldenCoin {
-            return "Golden Star"
+            return "goldMedal"
         }
         else if playerMoves <= movesToSilverCoin {
-            return "Silver Star"
+            return "silverMedal"
         }
         else {
-            return "Bronze Star"
+            return "bronzeMedal"
         }
     }
     
