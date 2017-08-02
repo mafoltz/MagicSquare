@@ -76,7 +76,7 @@ class LevelsScene: SKScene {
         addChild(backgroundScreen)
         
         let roundedRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
-                                 y: screenVerticalSpacing - (view.bounds.size.height / 2),
+                                 y: (view.bounds.size.height / 2) - screenVerticalSpacing - levelsScreenHeight!,
                                  width: levelsScreenWidth!,
                                  height: levelsScreenHeight!)
         levelsScreen = SKShapeNode()
@@ -156,14 +156,14 @@ class LevelsScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
-        let limit = (view?.bounds.size.height)! - 2 * screenVerticalSpacing - levelsScreenHeight!
+        let limit = 2 * screenVerticalSpacing + levelsScreenHeight! - (view?.bounds.size.height)!
         
-        if levelsScreen.position.y < limit {
+        if levelsScreen.position.y > limit {
             let move = SKAction.moveTo(y: limit, duration: 0.2)
             move.timingMode = .easeOut
             levelsScreen.run(move)
         }
-        else if levelsScreen.position.y > 0 {
+        else if levelsScreen.position.y < 0 {
             let move = SKAction.moveTo(y: 0.0, duration: 0.2)
             move.timingMode = .easeOut
             levelsScreen.run(move)
@@ -189,9 +189,9 @@ class LevelsScene: SKScene {
         numLevelsRows = ((numLevels - 1) / levelsByRow) + 1
         levelsScreenWidth = (super.view?.bounds.size.width)! - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
-        firstLevelMargin = 0.08 * levelsScreenWidth
-        verticalSpacingBetweenLevels = 0.058 * levelsScreenWidth
-        horizontalSpacingBetweenLevels = 0.058 * levelsScreenWidth
+        firstLevelMargin = 0.07 * levelsScreenWidth
+        verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
+        horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels
     }
     
