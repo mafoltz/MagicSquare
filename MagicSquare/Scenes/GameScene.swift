@@ -23,7 +23,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     override func didMove(to view: SKView) {
         self.scene?.backgroundColor = UIColor.white
         self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        
+		
         setHud(from: view)
         setTemplate(from: view)
         
@@ -75,6 +75,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         let color = UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0)
         hud = Hud(color: color,
                   size: CGSize(width: view.bounds.size.width, height: 0.225 * view.bounds.size.height))
+		hud.parentHeight = self.size.height
         hud.run(SKAction.moveTo(y: view.bounds.size.height - hud.size.height / 2, duration: 0.0))
         hud.setHud(from: currentLevel)
         hud.actionDelegate = self

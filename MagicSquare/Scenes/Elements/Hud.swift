@@ -16,21 +16,29 @@ class Hud: SKSpriteNode {
     private var levelsButton: SKSpriteNode!
     private var configurationsButton: SKSpriteNode!
     public var movesLabel: SKLabelNode!
-    private var levelLabel: SKLabelNode!
-    
+	private var levelLabel: SKLabelNode!
+	var parentHeight: CGFloat!
+	
     private var buttonWidthDistance: CGFloat!
     private var buttonsLineHeight: CGFloat!
     
     var actionDelegate: ActionHandlerDelegate?
     
     private var quoteLabel: Label!
+	private var fontSize: CGFloat!
     
     // MARK: - Methods
     
     func setHud(from currentLevel: Level) {
         isUserInteractionEnabled = true
         zPosition = 1.0
-        
+		
+		if parentHeight != nil {
+			fontSize = getFontSize(fontSize: 18, screenHeight: parentHeight)
+		} else {
+			fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height * 3.6)
+		}
+		
         buttonWidthDistance = 0.372 * self.size.width
         buttonsLineHeight = 0.2 * self.size.height
         
@@ -61,32 +69,32 @@ class Hud: SKSpriteNode {
         
         let levelTitleLabel = SKLabelNode(text: "LEVEL")
         levelTitleLabel.fontColor = UIColor.white
-        levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        levelTitleLabel.fontSize = 18.0
+        levelTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: fontSize)?.fontName
+        levelTitleLabel.fontSize = fontSize
         levelTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
         levelTitleLabel.zPosition = 0.1
         addChild(levelTitleLabel)
         
         levelLabel = SKLabelNode(text: String(currentLevel.number))
         levelLabel.fontColor = UIColor.white
-        levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
-        levelLabel.fontSize = 18.0
+        levelLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: fontSize)?.fontName
+        levelLabel.fontSize = fontSize
         levelLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
         
         let movesTitleLabel = SKLabelNode(text: "MOVES")
         movesTitleLabel.fontColor = UIColor.white
-        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: 18.0)?.fontName
-        movesTitleLabel.fontSize = 18.0
+        movesTitleLabel.fontName = UIFont(name: ".SFUIText-Medium", size: fontSize)?.fontName
+        movesTitleLabel.fontSize = fontSize
         movesTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
         movesTitleLabel.zPosition = 0.1
         addChild(movesTitleLabel)
         
         movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
         movesLabel.fontColor = UIColor.white
-        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: 18.0)?.fontName
-        movesLabel.fontSize = 18.0
+        movesLabel.fontName = UIFont(name: ".SFUIText-Heavy", size: fontSize)?.fontName
+        movesLabel.fontSize = fontSize
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
@@ -99,11 +107,8 @@ class Hud: SKSpriteNode {
         }
         
         let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
-        quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 18.0, width: size.width*0.808, fontColor: fontColor)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: size.width*0.608, fontColor: fontColor)
-        }
-        
+        quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: fontSize, width: size.width*0.808, fontColor: fontColor)
+		
         quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
         quoteLabel.zPosition = 0.1
         addChild(quoteLabel)
