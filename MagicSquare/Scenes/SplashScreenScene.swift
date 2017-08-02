@@ -36,6 +36,8 @@ class SplashScreenScene: SKScene {
         background.zPosition = 0.1
         addChild(background)
         
+        configureOptions()
+        
         Timer.scheduledTimer(timeInterval: 2.00, target: self, selector: #selector(goToGameScene), userInfo: nil, repeats: false)
     }
     
@@ -64,5 +66,13 @@ class SplashScreenScene: SKScene {
         scene.size = (self.view?.bounds.size)!
         scene.scaleMode = .aspectFill
         view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
+    }
+    
+    func configureOptions() {
+        if !UserDefaults.standard.bool(forKey: "isConfigured") {
+            UserDefaults.standard.set(true, forKey: "isMusicOn")
+            UserDefaults.standard.set(true, forKey: "isSoundsOn")
+            UserDefaults.standard.set(true, forKey: "isConfigured")
+        }
     }
 }
