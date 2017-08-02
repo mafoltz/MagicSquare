@@ -154,7 +154,7 @@ class LevelsScene: SKScene {
         isMoving = true
         let limit = 2 * screenVerticalSpacing + levelsScreenHeight! - (view?.bounds.size.height)!
         
-        if !levelsScreen.contains(touchLocation!) {
+        if !levelsScreen.contains(touchLocation!) && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             let hideLevels = SKAction.moveTo(y: -(view?.bounds.size.height)!, duration: 0.3)
             hideLevels.timingMode = .easeIn
             levelsScreen.run(hideLevels, completion: {
