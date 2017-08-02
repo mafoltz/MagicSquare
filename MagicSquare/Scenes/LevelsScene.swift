@@ -103,9 +103,10 @@ class LevelsScene: SKScene {
             
             let labelNode = SKLabelNode(text: levels[i].level)
             labelNode.fontColor = levels[i].getMedalColorForRecord()
-            labelNode.fontName = UIFont(name: ".SFUIText-Medium", size: 16.0)?.fontName
-            labelNode.fontSize = getFontSize(fontSize: 16.0, screenHeight: view.bounds.size.height)
-            //labelNode.run(SKAction.moveBy(x: 0, y: -4 * spriteNode.size.height / 5, duration: 0.0)) // ARRUMAR DEPOIS ISSO AQUI
+            labelNode.fontName = UIFont(name: ".SFUIText-Heavy", size: 28.0)?.fontName
+            labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
+            labelNode.verticalAlignmentMode = .center
+            labelNode.horizontalAlignmentMode = .center
             labelNode.zPosition = 5.3
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
