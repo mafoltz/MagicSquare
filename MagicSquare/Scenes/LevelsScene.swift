@@ -116,10 +116,11 @@ class LevelsScene: SKScene {
         let moveLevels = SKAction.moveBy(x: 0.0, y: view.bounds.size.height - screenVerticalSpacing, duration: 0.3)
         moveLevels.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
-        //levelsScreen.run(actionsSequence)
+        levelsScreen.run(actionsSequence, completion: {
+            self.isUserInteractionEnabled = true
+        })
         
         isUserInteractionEnabled = false
-        Timer.scheduledTimer(timeInterval: 0.4, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -129,13 +130,8 @@ class LevelsScene: SKScene {
         initialTouchLocation = touch.location(in: self)
         touchLocation = touch.location(in: self)
         
-        if !levelsScreen.contains(touchLocation!) {
-            goBackToPreviousScene()
-        }
-        
         for i in 0..<levelsNodes.count {
-            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!,
-                                               y: (touchLocation?.y)! - levelsScreen.position.y)) {
+            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
                 indexOfTouchedLevel = i
                 break
             } else {
@@ -157,6 +153,17 @@ class LevelsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
         let limit = 2 * screenVerticalSpacing + levelsScreenHeight! - (view?.bounds.size.height)!
+        
+        if !levelsScreen.contains(touchLocation!) {
+            let hideLevels = SKAction.moveTo(y: -(view?.bounds.size.height)!, duration: 0.3)
+            hideLevels.timingMode = .easeIn
+            levelsScreen.run(hideLevels, completion: {
+                self.isUserInteractionEnabled = true
+                self.goBackToPreviousScene()
+            })
+            
+            isUserInteractionEnabled = false
+        }
         
         if levelsScreen.position.y > limit {
             let move = SKAction.moveTo(y: limit, duration: 0.2)
@@ -199,10 +206,6 @@ class LevelsScene: SKScene {
         spriteNode.run(SKAction.moveBy(x: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
                                        y: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing,
                                        duration: 0.0))
-    }
-    
-    func setUserInteractionEnabled() {
-        isUserInteractionEnabled = true
     }
     
     func goBackToPreviousScene() {
