@@ -17,14 +17,14 @@ class Board {
     let numColumns: Int!
     var isMoving = false
 	
-	let colors = ["color0" : UIColor(red: 115/256, green: 134/256, blue: 145/256, alpha: 1.0),
-                  "color1" : UIColor(red: 174/256, green: 210/256, blue: 214/256, alpha: 1.0),
-                  "color2" : UIColor(red: 221/256, green: 144/256, blue: 144/256, alpha: 1.0),
-                  "color3" : UIColor(red: 160/256, green: 072/256, blue: 072/256, alpha: 1.0),
-                  "color4" : UIColor(red: 211/256, green: 114/256, blue: 074/256, alpha: 1.0),
-                  "color5" : UIColor(red: 047/256, green: 066/256, blue: 076/256, alpha: 1.0),
-                  "color6" : UIColor(red: 066/256, green: 074/256, blue: 127/256, alpha: 1.0),
-                  "color7" : UIColor(red: 120/256, green: 172/256, blue: 120/256, alpha: 1.0)]
+	let colors = ["color0" : UIColor(hex: 0x738691),
+				  "color1" : UIColor(hex: 0xAED2D6),
+                  "color2" : UIColor(hex: 0xDD9090),
+                  "color3" : UIColor(hex: 0xA04848),
+                  "color4" : UIColor(hex: 0xD3724A),
+                  "color5" : UIColor(hex: 0x2F424C),
+                  "color6" : UIColor(hex: 0x424A7F),
+                  "color7" : UIColor(hex: 0x78AC78)]
     
     // MARK: - Methods
     
@@ -103,4 +103,23 @@ class Board {
         
         isMoving = false
     }
+}
+
+// Para pegar as cores em hexadecimal
+extension UIColor {
+	convenience init(red: Int, green: Int, blue: Int) {
+		assert(red >= 0 && red <= 255, "Invalid red component")
+		assert(green >= 0 && green <= 255, "Invalid green component")
+		assert(blue >= 0 && blue <= 255, "Invalid blue component")
+		
+		self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+	}
+	
+	convenience init(hex: Int) {
+		self.init(
+			red: (hex >> 16) & 0xFF,
+			green: (hex >> 8) & 0xFF,
+			blue: hex & 0xFF
+		)
+	}
 }

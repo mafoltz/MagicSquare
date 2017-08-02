@@ -27,7 +27,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         setHud(from: view)
         setTemplate(from: view)
         
-        if currentLevel.number == 1 {
+        if currentLevel.number == 1 && UserDefaults.standard.string(forKey: "world") == "World4x3" {
             setPlayerBoardTutorial(from: view)
         } else {
             setPlayerBoard(from: view)
