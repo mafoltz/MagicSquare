@@ -13,64 +13,26 @@ class ResultsScene: SKScene {
     // MARK: - Properties
     
     public var currentLevel : Level!
-    private var fontSize = CGFloat(20)
-    private var button: SKSpriteNode!
     private var starAngle = CGFloat(0)
     private var starsPosition: CGPoint!
     private var numberOfStars = 0
+    var buttonRetray = SKSpriteNode()
+    var secondButton = SKSpriteNode()
+    
+    var isLastLevel = false
     
     private var time: TimeInterval!
     
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         currentLevel.updateRecord()
         
-        self.backgroundColor = UIColor.white
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        
-        var backgroung: SKSpriteNode!
-        
-        self.backgroundColor = UIColor.white
-        if let backgroundResultScene = SKScene(fileNamed: "ResultsScene"){
-            backgroung = backgroundResultScene.childNode(withName: "background") as! SKSpriteNode
+        let json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
+        if (currentLevel?.number)! == json.count {
+            isLastLevel = true
         }
-        backgroung.removeFromParent()
-        backgroung.position = CGPoint.zero
-        backgroung.zPosition = 1
-        
-        
-        let mascot = SKSpriteNode(imageNamed: "mascot")
-        mascot.zPosition = backgroung.zPosition + 1
-        
-        let star = CoinSpriteNode()
-        star.setCoinForCurrentGame(from: currentLevel)
-        star.size = CGSize(width: 76, height: 76)
-        star.zPosition = mascot.zPosition
-        
-        let movesBanner = SKSpriteNode(imageNamed: "movesBanner")
-        movesBanner.zPosition = mascot.zPosition
-        
-        let numberOfMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Bold")
-        numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
-        numberOfMovesLabel.fontSize = 22
-        numberOfMovesLabel.fontColor = UIColor(colorLiteralRed: 238.0/255.0, green: 161.0/255.0, blue: 48.0/255.0, alpha: 1)
-        numberOfMovesLabel.zPosition = movesBanner.zPosition + 1
-        
-        let movesLabel = SKLabelNode(fontNamed: ".SFUIText-Regular")
-        movesLabel.text = currentLevel.playerMoves>1 ? "moves" : "move"
-        movesLabel.fontSize = 15
-        movesLabel.fontColor = numberOfMovesLabel.fontColor
-        movesLabel.zPosition = numberOfMovesLabel.zPosition
-        
-        let bestLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
-        bestLabel.text = "BEST"
-        bestLabel.fontSize = 12
-        bestLabel.fontColor = UIColor.gray
-        bestLabel.zPosition = numberOfMovesLabel.zPosition
-        var distanceBestLabelY = CGFloat(0)
-        
-        let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         
         var bestMoves = currentLevel.recordMoves
         if bestMoves <= 0 {
@@ -80,141 +42,145 @@ class ResultsScene: SKScene {
             bestMoves = currentLevel.playerMoves
         }
         
-        bestMovesLabel.text = "\(bestMoves)"
-        bestMovesLabel.fontSize = bestLabel.fontSize
-        bestMovesLabel.fontColor = bestLabel.fontColor
+        
+        let medalType = currentLevel.getMedalNameForCurrentGame()
+        
+        var buttonRetraySize: CGFloat = size.width*0.227
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            buttonRetraySize = size.width*0.1
+        }
+        
+        
+        var backgroung: SKSpriteNode!
+        
+        if let backgroundResultScene = SKScene(fileNamed: "ResultsScene"){
+            backgroung = backgroundResultScene.childNode(withName: "background") as! SKSpriteNode
+        }
+        backgroung.removeFromParent()
+        backgroung.position = CGPoint.zero
+        backgroung.zPosition = 1
+        
+        let medal = SKSpriteNode(imageNamed: medalType)
+        medal.zPosition = backgroung.zPosition + 1
+        
+        let medalScale = (size.width*0.504)/medal.size.width
+        medal.xScale = medalScale
+        medal.yScale = medalScale
+        
+        
+        let levelUpBanner = SKSpriteNode(imageNamed: "levelUpBanner")
+        levelUpBanner.zPosition = medal.zPosition + 1
+        
+        let levelUpBannerScale = (size.width*0.554)/levelUpBanner.size.width
+        levelUpBanner.xScale = levelUpBannerScale
+        levelUpBanner.yScale = levelUpBannerScale
+        
+        let numberOfMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Heavy")
+        numberOfMovesLabel.zPosition = medal.zPosition
+        numberOfMovesLabel.fontColor = UIColor(colorLiteralRed: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
+        numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
+        numberOfMovesLabel.fontSize = 80
+        
+        let totalMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Bold")
+        totalMovesLabel.zPosition = numberOfMovesLabel.zPosition
+        totalMovesLabel.fontColor = numberOfMovesLabel.fontColor
+        totalMovesLabel.text = "TOTAL MOVES"
+        totalMovesLabel.fontSize = 22
+        
+        let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
+        bestMovesLabel.fontColor = UIColor(colorLiteralRed: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
+        bestMovesLabel.text = "\(bestMoves) best"
+        bestMovesLabel.fontSize = 22
         
-        let congratulations = SKSpriteNode(imageNamed: "congratulations")
-        congratulations.zPosition = mascot.zPosition
         
-        let label1 = SKLabelNode(fontNamed: ".SFUIText-Regular")
-        label1.fontSize = fontSize
-        label1.zPosition = mascot.zPosition
-        label1.text = "You won a \(currentLevel.getCoinNameForCurrentGame())"
-        label1.fontColor = UIColor.black
+        buttonRetray.size = CGSize(width: buttonRetraySize, height: buttonRetraySize)
         
-        let label2 = SKLabelNode(fontNamed: ".SFUIText-Regular")
-        label2.fontSize = fontSize
-        label2.zPosition = mascot.zPosition
-        label2.text = "You are now ready"
-        label2.fontColor = UIColor.black
+        buttonRetray.color = UIColor(colorLiteralRed: 0, green: 152.0/255.0, blue: 156.0/255.0, alpha: 1)
+        buttonRetray.zPosition = medal.zPosition
         
-        let label3 = SKLabelNode(fontNamed: ".SFUIText-Regular")
-        label3.fontSize = fontSize
-        label3.zPosition = mascot.zPosition
-        label3.text = "to begin level \(currentLevel!.number + 1)"
-        label3.fontColor = UIColor.black
+        let retryImage = SKSpriteNode(imageNamed: "retry")
+        retryImage.zPosition = buttonRetray.zPosition + 1
+        retryImage.size.width = buttonRetray.size.width*0.506
+        retryImage.size.height = buttonRetray.size.width*0.506
         
-        button = SKSpriteNode(imageNamed: "buttonResultScene")
-        button.zPosition = mascot.zPosition
+        secondButton.size = CGSize(width: size.width - buttonRetray.size.width - 4, height: buttonRetray.size.height)
+        secondButton.color = buttonRetray.color
+        secondButton.zPosition = medal.zPosition
+        
+        let secondButtonLabel = SKLabelNode(fontNamed: ".SFUIText-Medium")
+        secondButtonLabel.zPosition = secondButton.zPosition + 1
+        secondButtonLabel.fontSize = 18
+        secondButtonLabel.fontColor = UIColor.white
+        
+        if isLastLevel {
+            secondButtonLabel.text = "o/)"
+        }
+        else{
+            secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
+        }
         
         //Scales
         
-        congratulations.xScale = 0.8
-        congratulations.yScale = 0.8
-        
-        button.xScale = 1.5
-        button.yScale = 1.5
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
+//            let differenceScale = CGFloat(1)
+            let differenceFont = CGFloat(5)
             
-            let differenceScale = CGFloat(0.5)
+//            medal.xScale += differenceScale
+//            medal.yScale += differenceScale
             
-            mascot.xScale += differenceScale
-            mascot.yScale += differenceScale
+//            levelUpBanner.xScale += differenceScale
+//            levelUpBanner.yScale += differenceScale
             
-            star.xScale += differenceScale
-            star.yScale += differenceScale
+            totalMovesLabel.fontSize += differenceFont
+            totalMovesLabel.fontSize += differenceFont
             
-            movesBanner.xScale += differenceScale
-            movesBanner.yScale += differenceScale
+            numberOfMovesLabel.fontSize += differenceFont
+            numberOfMovesLabel.fontSize += differenceFont
             
-            numberOfMovesLabel.fontSize += CGFloat(10)
-            movesLabel.fontSize += CGFloat(10)
-            bestLabel.fontSize += CGFloat(10)
-            distanceBestLabelY = CGFloat(3)
-            bestMovesLabel.fontSize += CGFloat(10)
+            bestMovesLabel.fontSize += differenceFont
+            bestMovesLabel.fontSize += differenceFont
             
-            congratulations.xScale += differenceScale
-            congratulations.yScale += differenceScale
-            
-            fontSize = CGFloat(40)
-            
-            label1.fontSize = fontSize
-            label2.fontSize = fontSize
-            label3.fontSize = fontSize
-            
-            button.xScale += differenceScale
-            button.yScale += differenceScale
+            secondButtonLabel.fontSize += differenceFont
+            secondButtonLabel.fontSize += differenceFont
             
         }
         
         //Positions
-        mascot.position.y += CGFloat(77)
         
-        star.position.y = mascot.position.y + mascot.size.height/2 + star.size.height/2 + (size.height * 0.04)
+        medal.position.y = size.height*0.5 - medal.size.height*0.5
         
-        movesBanner.position.x = size.width/2 - movesBanner.size.width/2
-        movesBanner.position.y = star.position.y + star.size.height/2 - movesBanner.size.height/2
+        levelUpBanner.position.y = medal.position.y - medal.size.height*0.5
         
-        numberOfMovesLabel.position.x = (size.width*0.5) - (movesBanner.size.width) + (movesBanner.size.width*0.2)
+        numberOfMovesLabel.position.y = levelUpBanner.position.y - size.height*0.158 - numberOfMovesLabel.frame.size.height
         
+        totalMovesLabel.position.y = numberOfMovesLabel.position.y + numberOfMovesLabel.frame.size.height + totalMovesLabel.frame.size.height
         
-        numberOfMovesLabel.position.y = movesBanner.position.y + (movesBanner.size.height*0.5) - (numberOfMovesLabel.frame.size.height) - 6
+        bestMovesLabel.position.y = numberOfMovesLabel.position.y - bestMovesLabel.frame.size.height*2
         
-        movesLabel.position.x = numberOfMovesLabel.position.x + numberOfMovesLabel.frame.size.width/2 + movesLabel.frame.size.width/2 + movesBanner.size.width*0.05
-        movesLabel.position.y = numberOfMovesLabel.position.y
+        buttonRetray.position.x = -(size.width*0.5) + buttonRetray.size.width*0.5
+        buttonRetray.position.y = -(size.height*0.5) + buttonRetray.size.height*0.5
         
-        bestLabel.position.x = movesLabel.position.x + movesLabel.frame.size.width/2 - bestLabel.frame.size.width/2
-        bestLabel.position.y = movesLabel.position.y - movesLabel.frame.size.height/2 - bestLabel.frame.size.height/2 - distanceBestLabelY
+        secondButton.position.x = size.width*0.5 - secondButton.size.width*0.5
+        secondButton.position.y = buttonRetray.position.y
         
-        bestMovesLabel.position.y = bestLabel.position.y
-        bestMovesLabel.position.x = bestLabel.position.x - bestLabel.frame.size.width/2 - bestMovesLabel.frame.size.width/2
+        secondButtonLabel.position.y -= secondButtonLabel.frame.size.height/2
         
-        congratulations.position.y = mascot.position.y - mascot.size.height/2 - congratulations.size.height/2 - (size.height * 0.04)
+        starsPosition = medal.position
         
-        label1.position.y = congratulations.position.y - congratulations.size.height/2 - label1.frame.height/2 - (size.height * 0.04)
-        
-        label2.position = label1.position
-        label2.position.y -= label1.frame.height
-        
-        label3.position = label2.position
-        label3.position.y -= label2.frame.height
-        
-        button.position.y = label3.position.y - label3.frame.height/2 - button.size.height/2 - (size.height * 0.037)
-        
-        
-        
+        //Add Children
         addChild(backgroung)
-        addChild(mascot)
-        addChild(star)
-        addChild(movesBanner)
+        addChild(medal)
+        addChild(levelUpBanner)
         addChild(numberOfMovesLabel)
-        addChild(movesLabel)
-        addChild(bestLabel)
+        addChild(totalMovesLabel)
         addChild(bestMovesLabel)
-        addChild(congratulations)
-        addChild(label1)
-        addChild(label2)
-        addChild(label3)
-        addChild(button)
+        addChild(buttonRetray)
+        buttonRetray.addChild(retryImage)
+        addChild(secondButton)
+        secondButton.addChild(secondButtonLabel)
         
-        let moveDown = SKAction.moveBy(x: 0.0, y: -10.0, duration: 0.5)
-        moveDown.timingMode = .easeInEaseOut
-        let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
-        moveUp.timingMode = .easeInEaseOut
-        let sequence = SKAction.sequence([moveDown, moveUp])
-        mascot.run(SKAction.repeatForever(sequence))
-        
-        
-        self.starsPosition = mascot.position
-        
-        if currentLevel.number == JsonReader.openJson(named: currentLevel.world)?.count{
-            removeChildren(in: [label2, label3])
-            
-            button.position.y = label1.position.y - label1.frame.height/2 - button.size.height/2 - (size.height * 0.037)
-        }
         
         Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
     }
@@ -227,9 +193,17 @@ class ResultsScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
-        if button.contains(touch!.location(in: self)){
-            let json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
-            if (currentLevel?.number)! < json.count {
+        let json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
+        if buttonRetray.contains(touch!.location(in: self)){
+            let scene: GameScene = GameScene()
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            scene.size = (super.view?.bounds.size)!
+            scene.scaleMode = .aspectFill
+            scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: currentLevel.number)
+            super.view?.presentScene(scene)
+        }
+        else if secondButton.contains(touch!.location(in: self)){
+            if !isLastLevel {
                 let scene: GameScene = GameScene()
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
