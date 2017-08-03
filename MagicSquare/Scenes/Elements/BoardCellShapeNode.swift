@@ -13,6 +13,7 @@ class BoardCellShapeNode: SKShapeNode {
     // MARK: - Properties
     
     private var borderNode: SKShapeNode!
+    public var initialPosition: CGPoint?
     
     // MARK: - Methods
     
