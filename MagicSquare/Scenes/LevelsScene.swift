@@ -109,7 +109,7 @@ class LevelsScene: SKScene {
             
             let labelNode = SKLabelNode(text: levels[i].level)
             labelNode.fontColor = levels[i].getMedalColorForRecord()
-            labelNode.fontName = UIFont(name: ".SFUIText-Heavy", size: 28.0)?.fontName
+            labelNode.fontName = ".SFUIText-Heavy"
             labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
             labelNode.verticalAlignmentMode = .center
             labelNode.horizontalAlignmentMode = .center
