@@ -52,7 +52,7 @@ class TemplateBoard: SKSpriteNode {
                                   height: 0.05 * view.bounds.size.width)
         smallBaloon1Size = roundedRect1.size
         smallBaloon1.fillColor = UIColor.white
-        smallBaloon1.path = UIBezierPath(roundedRect: roundedRect1, cornerRadius: cornerRadius).cgPath
+        smallBaloon1.path = UIBezierPath(roundedRect: roundedRect1, cornerRadius: 10 * cornerRadius).cgPath
         smallBaloon1.run(SKAction.moveBy(x: -0.2 * view.bounds.size.width,
                                          y: 0.83 * view.bounds.size.height,
                                          duration: 0.0))
@@ -64,7 +64,7 @@ class TemplateBoard: SKSpriteNode {
                                   height: 0.1 * view.bounds.size.width)
         smallBaloon2Size = roundedRect2.size
         smallBaloon2.fillColor = UIColor.white
-        smallBaloon2.path = UIBezierPath(roundedRect: roundedRect2, cornerRadius: cornerRadius).cgPath
+        smallBaloon2.path = UIBezierPath(roundedRect: roundedRect2, cornerRadius: 10 * cornerRadius).cgPath
         smallBaloon2.run(SKAction.moveBy(x: -0.31 * view.bounds.size.width,
                                          y: 0.77 * view.bounds.size.height,
                                          duration: 0.0))

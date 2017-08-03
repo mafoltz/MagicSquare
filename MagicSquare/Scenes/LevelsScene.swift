@@ -89,7 +89,7 @@ class LevelsScene: SKScene {
                                  height: levelsScreenHeight!)
         levelsScreen = SKShapeNode()
         levelsScreen.name = "Levels Screen"
-        levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
+        levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(cornerRadius * view.bounds.size.width / 375)).cgPath
         levelsScreen.fillColor = UIColor.white
         levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
