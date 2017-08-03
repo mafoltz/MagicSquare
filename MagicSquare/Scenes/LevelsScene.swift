@@ -24,6 +24,7 @@ class LevelsScene: SKScene {
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
     private var levelsScreen: SKShapeNode!
+    private var backButton: SKSpriteNode!
     private var titleBackground: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
@@ -41,6 +42,7 @@ class LevelsScene: SKScene {
     private var levelsScreenHeight: CGFloat!
     private var levelsScreenHeightLimit: CGFloat!
     private var firstLevelMargin: CGFloat!
+    private var backButtonHeight: CGFloat!
     private var titleBackgroundHeight: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
@@ -93,6 +95,12 @@ class LevelsScene: SKScene {
         levelsScreen.fillColor = UIColor.white
         levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
+        
+        backButton = SKSpriteNode(imageNamed: "backButton")
+        backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
+        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 2), duration: 0.0))
+        backButton.zPosition = 6.0
+        addChild(backButton)
         
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
@@ -226,8 +234,11 @@ class LevelsScene: SKScene {
         
         levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
+        
         firstLevelMargin = 0.07 * levelsScreenWidth
+        backButtonHeight = floor(37 * view.bounds.size.width / 375)
         titleBackgroundHeight = 85 * levelsScreenWidth / 335
+        
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels + titleBackgroundHeight
