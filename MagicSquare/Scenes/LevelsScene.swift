@@ -242,24 +242,14 @@ class LevelsScene: SKScene {
     }
     
     func goBackToPreviousScene() {
-        if let scene = previousScene as? MainMenuScene {
+        if let scene = previousScene as? GameScene {
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+            super.view?.presentScene(scene)
+        }
+        else if let scene = previousScene as? MainMenuScene {
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             scene.size = (super.view?.bounds.size)!
             scene.scaleMode = .aspectFill
-            super.view?.presentScene(scene)
-        }
-        else if let scene = previousScene as? GameScene {
-            if let previousHud = scene.childNode(withName: "hud") {
-                previousHud.removeAllChildren()
-                previousHud.removeFromParent()
-            }
-            
-            if let currentHud = previousSceneChildren.childNode(withName: "hud") {
-                currentHud.removeFromParent()
-                scene.addChild(currentHud)
-            }
-            
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
             super.view?.presentScene(scene)
         }
     }
