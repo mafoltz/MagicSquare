@@ -34,8 +34,8 @@ class Level {
     let medalColors: [Coin: UIColor] = [.golden: UIColor(colorLiteralRed: 240/256, green: 162/256, blue: 25/256, alpha: 1.0),
                                         .silver: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0),
                                         .bronze: UIColor(colorLiteralRed: 141/256, green: 81/256, blue: 56/256, alpha: 1.0),
-                                        .undone: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0),
-                                        .locked: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 1.0)]
+                                        .undone: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 0.2),
+                                        .locked: UIColor(colorLiteralRed: 74/256, green: 74/256, blue: 74/256, alpha: 0.0)]
     
     // MARK: - Methods
     
