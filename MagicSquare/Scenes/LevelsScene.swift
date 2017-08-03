@@ -24,8 +24,8 @@ class LevelsScene: SKScene {
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
     private var levelsScreen: SKShapeNode!
-    private var backButton: SKSpriteNode!
     private var titleBackground: SKSpriteNode!
+    private var backButton: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
     
@@ -96,17 +96,17 @@ class LevelsScene: SKScene {
         levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
         
-        backButton = SKSpriteNode(imageNamed: "backButton")
-        backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
-        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 2), duration: 0.0))
-        backButton.zPosition = 6.0
-        addChild(backButton)
-        
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
-        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 2, duration: 0.0))
+        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
         titleBackground.zPosition = 0.1
         levelsScreen.addChild(titleBackground)
+        
+        backButton = SKSpriteNode(imageNamed: "backButton")
+        backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
+        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing), duration: 0.0))
+        backButton.zPosition = 6.0
+        levelsScreen.addChild(backButton)
         
         let levelsTitle = SKLabelNode(text: "LEVELS")
         levelsTitle.fontColor = UIColor.white
@@ -187,7 +187,8 @@ class LevelsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
         
-        if backButton.contains(touchLocation!) && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
+        if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) &&
+            abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
         }
         
