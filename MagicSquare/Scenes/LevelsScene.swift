@@ -96,9 +96,18 @@ class LevelsScene: SKScene {
         
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
-        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackground.size.height) / 2 - screenVerticalSpacing + 2, duration: 0.0))
+        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 2, duration: 0.0))
         titleBackground.zPosition = 0.1
         levelsScreen.addChild(titleBackground)
+        
+        let levelsTitle = SKLabelNode(text: "LEVELS")
+        levelsTitle.fontColor = UIColor.white
+        levelsTitle.fontName = ".SFUIText-Medium"
+        levelsTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
+        levelsTitle.verticalAlignmentMode = .center
+        levelsTitle.horizontalAlignmentMode = .center
+        levelsTitle.zPosition = 0.1
+        titleBackground.addChild(levelsTitle)
         
         for i in 0..<json.count {
             let world = UserDefaults.standard.string(forKey: "world")
