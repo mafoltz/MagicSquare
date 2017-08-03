@@ -39,6 +39,7 @@ class LevelsScene: SKScene {
     private var levelsSize: CGFloat!
     private var levelsScreenWidth: CGFloat!
     private var levelsScreenHeight: CGFloat!
+    private var levelsScreenHeightLimit: CGFloat!
     private var firstLevelMargin: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
@@ -158,15 +159,14 @@ class LevelsScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
-        let limit = 2 * screenVerticalSpacing + levelsScreenHeight! - (view?.bounds.size.height)!
         
         if !levelsScreen.contains(touchLocation!) && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
         }
         
-        if levelsScreen.position.y > limit {
-            if abs(levelsScreen.position.y - limit) <= moveToleranceToCloseScene {
-                let move = SKAction.moveTo(y: limit, duration: 0.2)
+        if levelsScreen.position.y > levelsScreenHeightLimit {
+            if abs(levelsScreen.position.y - levelsScreenHeightLimit) <= moveToleranceToCloseScene {
+                let move = SKAction.moveTo(y: levelsScreenHeightLimit, duration: 0.2)
                 move.timingMode = .easeOut
                 levelsScreen.run(move)
             } else {
@@ -211,6 +211,7 @@ class LevelsScene: SKScene {
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels
+        levelsScreenHeightLimit = 2 * screenVerticalSpacing + levelsScreenHeight - view.bounds.size.height
     }
     
     func resetAnchor(of spriteNode: SKSpriteNode) {
