@@ -117,6 +117,15 @@ class LevelsScene: SKScene {
         levelsTitle.zPosition = 0.1
         titleBackground.addChild(levelsTitle)
         
+        let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
+        packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        packTitle.fontName = ".SFUIText-Medium"
+        packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
+        packTitle.verticalAlignmentMode = .center
+        packTitle.horizontalAlignmentMode = .center
+        packTitle.zPosition = 0.1
+        levelsScreen.addChild(packTitle)
+        
         for i in 0..<json.count {
             let world = UserDefaults.standard.string(forKey: "world")
             levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
@@ -126,7 +135,7 @@ class LevelsScene: SKScene {
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
-                                           y: -verticalSpacingBetweenLevels - titleBackground.size.height - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
+                                           y: -verticalSpacingBetweenLevels - titleBackground.size.height - 2 * verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
             spriteNode.zPosition = 0.1
             levelsScreen.addChild(spriteNode)
@@ -242,7 +251,7 @@ class LevelsScene: SKScene {
         
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
-        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels + titleBackgroundHeight
+        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + 3 * verticalSpacingBetweenLevels + titleBackgroundHeight
         levelsScreenHeightLimit = 2 * screenVerticalSpacing + levelsScreenHeight - view.bounds.size.height
     }
     
