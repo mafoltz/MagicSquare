@@ -8,6 +8,11 @@
 
 import SpriteKit
 
+enum Direction {
+    case up
+    case down
+}
+
 class LevelsScene: SKScene {
     
     // MARK: - Properties
@@ -41,6 +46,7 @@ class LevelsScene: SKScene {
     private var screenHorizontalSpacing: CGFloat!
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
+    private let moveToleranceToCloseScene: CGFloat = 150
     
     // MARK: - Methods
     
@@ -155,25 +161,26 @@ class LevelsScene: SKScene {
         let limit = 2 * screenVerticalSpacing + levelsScreenHeight! - (view?.bounds.size.height)!
         
         if !levelsScreen.contains(touchLocation!) && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
-            let hideLevels = SKAction.moveTo(y: -(view?.bounds.size.height)!, duration: 0.3)
-            hideLevels.timingMode = .easeIn
-            levelsScreen.run(hideLevels, completion: {
-                self.isUserInteractionEnabled = true
-                self.goBackToPreviousScene()
-            })
-            
-            isUserInteractionEnabled = false
+            closeLevelsScene(to: .down)
         }
         
         if levelsScreen.position.y > limit {
-            let move = SKAction.moveTo(y: limit, duration: 0.2)
-            move.timingMode = .easeOut
-            levelsScreen.run(move)
+            if abs(levelsScreen.position.y - limit) <= moveToleranceToCloseScene {
+                let move = SKAction.moveTo(y: limit, duration: 0.2)
+                move.timingMode = .easeOut
+                levelsScreen.run(move)
+            } else {
+                closeLevelsScene(to: .up)
+            }
         }
         else if levelsScreen.position.y < 0 {
-            let move = SKAction.moveTo(y: 0.0, duration: 0.2)
-            move.timingMode = .easeOut
-            levelsScreen.run(move)
+            if abs(levelsScreen.position.y) <= moveToleranceToCloseScene {
+                let move = SKAction.moveTo(y: 0.0, duration: 0.2)
+                move.timingMode = .easeOut
+                levelsScreen.run(move)
+            } else {
+                closeLevelsScene(to: .down)
+            }
         }
         
         if indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
@@ -210,6 +217,24 @@ class LevelsScene: SKScene {
         spriteNode.run(SKAction.moveBy(x: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
                                        y: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing,
                                        duration: 0.0))
+    }
+    
+    func closeLevelsScene(to direction: Direction) {
+        var y: CGFloat!
+        if direction == .up {
+            y = levelsScreenHeight
+        } else {
+            y = -(view?.bounds.size.height)!
+        }
+        
+        let hideLevels = SKAction.moveTo(y: y, duration: 0.3)
+        hideLevels.timingMode = .easeIn
+        levelsScreen.run(hideLevels, completion: {
+            self.isUserInteractionEnabled = true
+            self.goBackToPreviousScene()
+        })
+        
+        isUserInteractionEnabled = false
     }
     
     func goBackToPreviousScene() {
