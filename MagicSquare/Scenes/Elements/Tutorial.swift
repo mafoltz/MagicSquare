@@ -111,8 +111,6 @@ class Tutorial: BoardNode {
     func vibrateColumn() {
         initialPoint = CGPoint(x: playerBoard[playerBoard.count-2][1].position.x, y: playerBoard[playerBoard.count-2][1].position.y)
         for index in 0..<playerBoard.count {
-            playerBoard[index][1].initialPosition = playerBoard[index][1].position
-            
             var vibrateColumn: SKAction = SKAction()
             
             let moveUp = SKAction.moveBy(x: 0.0, y: -8, duration: 0.1)
@@ -131,8 +129,6 @@ class Tutorial: BoardNode {
     func vibrateRow() {
          initialPoint = CGPoint(x: playerBoard[playerBoard.count-2][1].position.x, y: playerBoard[playerBoard.count-2][1].position.y)
         for index in 0..<playerBoard[0].count {
-            playerBoard[playerBoard.count-2][index].initialPosition = playerBoard[playerBoard.count-2][index].position
-            
             var vibrateRow: SKAction = SKAction()
             
             let moveLeft = SKAction.moveBy(x: -8, y: 0, duration: 0.1)
@@ -149,20 +145,26 @@ class Tutorial: BoardNode {
     }
     
     func removeVibrateColumn() {
+        let diff = abs(playerBoard[playerBoard.count-2][1].position.y - initialPoint.y)
         for index in 0..<playerBoard.count {
-            if let initialPosition = playerBoard[index][1].initialPosition {
-                playerBoard[index][1].run(SKAction.move(to: initialPosition, duration: 0.0))
-            }
             playerBoard[index][1].removeAction(forKey: "vibrate")
+        }
+        if diff > 0 {
+            for index in 0..<playerBoard.count {
+                playerBoard[index][1].position.y += diff
+            }
         }
     }
 
     func removeVibrateRows() {
+        let diff = abs(playerBoard[playerBoard.count-2][1].position.x - initialPoint.x)
         for index in 0..<playerBoard[0].count {
-            if let initialPosition = playerBoard[playerBoard.count-2][index].initialPosition {
-                playerBoard[playerBoard.count-2][index].run(SKAction.move(to: initialPosition, duration: 0.0))
-            }
             playerBoard[playerBoard.count-2][index].removeAction(forKey: "vibrate")
+        }
+        if diff > 0 {
+            for index in 0..<playerBoard[0].count {
+                playerBoard[playerBoard.count-2][index].position.x += diff
+            }
         }
     }
 }
