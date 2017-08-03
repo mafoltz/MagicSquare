@@ -24,7 +24,7 @@ class LevelsScene: SKScene {
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
     private var levelsScreen: SKShapeNode!
-    private var levelsScreenShadow: SKSpriteNode!
+    private var titleBackground: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
     
@@ -41,6 +41,7 @@ class LevelsScene: SKScene {
     private var levelsScreenHeight: CGFloat!
     private var levelsScreenHeightLimit: CGFloat!
     private var firstLevelMargin: CGFloat!
+    private var titleBackgroundHeight: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
     private var screenVerticalSpacing: CGFloat!
@@ -93,6 +94,12 @@ class LevelsScene: SKScene {
         levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
         
+        titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
+        titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
+        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackground.size.height) / 2 - screenVerticalSpacing + 2, duration: 0.0))
+        titleBackground.zPosition = 0.1
+        levelsScreen.addChild(titleBackground)
+        
         for i in 0..<json.count {
             let world = UserDefaults.standard.string(forKey: "world")
             levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
@@ -102,9 +109,9 @@ class LevelsScene: SKScene {
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
-                                           y: -verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
+                                           y: -verticalSpacingBetweenLevels - titleBackground.size.height - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
-            spriteNode.zPosition = 5.3
+            spriteNode.zPosition = 0.1
             levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
             
@@ -114,7 +121,7 @@ class LevelsScene: SKScene {
             labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
             labelNode.verticalAlignmentMode = .center
             labelNode.horizontalAlignmentMode = .center
-            labelNode.zPosition = 5.3
+            labelNode.zPosition = 0.1
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
@@ -211,9 +218,10 @@ class LevelsScene: SKScene {
         levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
         firstLevelMargin = 0.07 * levelsScreenWidth
+        titleBackgroundHeight = 85 * levelsScreenWidth / 335
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
-        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels
+        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels + titleBackgroundHeight
         levelsScreenHeightLimit = 2 * screenVerticalSpacing + levelsScreenHeight - view.bounds.size.height
     }
     
