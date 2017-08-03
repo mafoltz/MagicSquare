@@ -187,7 +187,7 @@ class LevelsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
         
-        if !levelsScreen.contains(touchLocation!) && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
+        if backButton.contains(touchLocation!) && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
         }
         
