@@ -32,6 +32,7 @@ class Hud: SKSpriteNode {
     func setHud(from currentLevel: Level) {
         isUserInteractionEnabled = true
         zPosition = 1.0
+        name = "hud"
 		
 		if parentHeight != nil {
 			fontSize = getFontSize(fontSize: 18, screenHeight: parentHeight)
@@ -98,7 +99,6 @@ class Hud: SKSpriteNode {
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
-
     }
     
     func setQuoteLabel(with text: String) {

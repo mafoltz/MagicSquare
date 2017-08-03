@@ -235,6 +235,9 @@ class LevelsScene: SKScene {
             self.goBackToPreviousScene()
         })
         
+        let lightBackground = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
+        backgroundScreen.run(lightBackground)
+        
         isUserInteractionEnabled = false
     }
     
@@ -246,6 +249,17 @@ class LevelsScene: SKScene {
             super.view?.presentScene(scene)
         }
         else if let scene = previousScene as? GameScene {
+            if let previousHud = scene.childNode(withName: "hud") {
+                previousHud.removeAllChildren()
+                previousHud.removeFromParent()
+            }
+            
+            if let currentHud = previousSceneChildren.childNode(withName: "hud") {
+                currentHud.removeFromParent()
+                scene.addChild(currentHud)
+            }
+            
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
             super.view?.presentScene(scene)
         }
     }
