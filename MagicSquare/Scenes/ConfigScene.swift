@@ -480,7 +480,7 @@ class ConfigScene: SKScene {
 		root.addChild(banner5)
 		buttons.append(banner5)
 		
-		let line1 = SKLabelNode(text: "We are students form Brazil hoping")
+		let line1 = SKLabelNode(text: "We are students from Brazil hoping")
 		line1.name = "line1"
 		line1.verticalAlignmentMode = .center
 		line1.horizontalAlignmentMode = .center
