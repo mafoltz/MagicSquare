@@ -115,7 +115,7 @@ class ResultsScene: SKScene {
         secondButtonLabel.fontColor = UIColor.white
         
         if isLastLevel {
-            secondButtonLabel.text = "o/)"
+            secondButtonLabel.text = "GO BACK TO LEVEL 1"
         }
         else{
             secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
