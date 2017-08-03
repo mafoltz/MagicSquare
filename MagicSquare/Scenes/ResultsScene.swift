@@ -91,7 +91,7 @@ class ResultsScene: SKScene {
         let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
         bestMovesLabel.fontColor = UIColor(colorLiteralRed: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
-        bestMovesLabel.text = "\(bestMoves) best"
+        bestMovesLabel.text = "Best score: \(bestMoves) \(bestMoves > 1 ? "moves" : "move")"
         bestMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
         
         
@@ -115,7 +115,7 @@ class ResultsScene: SKScene {
         secondButtonLabel.fontColor = UIColor.white
         
         if isLastLevel {
-            secondButtonLabel.text = "o/)"
+            secondButtonLabel.text = "GO BACK TO LEVEL 1"
         }
         else{
             secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
@@ -209,12 +209,22 @@ class ResultsScene: SKScene {
         }
         if currentTime - time > 1{
             let star = SKSpriteNode(imageNamed: "star")
+            star.xScale = 0.5
+            star.yScale = 0.5
             star.position = starsPosition
             star.zPosition = 1.5
             self.starAngle = CGFloat(arc4random_uniform(360) + 1)
+            
+            star.zRotation = starAngle
+            
             let move = SKAction.move(to: getPoint(with: self.starAngle), duration: 5)
+            let alpha = SKAction.fadeAlpha(to: 0, duration: 5)
+            let scale = SKAction.scale(by: 5, duration: 5)
+            
             self.addChild(star)
             star.run(move)
+            star.run(alpha)
+            star.run(scale)
             numberOfStars+=1
             
             if numberOfStars == 10 {

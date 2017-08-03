@@ -24,7 +24,8 @@ class LevelsScene: SKScene {
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
     private var levelsScreen: SKShapeNode!
-    private var levelsScreenShadow: SKSpriteNode!
+    private var titleBackground: SKSpriteNode!
+    private var backButton: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
     
@@ -41,6 +42,8 @@ class LevelsScene: SKScene {
     private var levelsScreenHeight: CGFloat!
     private var levelsScreenHeightLimit: CGFloat!
     private var firstLevelMargin: CGFloat!
+    private var backButtonHeight: CGFloat!
+    private var titleBackgroundHeight: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
     private var screenVerticalSpacing: CGFloat!
@@ -88,10 +91,41 @@ class LevelsScene: SKScene {
                                  height: levelsScreenHeight!)
         levelsScreen = SKShapeNode()
         levelsScreen.name = "Levels Screen"
-        levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
+        levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(cornerRadius * view.bounds.size.width / 375)).cgPath
         levelsScreen.fillColor = UIColor.white
         levelsScreen.zPosition = 5.2
         addChild(levelsScreen)
+        
+        titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
+        titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
+        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
+        titleBackground.zPosition = 0.1
+        levelsScreen.addChild(titleBackground)
+        
+        backButton = SKSpriteNode(imageNamed: "backButton")
+        backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
+        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing), duration: 0.0))
+        backButton.zPosition = 6.0
+        levelsScreen.addChild(backButton)
+        
+        let levelsTitle = SKLabelNode(text: "LEVELS")
+        levelsTitle.fontColor = UIColor.white
+        levelsTitle.fontName = ".SFUIText-Medium"
+        levelsTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
+        levelsTitle.verticalAlignmentMode = .center
+        levelsTitle.horizontalAlignmentMode = .center
+        levelsTitle.zPosition = 0.1
+        titleBackground.addChild(levelsTitle)
+        
+        let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
+        packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        packTitle.fontName = ".SFUIText-Medium"
+        packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
+        packTitle.verticalAlignmentMode = .center
+        packTitle.horizontalAlignmentMode = .center
+        packTitle.run(SKAction.moveTo(y: view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight - 1.5 * verticalSpacingBetweenLevels, duration: 0.0))
+        packTitle.zPosition = 0.1
+        levelsScreen.addChild(packTitle)
         
         for i in 0..<json.count {
             let world = UserDefaults.standard.string(forKey: "world")
@@ -102,9 +136,9 @@ class LevelsScene: SKScene {
             spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
             resetAnchor(of: spriteNode)
             spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
-                                           y: -verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
+                                           y: -verticalSpacingBetweenLevels - titleBackground.size.height - 2 * verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
                                            duration: 0.0))
-            spriteNode.zPosition = 5.3
+            spriteNode.zPosition = 0.1
             levelsScreen.addChild(spriteNode)
             levelsNodes.append(spriteNode)
             
@@ -114,7 +148,7 @@ class LevelsScene: SKScene {
             labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
             labelNode.verticalAlignmentMode = .center
             labelNode.horizontalAlignmentMode = .center
-            labelNode.zPosition = 5.3
+            labelNode.zPosition = 0.1
             spriteNode.addChild(labelNode)
             levelsLabelNodes.append(labelNode)
         }
@@ -163,7 +197,8 @@ class LevelsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
         
-        if !levelsScreen.contains(touchLocation!) && abs((touchLocation?.x)! - (initialTouchLocation?.x)!) <= moveTolerance && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
+        if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) &&
+            abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
         }
         
@@ -210,10 +245,14 @@ class LevelsScene: SKScene {
         
         levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
+        
         firstLevelMargin = 0.07 * levelsScreenWidth
+        backButtonHeight = floor(37 * view.bounds.size.width / 375)
+        titleBackgroundHeight = 85 * levelsScreenWidth / 335
+        
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
-        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + verticalSpacingBetweenLevels
+        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + 3 * verticalSpacingBetweenLevels + titleBackgroundHeight
         levelsScreenHeightLimit = 2 * screenVerticalSpacing + levelsScreenHeight - view.bounds.size.height
     }
     
