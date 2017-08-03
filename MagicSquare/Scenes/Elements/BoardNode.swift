@@ -763,7 +763,7 @@ class BoardNode: SKNode {
     func blinkColor(from level: Level) {
         for (i, row) in playerBoard.dropFirst().dropLast().enumerated() {
             for (j, cell) in row.dropFirst().dropLast().enumerated() {
-                if cell.fillColor == level.templateBoard.cellsMatrix[i][j]?.color {
+                if cell.fillColor.description == level.templateBoard.cellsMatrix[i][j]?.color.description {
                     cell.blinkColor()
                 }
             }
@@ -772,7 +772,7 @@ class BoardNode: SKNode {
     
     func blinkColor(inRow row: Int, level: Level) {
         for (j, cell) in playerBoard[row + 1].dropFirst().dropLast().enumerated() {
-            if cell.fillColor == level.templateBoard.cellsMatrix[row][j]?.color {
+            if cell.fillColor.description == level.templateBoard.cellsMatrix[row][j]?.color.description {
                 cell.blinkColor()
             }
         }
@@ -780,7 +780,7 @@ class BoardNode: SKNode {
     
     func blinkColor(inColumn column: Int, level: Level) {
         for (i, row) in playerBoard.dropFirst().dropLast().enumerated() {
-            if row[column + 1].fillColor == level.templateBoard.cellsMatrix[i][column]?.color {
+            if row[column + 1].fillColor.description == level.templateBoard.cellsMatrix[i][column]?.color.description {
                 row[column + 1].blinkColor()
             }
         }
