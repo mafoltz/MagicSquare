@@ -123,6 +123,7 @@ class LevelsScene: SKScene {
         packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
         packTitle.verticalAlignmentMode = .center
         packTitle.horizontalAlignmentMode = .center
+        packTitle.run(SKAction.moveTo(y: view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight - 1.5 * verticalSpacingBetweenLevels, duration: 0.0))
         packTitle.zPosition = 0.1
         levelsScreen.addChild(packTitle)
         
