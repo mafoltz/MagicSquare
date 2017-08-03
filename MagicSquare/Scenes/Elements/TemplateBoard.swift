@@ -90,7 +90,7 @@ class TemplateBoard: SKSpriteNode {
         
         if currentLevel.number == 1 {
             isTutorial = true
-            setTemplateText(with: "Hi, I am octupus Esle!")
+            setTemplateText(with: "Hi, I'm Esle, the octopus! Tap to continue.")
         } else {
             setTemplateText(with: "I doubt you'll find this!")
         }
@@ -119,10 +119,10 @@ class TemplateBoard: SKSpriteNode {
             cont = cont + 1
         }
         if cont == 1 {
-            setTemplateText(with: "This is the right answer for passing level")
+            setTemplateText(with: "To complete the level, you must seek for this color sequence.")
         }
         else if cont == 2 {
-            setTemplateText(with: "I will be here to show you the answer, just tap me")
+            setTemplateText(with: "Any time you need, I'll be here to show you the right answer. Just tap me :D")
         }
         else {
             scene.answerAction()

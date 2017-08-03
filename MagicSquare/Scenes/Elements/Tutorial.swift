@@ -53,7 +53,7 @@ class Tutorial: BoardNode {
     
     override var boardDelegate: BoardDelegate? {
         didSet{
-            boardDelegate?.setQuoteLabel(with: "Move the indicated row to the right position")
+            boardDelegate?.setQuoteLabel(with: "Move the indicated row to the right position.")
         }
     }
     
@@ -113,7 +113,7 @@ class Tutorial: BoardNode {
         print(state)
         if playerBoard[playerBoard.count-2][1].fillColor.description == UIColor(hex: 0x738691).description  && state == .row {
             state = .touchInOctopus
-            boardDelegate?.setQuoteLabel(with: "Tap the octopus to see the answer.")
+            boardDelegate?.setQuoteLabel(with: "Tap Esle to see the answer again.")
             removeVibrateRows()
         }
         else if state == .octopusTouched {
