@@ -54,7 +54,7 @@ class Hud: SKSpriteNode {
         let moveUp = SKAction.moveBy(x: 0.0, y: 10.0, duration: 0.4)
         moveUp.timingMode = .easeInEaseOut
         let sequence = SKAction.sequence([moveDown, moveUp])
-        esleButton.run(SKAction.repeatForever(sequence))
+        esleButton.run(SKAction.repeatForever(sequence), withKey: "eslesMovement")
         
         levelsButton = SKSpriteNode(imageNamed: "levelsButton")
         levelsButton.size = CGSize(width: self.size.height / 3, height: self.size.height / 3)
@@ -99,6 +99,11 @@ class Hud: SKSpriteNode {
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
+    }
+    
+    func resetEslePosition() {
+        esleButton.removeAction(forKey: "eslesMovement")
+        esleButton.run(SKAction.moveTo(y: -0.3 * buttonsLineHeight, duration: 0.4))
     }
     
     func setQuoteLabel(with text: String) {

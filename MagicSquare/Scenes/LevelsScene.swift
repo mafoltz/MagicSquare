@@ -124,6 +124,9 @@ class LevelsScene: SKScene {
         moveLevels.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
         levelsScreen.run(actionsSequence, completion: {
+            if let hud: Hud = self.previousSceneChildren.childNode(withName: "hud") as? Hud {
+                hud.resetEslePosition()
+            }
             self.isUserInteractionEnabled = true
         })
         
@@ -235,22 +238,19 @@ class LevelsScene: SKScene {
             self.goBackToPreviousScene()
         })
         
-        let lightBackground = SKAction.fadeAlpha(to: 0.0, duration: 0.3)
-        backgroundScreen.run(lightBackground)
-        
         isUserInteractionEnabled = false
     }
     
     func goBackToPreviousScene() {
         if let scene = previousScene as? GameScene {
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-            super.view?.presentScene(scene)
+            super.view?.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.1))
         }
         else if let scene = previousScene as? MainMenuScene {
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             scene.size = (super.view?.bounds.size)!
             scene.scaleMode = .aspectFill
-            super.view?.presentScene(scene)
+            super.view?.presentScene(scene, transition: SKTransition.crossFade(withDuration: 0.1))
         }
     }
     
