@@ -149,8 +149,16 @@ class ConfigScene: SKScene {
 			let newTouchLocation = touch.location(in: self)
 			screenTouch = touch.location(in: screen)
 			
-			screen.run(SKAction.moveBy(x: newTouchLocation.x - (touchLocation?.x)!, y: 0.0, duration: 0.0))
-			touchLocation = newTouchLocation
+			if (screen.position.x < headLimit - (screen.scene?.size.width)! / 8) {
+				screen.run(SKAction.moveBy(x: (newTouchLocation.x - (touchLocation?.x)!)/4, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			} else if (screen.position.x > trailLimit + (screen.scene?.size.width)! / 8) {
+				screen.run(SKAction.moveBy(x: (newTouchLocation.x - (touchLocation?.x)!)/4, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			} else {
+				screen.run(SKAction.moveBy(x: newTouchLocation.x - (touchLocation?.x)!, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			}
 		}
 		
 	}
@@ -159,6 +167,7 @@ class ConfigScene: SKScene {
 		isMoving = true
 		
 		if screen.position.x < segmentLimit {
+			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) hdl \(headLimit)")
 			let moveTo1 = SKAction.moveTo(x: headLimit, duration: 0.2)
 			moveTo1.timingMode = .easeOut
 			
@@ -175,6 +184,7 @@ class ConfigScene: SKScene {
 		}
 		
 		if screen.position.x > segmentLimit {
+			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) trl \(trailLimit)")
 			let moveTo2 = SKAction.moveTo(x: trailLimit, duration: 0.2)
 			moveTo2.timingMode = .easeOut
 			
@@ -546,6 +556,9 @@ class ConfigScene: SKScene {
 	
 	func addConfigHUD() {
 		
+		let circleRadius = self.size.height * 0.007875
+		let circleSpacement = self.size.height * 0.007875 * 2 //0.0105
+		
 		configHUD = SKNode.init()
 		configHUD.position = CGPoint(x: self.size.width/4, y: self.size.height * 0.02)
 		configHUD.zPosition = 1.5
@@ -558,16 +571,16 @@ class ConfigScene: SKScene {
 		configHUD.addChild(goBackButton)
 		buttons.append(goBackButton)
 		
-		let screen1 = SKShapeNode(circleOfRadius: self.size.height * 0.0105)
+		let screen1 = SKShapeNode(circleOfRadius: circleRadius)
 		screen1.name = "screen1"
 		screen1.fillColor = UIColor.gray
-		screen1.position = CGPoint(x: configHUD.position.x - (self.size.height * 0.0105 * 2), y: configHUD.position.y)
+		screen1.position = CGPoint(x: configHUD.position.x - circleSpacement, y: configHUD.position.y)
 		configHUD.addChild(screen1)
 		
-		let screen2 = SKShapeNode(circleOfRadius: self.size.height * 0.0105)
+		let screen2 = SKShapeNode(circleOfRadius: circleRadius)
 		screen2.name = "screen2"
 		screen2.fillColor = UIColor.gray
-		screen2.position = CGPoint(x: configHUD.position.x + (self.size.height * 0.0105 * 2), y: configHUD.position.y)
+		screen2.position = CGPoint(x: configHUD.position.x + circleSpacement, y: configHUD.position.y)
 		screen2.alpha = 0.5
 		configHUD.addChild(screen2)
 		
