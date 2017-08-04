@@ -22,11 +22,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBackground1" translatesAutoresizingMaskIntoConstraints="NO" id="OIA-tY-y7F">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashBackground" translatesAutoresizingMaskIntoConstraints="NO" id="OIA-tY-y7F">
                                 <rect key="frame" x="0.0" y="86" width="375" height="581"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashEsle" translatesAutoresizingMaskIntoConstraints="NO" id="UnW-Bo-5Bc">
-                                <rect key="frame" x="105" y="252" width="165" height="254"/>
+                                <rect key="frame" x="105" y="251.5" width="165" height="254"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="254" id="oHW-MS-Emu"/>
                                     <constraint firstAttribute="width" constant="165" id="tlf-sK-QQr"/>
@@ -50,7 +50,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splashBackground1" width="375" height="581"/>
+        <image name="splashBackground" width="1024" height="879"/>
         <image name="splashEsle" width="94" height="145"/>
     </resources>
 </document>
