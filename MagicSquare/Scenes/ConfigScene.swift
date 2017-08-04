@@ -41,6 +41,7 @@ class ConfigScene: SKScene {
 	private var soundButtonPosition: CGPoint!
 	private var colorBlindButtonPosition: CGPoint!
 	private var buttonLabelsX: CGFloat!
+	private var configHUD: SKNode!
 	
 	private var bannerSize: CGSize!
 	private var bannerSpacement: CGFloat!
@@ -50,6 +51,8 @@ class ConfigScene: SKScene {
 	private var banner3Pos: CGPoint!
 	private var banner4Pos: CGPoint!
 	private var banner5Pos: CGPoint!
+	private var ourInfo1Pos: CGPoint!
+	private var ourInfo2Pos: CGPoint!
 	private var ourTeamPos: CGPoint!
 	
 	private var firstTouchLocation: CGPoint?
@@ -59,17 +62,20 @@ class ConfigScene: SKScene {
 	private var isMoving = false
 	private let moveTolerance = CGFloat(10.0)
 	private var selectedButton: String!
-	private var upperLimit: CGFloat!
-	private var lowerLimit: CGFloat!
+	private var segment1X: CGFloat!
+	private var segment2X: CGFloat!
+	private var headLimit: CGFloat!
+	private var segmentLimit: CGFloat!
+	private var trailLimit: CGFloat!
 	
 	let font = ".SFUIText-Medium"
+	let fontBold = ".SFUIText-Bold"
 	let fontColor = UIColor.black
 	
 	// MARK: - Methods
 	
 	func prepareToGoBack() {
 		
-//		previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
 		previousSceneChildren = SKSpriteNode()
 		previousSceneChildren.name = "Previous Scene Children"
 		previousSceneChildren.zPosition = 0.0
@@ -84,7 +90,11 @@ class ConfigScene: SKScene {
 	
 	override func didMove(to view: SKView) {
 		
+		self.anchorPoint = CGPoint(x: 0, y: 0)
+		self.backgroundColor = UIColor.black
 		initScene()
+		
+		addConfigHUD()
 
 		screen = SKShapeNode()
 		screen.name = "screen"
@@ -92,16 +102,9 @@ class ConfigScene: SKScene {
 		                              width: self.size.width, height: self.size.height * 2)
 		screen.path = UIBezierPath(rect: screenBackground).cgPath
 		screen.fillColor = UIColor.white
-		screen.zPosition = 2.0
-		screen.position = CGPoint(x: 0, y: lowerLimit)
+		screen.zPosition = 1.1
+		screen.position = CGPoint(x: 0, y: 0)
 		self.addChild(screen)
-		
-		let goBackButton = SKSpriteNode(imageNamed: "goBack")
-		goBackButton.name = "goBackButton"
-		goBackButton.size = goBackButtonSize
-		goBackButton.position = goBackButtonPosition
-		screen.addChild(goBackButton)
-		buttons.append(goBackButton)
 		
 		let eslesIcon = SKSpriteNode(imageNamed: "EsleConfig")
 		eslesIcon.size = eslesIconSize
@@ -126,11 +129,15 @@ class ConfigScene: SKScene {
 		touchLocation = touch.location(in: self)
 		firstScreenTouch = touch.location(in: screen)
 		screenTouch = touch.location(in: screen)
+		let hudTouch = touch.location(in: configHUD)
 		
 		selectedButton = "nil"
 		for i in 0..<buttons.count {
 			if buttons[i].contains(screenTouch!) {
 				selectedButton = buttons[i].name
+			}
+			if (configHUD.childNode(withName: "goBackButton")?.contains(hudTouch))! {
+				selectedButton = "goBackButton"
 			}
 		}
 	}
@@ -138,24 +145,20 @@ class ConfigScene: SKScene {
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if !isMoving {
 			
-			if screen.position.y < lowerLimit {
-				let moveBack = SKAction.moveTo(y: lowerLimit, duration: 0.0)
-				moveBack.timingMode = .easeOut
-				screen.run(moveBack)
-			}
-			
-			if screen.position.y > upperLimit {
-				let moveBack = SKAction.moveTo(y: upperLimit, duration: 0.0)
-				moveBack.timingMode = .easeOut
-				screen.run(moveBack)
-			}
-			
 			let touch: UITouch = touches.first as UITouch!
 			let newTouchLocation = touch.location(in: self)
 			screenTouch = touch.location(in: screen)
 			
-			screen.run(SKAction.moveBy(x: 0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0))
-			touchLocation = newTouchLocation
+			if (screen.position.x < headLimit - (screen.scene?.size.width)! / 8) {
+				screen.run(SKAction.moveBy(x: (newTouchLocation.x - (touchLocation?.x)!)/4, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			} else if (screen.position.x > trailLimit + (screen.scene?.size.width)! / 8) {
+				screen.run(SKAction.moveBy(x: (newTouchLocation.x - (touchLocation?.x)!)/4, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			} else {
+				screen.run(SKAction.moveBy(x: newTouchLocation.x - (touchLocation?.x)!, y: 0.0, duration: 0.0))
+				touchLocation = newTouchLocation
+			}
 		}
 		
 	}
@@ -163,21 +166,42 @@ class ConfigScene: SKScene {
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		isMoving = true
 		
-		if screen.position.y < lowerLimit {
-			let moveBack = SKAction.moveTo(y: lowerLimit, duration: 0.2)
-			moveBack.timingMode = .easeOut
-			screen.run(moveBack)
+		if screen.position.x < segmentLimit {
+			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) hdl \(headLimit)")
+			let moveTo1 = SKAction.moveTo(x: headLimit, duration: 0.2)
+			moveTo1.timingMode = .easeOut
+			
+			let changeHudIndex1 = SKAction.fadeAlpha(to: 0.5, duration: 0.2)
+			changeHudIndex1.timingMode = .easeOut
+			
+			let changeHudIndex2 = SKAction.fadeAlpha(to: 1.0, duration: 0.2)
+			changeHudIndex2.timingMode = .easeOut
+			
+			screen.run(moveTo1)
+			configHUD.childNode(withName: "screen1")?.run(changeHudIndex1)
+			configHUD.childNode(withName: "screen2")?.run(changeHudIndex2)
+			
 		}
 		
-		if screen.position.y > upperLimit {
-			let moveBack = SKAction.moveTo(y: upperLimit, duration: 0.2)
-			moveBack.timingMode = .easeOut
-			screen.run(moveBack)
+		if screen.position.x > segmentLimit {
+			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) trl \(trailLimit)")
+			let moveTo2 = SKAction.moveTo(x: trailLimit, duration: 0.2)
+			moveTo2.timingMode = .easeOut
+			
+			let changeHudIndex1 = SKAction.fadeAlpha(to: 1.0, duration: 0.2)
+			changeHudIndex1.timingMode = .easeOut
+			
+			let changeHudIndex2 = SKAction.fadeAlpha(to: 0.5, duration: 0.2)
+			changeHudIndex2.timingMode = .easeOut
+			
+			screen.run(moveTo2)
+			configHUD.childNode(withName: "screen1")?.run(changeHudIndex1)
+			configHUD.childNode(withName: "screen2")?.run(changeHudIndex2)
 		}
-        
+		
         var link: Int!
 		
-		if selectedButton != "nil" && (abs((touchLocation?.y)! - (firstTouchLocation?.y)!) < moveTolerance) {
+		if selectedButton != "nil" && (abs((touchLocation?.x)! - (firstTouchLocation?.x)!) < moveTolerance) {
 			switch selectedButton {
 			case "goBackButton":
 				goBackClicked()
@@ -290,48 +314,93 @@ class ConfigScene: SKScene {
 		self.backgroundColor = UIColor.white
 		
 		if UIDevice.current.userInterfaceIdiom == .pad {
-			screenSize = CGSize(width: self.size.width, height: self.size.height * 3)
-			bottomSpacement = CGFloat(screenSize.height * 0.15)
-			upperLimit = -bottomSpacement!
-			lowerLimit = -self.size.height * 2
+			screenSize = CGSize(width: self.size.width * 2, height: self.size.height)
+			bottomSpacement = CGFloat(screenSize.height * 0.0425)
+			headLimit = -self.size.width
+			segmentLimit = -self.size.width/2
+			trailLimit = 0
+			
+			goBackButtonSize = CGSize(width: screenSize.width * 0.0665, height: screenSize.width * 0.0665)
+			goBackButtonPosition = CGPoint(x: screenSize.width * 0.0265 + goBackButtonSize.width/2,
+			                               y: screenSize.height - (screenSize.width * 0.0265) - goBackButtonSize.height/2)
+			
+			eslesIconSize = CGSize(width: screenSize.width * 0.1715, height: screenSize.width * 0.1715)
+			eslesIconPosition = CGPoint(x: screenSize.width/4, y: screenSize.height - (screenSize.height * 0.096) - eslesIconSize.height/2)
+			
+			let titleExample = SKSpriteNode(imageNamed: "EsleTitle")
+			let titleAspectRatio = titleExample.size.width/titleExample.size.height
+			
+			
+			titleSize = CGSize(width: screenSize.width * 0.27335, height: (screenSize.width * 0.27335)/titleAspectRatio)
+			titlePosition = CGPoint(x: screenSize.width/4, y: eslesIconPosition.y - eslesIconSize.height/2 - (screenSize.height * 0.04) - titleSize.height/2)
+			
+			buttonSize = CGSize(width: screenSize.width * 0.07465, height: screenSize.width * 0.07465)
+			let titleBottom = titlePosition.y - titleSize.height/2
+			let buttonSpacing = screenSize.height * 0.04
+			musicButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: titleBottom - buttonSpacing - buttonSize.height/2)
+			soundButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: musicButtonPosition.y - buttonSpacing - buttonSize.height)
+			colorBlindButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: soundButtonPosition.y - buttonSpacing - buttonSize.height)
+			
+			buttonLabelsX = musicButtonPosition.x + buttonSize.width/2 + screenSize.width * 0.032
+			
+			let bannerExample = SKSpriteNode(imageNamed: "Arthur")
+			let aspectRatio = bannerExample.size.width/bannerExample.size.height
+			bannerSize = CGSize(width: screenSize.width * 0.347, height: (screenSize.width * 0.347)/aspectRatio)
+			
+			bannerSpacement = CGFloat(screenSize.height * 0.015)
+			
+			banner5Pos = CGPoint(x: screenSize.width * 0.75, y: bottomSpacement + (bannerSpacement * 2) + bannerSize.height/2)
+			banner4Pos = CGPoint(x: screenSize.width * 0.75, y: banner5Pos.y + bannerSpacement + bannerSize.height)
+			banner3Pos = CGPoint(x: screenSize.width * 0.75, y: banner4Pos.y + bannerSpacement + bannerSize.height)
+			banner2Pos = CGPoint(x: screenSize.width * 0.75, y: banner3Pos.y + bannerSpacement + bannerSize.height)
+			banner1Pos = CGPoint(x: screenSize.width * 0.75, y: banner2Pos.y + bannerSpacement + bannerSize.height)
+			ourInfo2Pos = CGPoint(x: screenSize.width * 0.75, y: banner1Pos.y + (bannerSpacement * 3) + bannerSize.height/2)
+			ourInfo1Pos = CGPoint(x: screenSize.width * 0.75, y: ourInfo2Pos.y + (bannerSpacement * 2))
+			ourTeamPos = CGPoint(x: screenSize.width * 0.75, y: ourInfo1Pos.y + bannerSize.height/2)
+			
 		} else {
-			screenSize = CGSize(width: self.size.width, height: self.size.height * 2)
-			bottomSpacement = CGFloat(screenSize.height * 0.1)
-			upperLimit = -bottomSpacement!
-			lowerLimit = -self.size.height
+			screenSize = CGSize(width: self.size.width * 2, height: self.size.height)
+			bottomSpacement = CGFloat(screenSize.height * 0.0425)
+			trailLimit = 0
+			segmentLimit = -self.size.width/2
+			headLimit = -self.size.width
+
+			goBackButtonSize = CGSize(width: screenSize.width * 0.0665, height: screenSize.width * 0.0665)
+			goBackButtonPosition = CGPoint(x: screenSize.width * 0.0265 + goBackButtonSize.width/2,
+										   y: screenSize.height - (screenSize.width * 0.0265) - goBackButtonSize.height/2)
+			
+			eslesIconSize = CGSize(width: screenSize.width * 0.34335, height: screenSize.width * 0.34335)
+			eslesIconPosition = CGPoint(x: screenSize.width/4, y: screenSize.height - (screenSize.height * 0.096) - eslesIconSize.height/2)
+			
+			titleSize = CGSize(width: screenSize.width * 0.27335, height: screenSize.height * 0.03)
+			titlePosition = CGPoint(x: screenSize.width/4, y: eslesIconPosition.y - eslesIconSize.height/2 - (screenSize.height * 0.04) - titleSize.height/2)
+			
+			buttonSize = CGSize(width: screenSize.width * 0.07465, height: screenSize.width * 0.07465)
+			let titleBottom = titlePosition.y - titleSize.height/2
+			let buttonSpacing = screenSize.height * 0.04
+			musicButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: titleBottom - buttonSpacing - buttonSize.height/2)
+			soundButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: musicButtonPosition.y - buttonSpacing - buttonSize.height)
+			colorBlindButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: soundButtonPosition.y - buttonSpacing - buttonSize.height)
+			
+			buttonLabelsX = musicButtonPosition.x + buttonSize.width/2 + screenSize.width * 0.032
+			
+			let bannerExample = SKSpriteNode(imageNamed: "Arthur")
+			let aspectRatio = bannerExample.size.width/bannerExample.size.height
+			bannerSize = CGSize(width: screenSize.width * 0.45, height: (screenSize.width * 0.45)/aspectRatio)
+			
+			bannerSpacement = CGFloat(screenSize.height * 0.015)
+			
+			banner5Pos = CGPoint(x: screenSize.width * 0.75, y: bottomSpacement + (bannerSpacement * 2) + bannerSize.height/2)
+			banner4Pos = CGPoint(x: screenSize.width * 0.75, y: banner5Pos.y + bannerSpacement + bannerSize.height)
+			banner3Pos = CGPoint(x: screenSize.width * 0.75, y: banner4Pos.y + bannerSpacement + bannerSize.height)
+			banner2Pos = CGPoint(x: screenSize.width * 0.75, y: banner3Pos.y + bannerSpacement + bannerSize.height)
+			banner1Pos = CGPoint(x: screenSize.width * 0.75, y: banner2Pos.y + bannerSpacement + bannerSize.height)
+			ourInfo2Pos = CGPoint(x: screenSize.width * 0.75, y: banner1Pos.y + (bannerSpacement * 3) + bannerSize.height/2)
+			ourInfo1Pos = CGPoint(x: screenSize.width * 0.75, y: ourInfo2Pos.y + (bannerSpacement * 2))
+			ourTeamPos = CGPoint(x: screenSize.width * 0.75, y: ourInfo1Pos.y + bannerSize.height/2)
+			
 		}
-		
-		goBackButtonSize = CGSize(width: screenSize.width * 0.133, height: screenSize.width * 0.133)
-		goBackButtonPosition = CGPoint(x: screenSize.width * 0.053 + goBackButtonSize.width/2,
-		                               y: screenSize.height - (screenSize.width * 0.053) - goBackButtonSize.height/2)
-		
-		eslesIconSize = CGSize(width: screenSize.width * 0.6867, height: screenSize.width * 0.6867)
-		eslesIconPosition = CGPoint(x: screenSize.width/2, y: screenSize.height - (screenSize.height * 0.048) - eslesIconSize.height/2)
-		
-		titleSize = CGSize(width: screenSize.width * 0.5467, height: screenSize.height * 0.015)
-		titlePosition = CGPoint(x: screenSize.width/2, y: eslesIconPosition.y - eslesIconSize.height/2 - (screenSize.height * 0.02) - titleSize.height/2)
-		
-		buttonSize = CGSize(width: screenSize.width * 0.1493, height: screenSize.width * 0.1493)
-		let titleBottom = titlePosition.y - titleSize.height/2
-		let buttonSpacing = screenSize.height * 0.02
-		musicButtonPosition = CGPoint(x: screenSize.width * 0.1253 + buttonSize.width/2, y: titleBottom - buttonSpacing - buttonSize.height/2)
-		soundButtonPosition = CGPoint(x: screenSize.width * 0.1253 + buttonSize.width/2, y: musicButtonPosition.y - buttonSpacing - buttonSize.height)
-		colorBlindButtonPosition = CGPoint(x: screenSize.width * 0.1253 + buttonSize.width/2, y: soundButtonPosition.y - buttonSpacing - buttonSize.height)
-		
-		buttonLabelsX = musicButtonPosition.x + buttonSize.width/2 + screenSize.width * 0.032
-		
-		let bannerExample = SKSpriteNode(imageNamed: "Arthur")
-		let aspectRatio = bannerExample.size.width/bannerExample.size.height
-		bannerSize = CGSize(width: screenSize.width * 0.9, height: (screenSize.width * 0.9)/aspectRatio)
-		
-		bannerSpacement = CGFloat(screenSize.height * 0.0157)
-		banner5Pos = CGPoint(x: screenSize.width/2, y: bottomSpacement + bannerSpacement + bannerSize.height/2)
-		banner4Pos = CGPoint(x: screenSize.width/2, y: banner5Pos.y + bannerSpacement + bannerSize.height)
-		banner3Pos = CGPoint(x: screenSize.width/2, y: banner4Pos.y + bannerSpacement + bannerSize.height)
-		banner2Pos = CGPoint(x: screenSize.width/2, y: banner3Pos.y + bannerSpacement + bannerSize.height)
-		banner1Pos = CGPoint(x: screenSize.width/2, y: banner2Pos.y + bannerSpacement + bannerSize.height)
-		ourTeamPos = CGPoint(x: screenSize.width/2, y: banner1Pos.y + (bannerSpacement * 1.5) + bannerSize.height/2)
-		
+	
 	}
 	
 	func loadConfigs(root: SKShapeNode) {
@@ -421,13 +490,33 @@ class ConfigScene: SKScene {
 		root.addChild(banner5)
 		buttons.append(banner5)
 		
+		let line1 = SKLabelNode(text: "We are students from Brazil hoping")
+		line1.name = "line1"
+		line1.verticalAlignmentMode = .center
+		line1.horizontalAlignmentMode = .center
+		line1.position = ourInfo1Pos
+		line1.fontName = font
+		line1.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
+		line1.fontColor = fontColor
+		root.addChild(line1)
+		
+		let line2 = SKLabelNode(text: "to learn each day a little bit more :)")
+		line2.name = "line2"
+		line2.verticalAlignmentMode = .center
+		line2.horizontalAlignmentMode = .center
+		line2.position = ourInfo2Pos
+		line2.fontName = font
+		line2.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
+		line2.fontColor = fontColor
+		root.addChild(line2)
+		
 		let ourTeamLabel = SKLabelNode(text: "OUR TEAM")
 		ourTeamLabel.name = "OurTeam"
 		ourTeamLabel.verticalAlignmentMode = .center
 		ourTeamLabel.horizontalAlignmentMode = .center
 		ourTeamLabel.position = ourTeamPos
-		ourTeamLabel.fontName = font
-		ourTeamLabel.fontSize = floor(18 * screenSize.height/1334)
+		ourTeamLabel.fontName = fontBold
+		ourTeamLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		ourTeamLabel.fontColor = fontColor
 		root.addChild(ourTeamLabel)
 		
@@ -441,7 +530,7 @@ class ConfigScene: SKScene {
 		musicLabel.position = CGPoint(x: buttonLabelsX,
 		                              y: musicButtonPosition.y)
 		musicLabel.fontName = font
-		musicLabel.fontSize = floor(18 * screenSize.height/1334)
+		musicLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		musicLabel.fontColor = fontColor
 		root.addChild(musicLabel)
 		
@@ -450,7 +539,7 @@ class ConfigScene: SKScene {
 		soundLabel.horizontalAlignmentMode = .left
 		soundLabel.position = CGPoint(x: buttonLabelsX, y: soundButtonPosition.y)
 		soundLabel.fontName = font
-		soundLabel.fontSize = floor(18 * screenSize.height/1334)
+		soundLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		soundLabel.fontColor = fontColor
 		root.addChild(soundLabel)
 		
@@ -460,9 +549,41 @@ class ConfigScene: SKScene {
 		colorBlindLabel.position = CGPoint(x: buttonLabelsX,
 		                                   y: colorBlindButtonPosition.y)
 		colorBlindLabel.fontName = font
-		colorBlindLabel.fontSize = floor(18 * screenSize.height/1334)
+		colorBlindLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		colorBlindLabel.fontColor = fontColor
 		root.addChild(colorBlindLabel)
+	}
+	
+	func addConfigHUD() {
+		
+		let circleRadius = self.size.height * 0.007875
+		let circleSpacement = self.size.height * 0.007875 * 2 //0.0105
+		
+		configHUD = SKNode.init()
+		configHUD.position = CGPoint(x: self.size.width/4, y: self.size.height * 0.02)
+		configHUD.zPosition = 1.5
+		self.addChild(configHUD)
+		
+		let goBackButton = SKSpriteNode(imageNamed: "goBack")
+		goBackButton.name = "goBackButton"
+		goBackButton.size = goBackButtonSize
+		goBackButton.position = CGPoint(x: goBackButtonPosition.x - configHUD.position.x , y: goBackButtonPosition.y - configHUD.position.y)
+		configHUD.addChild(goBackButton)
+		buttons.append(goBackButton)
+		
+		let screen1 = SKShapeNode(circleOfRadius: circleRadius)
+		screen1.name = "screen1"
+		screen1.fillColor = UIColor.gray
+		screen1.position = CGPoint(x: configHUD.position.x - circleSpacement, y: configHUD.position.y)
+		configHUD.addChild(screen1)
+		
+		let screen2 = SKShapeNode(circleOfRadius: circleRadius)
+		screen2.name = "screen2"
+		screen2.fillColor = UIColor.gray
+		screen2.position = CGPoint(x: configHUD.position.x + circleSpacement, y: configHUD.position.y)
+		screen2.alpha = 0.5
+		configHUD.addChild(screen2)
+		
 	}
 	
 }
