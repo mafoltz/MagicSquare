@@ -18,6 +18,7 @@ class LevelsScene: SKScene {
     // MARK: - Properties
     
     private let json: [[String: Any]] = JsonReader.openJson(named: UserDefaults.standard.string(forKey: "world")!)!
+    private var levelsPacks = [[[String: Any]]]()
     private var levels = [Level]()
     
     private var previousScene: SKScene!
@@ -34,8 +35,8 @@ class LevelsScene: SKScene {
     private var touchLocation: CGPoint?
     private var isMoving = false
     
-    private var numLevels: Int!
-    private var numLevelsRows: Int!
+    private var numPacks: Int! = 0
+    private var numLevelsRows: Int! = 0
     private let levelsByRow: Int! = 4
     private var levelsSize: CGFloat!
     private var levelsScreenWidth: CGFloat!
@@ -48,6 +49,8 @@ class LevelsScene: SKScene {
     private var horizontalSpacingBetweenLevels: CGFloat!
     private var screenVerticalSpacing: CGFloat!
     private var screenHorizontalSpacing: CGFloat!
+    private var packTitleInitialHeightDisplacement: CGFloat!
+    private var packFirstLevelInitialHeightDisplacement: CGFloat!
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
     private let moveToleranceToCloseScene: CGFloat = 150
@@ -77,6 +80,10 @@ class LevelsScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        // TEST
+        levelsPacks.append(json)
+        levelsPacks.append(json)
+        
         calculateSizes(from: view)
         
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
@@ -117,40 +124,45 @@ class LevelsScene: SKScene {
         levelsTitle.zPosition = 0.1
         titleBackground.addChild(levelsTitle)
         
-        let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
-        packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
-        packTitle.fontName = ".SFUIText-Medium"
-        packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
-        packTitle.verticalAlignmentMode = .center
-        packTitle.horizontalAlignmentMode = .center
-        packTitle.run(SKAction.moveTo(y: view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight - 1.5 * verticalSpacingBetweenLevels, duration: 0.0))
-        packTitle.zPosition = 0.1
-        levelsScreen.addChild(packTitle)
+        let world = UserDefaults.standard.string(forKey: "world")
         
-        for i in 0..<json.count {
-            let world = UserDefaults.standard.string(forKey: "world")
-            levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
+        for pack in levelsPacks {
+            let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
+            packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+            packTitle.fontName = ".SFUIText-Medium"
+            packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
+            packTitle.verticalAlignmentMode = .center
+            packTitle.horizontalAlignmentMode = .center
+            packTitle.run(SKAction.moveTo(y: packTitleInitialHeightDisplacement, duration: 0.0))
+            packTitle.zPosition = 0.1
+            levelsScreen.addChild(packTitle)
             
-            let spriteNode = CoinSpriteNode()
-            spriteNode.setCoinForRecord(from: levels[i])
-            spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
-            resetAnchor(of: spriteNode)
-            spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
-                                           y: -verticalSpacingBetweenLevels - titleBackground.size.height - 2 * verticalSpacingBetweenLevels - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
-                                           duration: 0.0))
-            spriteNode.zPosition = 0.1
-            levelsScreen.addChild(spriteNode)
-            levelsNodes.append(spriteNode)
+            for i in 0..<json.count {
+                levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
+                
+                let spriteNode = CoinSpriteNode()
+                spriteNode.setCoinForRecord(from: levels[i])
+                spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
+                resetAnchor(of: spriteNode)
+                spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
+                                               y: packFirstLevelInitialHeightDisplacement - CGFloat(i / levelsByRow) * (levelsSize + verticalSpacingBetweenLevels),
+                                               duration: 0.0))
+                spriteNode.zPosition = 0.1
+                levelsScreen.addChild(spriteNode)
+                levelsNodes.append(spriteNode)
+                
+                let labelNode = SKLabelNode(text: levels[i].level)
+                labelNode.fontColor = levels[i].getMedalColorForRecord()
+                labelNode.fontName = ".SFUIText-Heavy"
+                labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
+                labelNode.verticalAlignmentMode = .center
+                labelNode.horizontalAlignmentMode = .center
+                labelNode.zPosition = 0.1
+                spriteNode.addChild(labelNode)
+                levelsLabelNodes.append(labelNode)
+            }
             
-            let labelNode = SKLabelNode(text: levels[i].level)
-            labelNode.fontColor = levels[i].getMedalColorForRecord()
-            labelNode.fontName = ".SFUIText-Heavy"
-            labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
-            labelNode.verticalAlignmentMode = .center
-            labelNode.horizontalAlignmentMode = .center
-            labelNode.zPosition = 0.1
-            spriteNode.addChild(labelNode)
-            levelsLabelNodes.append(labelNode)
+            updatePacksHeightDisplacements(with: screenHeight(forNumOfLevels: pack.count))
         }
         
         let hideLevels = SKAction.moveBy(x: 0.0, y: screenVerticalSpacing - view.bounds.size.height, duration: 0.0)
@@ -240,8 +252,10 @@ class LevelsScene: SKScene {
         screenVerticalSpacing = 20 * view.bounds.size.width / 375
         screenHorizontalSpacing = screenVerticalSpacing
         
-        numLevels = json.count
-        numLevelsRows = ((numLevels - 1) / levelsByRow) + 1
+        for json in levelsPacks {
+            numPacks = numPacks + 1
+            numLevelsRows = numLevelsRows + ((json.count - 1) / levelsByRow) + 1
+        }
         
         levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
         levelsSize = 0.17 * levelsScreenWidth
@@ -252,14 +266,27 @@ class LevelsScene: SKScene {
         
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
-        levelsScreenHeight = CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + 3 * verticalSpacingBetweenLevels + titleBackgroundHeight
+        levelsScreenHeight = titleBackgroundHeight + 3 * CGFloat(numPacks) * verticalSpacingBetweenLevels + CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels)
         levelsScreenHeightLimit = 2 * screenVerticalSpacing + levelsScreenHeight - view.bounds.size.height
+        
+        packTitleInitialHeightDisplacement = view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight - 1.5 * verticalSpacingBetweenLevels
+        packFirstLevelInitialHeightDisplacement = -3 * verticalSpacingBetweenLevels - titleBackgroundHeight
     }
     
     func resetAnchor(of spriteNode: SKSpriteNode) {
         spriteNode.run(SKAction.moveBy(x: screenHorizontalSpacing + ((spriteNode.size.width - (super.view?.bounds.size.width)!) / 2),
                                        y: (((super.view?.bounds.size.height)! - spriteNode.size.height) / 2) - screenVerticalSpacing,
                                        duration: 0.0))
+    }
+    
+    func screenHeight(forNumOfLevels numOfLevels: Int) -> CGFloat {
+        let numLevelsRows = ((numOfLevels - 1) / levelsByRow) + 1
+        return CGFloat(numLevelsRows) * (levelsSize + verticalSpacingBetweenLevels) + 3 * verticalSpacingBetweenLevels
+    }
+    
+    func updatePacksHeightDisplacements(with packHeight: CGFloat) {
+        packTitleInitialHeightDisplacement.subtract(packHeight)
+        packFirstLevelInitialHeightDisplacement.subtract(packHeight)
     }
     
     func closeLevelsScene(to direction: Direction) {
