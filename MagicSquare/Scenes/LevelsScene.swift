@@ -81,7 +81,7 @@ class LevelsScene: SKScene {
     
     override func didMove(to view: SKView) {
         // TEST
-        levelsPacks.append(json)
+        //levelsPacks.append(json)
         levelsPacks.append(json)
         
         calculateSizes(from: view)
@@ -106,14 +106,14 @@ class LevelsScene: SKScene {
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
         titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
-        titleBackground.zPosition = 0.1
+        titleBackground.zPosition = 6.0
         levelsScreen.addChild(titleBackground)
         
         backButton = SKSpriteNode(imageNamed: "backButton")
         backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
-        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing), duration: 0.0))
-        backButton.zPosition = 6.0
-        levelsScreen.addChild(backButton)
+        backButton.run(SKAction.move(to: CGPoint(x: -0.4 * levelsScreenWidth, y: 0.0), duration: 0.0))
+        backButton.zPosition = 0.1
+        titleBackground.addChild(backButton)
         
         let levelsTitle = SKLabelNode(text: "LEVELS")
         levelsTitle.fontColor = UIColor.white
@@ -124,9 +124,9 @@ class LevelsScene: SKScene {
         levelsTitle.zPosition = 0.1
         titleBackground.addChild(levelsTitle)
         
-        let world = UserDefaults.standard.string(forKey: "world")
-        
         for pack in levelsPacks {
+            let world = UserDefaults.standard.string(forKey: "world")
+            
             let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
             packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
             packTitle.fontName = ".SFUIText-Medium"
@@ -169,6 +169,7 @@ class LevelsScene: SKScene {
         let moveLevels = SKAction.moveBy(x: 0.0, y: view.bounds.size.height - screenVerticalSpacing, duration: 0.3)
         moveLevels.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
+        //titleBackground.run(actionsSequence)
         levelsScreen.run(actionsSequence, completion: {
             if let hud: Hud = self.previousSceneChildren.childNode(withName: "hud") as? Hud {
                 hud.resetEslePosition()
@@ -209,7 +210,7 @@ class LevelsScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
         
-        if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) &&
+        if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - titleBackground.position.y)) &&
             abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
         }
@@ -331,5 +332,3 @@ class LevelsScene: SKScene {
         }
     }
 }
-
-
