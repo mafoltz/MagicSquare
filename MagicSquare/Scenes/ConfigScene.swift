@@ -25,6 +25,7 @@ class ConfigScene: SKScene {
 	internal var previousScene: SKScene!
 	private var previousSceneChildren: SKSpriteNode!
 	private var buttons = [SKSpriteNode]()
+	private var labelButtons = [SKLabelNode]()
 	
 	// MARK: - Screen Properties
 	
@@ -136,9 +137,16 @@ class ConfigScene: SKScene {
 			if buttons[i].contains(screenTouch!) {
 				selectedButton = buttons[i].name
 			}
-			if (configHUD.childNode(withName: "goBackButton")?.contains(hudTouch))! {
-				selectedButton = "goBackButton"
+		}
+		if selectedButton == "nil" {
+			for i in 0..<labelButtons.count {
+				if labelButtons[i].contains(screenTouch!) {
+					selectedButton = labelButtons[i].name
+				}
 			}
+		}
+		if selectedButton == "nil" && (configHUD.childNode(withName: "goBackButton")?.contains(hudTouch))! {
+			selectedButton = "goBackButton"
 		}
 	}
 	
@@ -167,7 +175,6 @@ class ConfigScene: SKScene {
 		isMoving = true
 		
 		if screen.position.x < segmentLimit {
-			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) hdl \(headLimit)")
 			let moveTo1 = SKAction.moveTo(x: headLimit, duration: 0.2)
 			moveTo1.timingMode = .easeOut
 			
@@ -184,7 +191,6 @@ class ConfigScene: SKScene {
 		}
 		
 		if screen.position.x > segmentLimit {
-			print("scr \(screen.position.x) sgl \(segmentLimit - ((screen.scene?.size.width)! / 6)) trl \(trailLimit)")
 			let moveTo2 = SKAction.moveTo(x: trailLimit, duration: 0.2)
 			moveTo2.timingMode = .easeOut
 			
@@ -525,6 +531,7 @@ class ConfigScene: SKScene {
 	func initLabels(root: SKShapeNode) {
 		
 		let musicLabel = SKLabelNode(text: "MUSIC")
+		musicLabel.name = "musicButton"
 		musicLabel.verticalAlignmentMode = .center
 		musicLabel.horizontalAlignmentMode = .left
 		musicLabel.position = CGPoint(x: buttonLabelsX,
@@ -532,18 +539,22 @@ class ConfigScene: SKScene {
 		musicLabel.fontName = font
 		musicLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		musicLabel.fontColor = fontColor
+		labelButtons.append(musicLabel)
 		root.addChild(musicLabel)
 		
 		let soundLabel = SKLabelNode(text: "SOUND")
+		soundLabel.name = "soundButton"
 		soundLabel.verticalAlignmentMode = .center
 		soundLabel.horizontalAlignmentMode = .left
 		soundLabel.position = CGPoint(x: buttonLabelsX, y: soundButtonPosition.y)
 		soundLabel.fontName = font
 		soundLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		soundLabel.fontColor = fontColor
+		labelButtons.append(soundLabel)
 		root.addChild(soundLabel)
 		
 		let colorBlindLabel = SKLabelNode(text: "COLORBLIND")
+		colorBlindLabel.name = "colorBlindButton"
 		colorBlindLabel.verticalAlignmentMode = .center
 		colorBlindLabel.horizontalAlignmentMode = .left
 		colorBlindLabel.position = CGPoint(x: buttonLabelsX,
@@ -551,6 +562,7 @@ class ConfigScene: SKScene {
 		colorBlindLabel.fontName = font
 		colorBlindLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
 		colorBlindLabel.fontColor = fontColor
+		labelButtons.append(colorBlindLabel)
 		root.addChild(colorBlindLabel)
 	}
 	
