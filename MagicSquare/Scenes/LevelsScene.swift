@@ -107,7 +107,7 @@ class LevelsScene: SKScene {
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
         titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
         titleBackground.zPosition = 6.0
-        levelsScreen.addChild(titleBackground)
+        addChild(titleBackground)
         
         backButton = SKSpriteNode(imageNamed: "backButton")
         backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
@@ -169,40 +169,48 @@ class LevelsScene: SKScene {
         let moveLevels = SKAction.moveBy(x: 0.0, y: view.bounds.size.height - screenVerticalSpacing, duration: 0.3)
         moveLevels.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
-        //titleBackground.run(actionsSequence)
+        
         levelsScreen.run(actionsSequence, completion: {
             if let hud: Hud = self.previousSceneChildren.childNode(withName: "hud") as? Hud {
                 hud.resetEslePosition()
             }
             self.isUserInteractionEnabled = true
         })
+        titleBackground.run(actionsSequence)
         
         isUserInteractionEnabled = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        isUserInteractionEnabled = false
-        
-        let touch: UITouch = touches.first as UITouch!
-        initialTouchLocation = touch.location(in: self)
-        touchLocation = touch.location(in: self)
-        
-        for i in 0..<levelsNodes.count {
-            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
-                indexOfTouchedLevel = i
-                break
-            } else {
-                indexOfTouchedLevel = -1
+        if !isMoving {
+            isUserInteractionEnabled = false
+            
+            let touch: UITouch = touches.first as UITouch!
+            initialTouchLocation = touch.location(in: self)
+            touchLocation = touch.location(in: self)
+            
+            for i in 0..<levelsNodes.count {
+                if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
+                    indexOfTouchedLevel = i
+                    break
+                } else {
+                    indexOfTouchedLevel = -1
+                }
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !isMoving && levelsScreen.contains(touchLocation!) {
+        if !isMoving {
             let touch: UITouch = touches.first as UITouch!
             let newTouchLocation = touch.location(in: self)
-        
-            levelsScreen.run(SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0))
+            let move = SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0)
+            
+            levelsScreen.run(move)
+            if levelsScreen.position.y <= 0 && newTouchLocation.y - (touchLocation?.y)! < 0 {
+                titleBackground.run(move)
+            }
+            
             touchLocation = newTouchLocation
         }
     }
@@ -226,6 +234,10 @@ class LevelsScene: SKScene {
         }
         else if levelsScreen.position.y < 0 {
             if abs(levelsScreen.position.y) <= moveToleranceToCloseScene {
+                let titleMove = SKAction.moveTo(y: ((view?.bounds.size.height)! - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.2)
+                titleMove.timingMode = .easeOut
+                titleBackground.run(titleMove)
+                
                 let move = SKAction.moveTo(y: 0.0, duration: 0.2)
                 move.timingMode = .easeOut
                 levelsScreen.run(move)
