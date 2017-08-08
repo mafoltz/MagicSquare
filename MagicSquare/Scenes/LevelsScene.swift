@@ -29,6 +29,7 @@ class LevelsScene: SKScene {
     private var backButton: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
+    private var screenDisplay = SKCropNode()
     
     private var indexOfTouchedLevel: Int! = -1
     private var initialTouchLocation: CGPoint?
@@ -58,10 +59,10 @@ class LevelsScene: SKScene {
     // MARK: - Methods
     
     func prepareScene(from previousScene: SKScene) {
-        backgroundColor = UIColor.white
+        backgroundColor = .white
         
         self.previousScene = previousScene
-        previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
+        previousSceneChildren = SKSpriteNode(color: .white, size: (previousScene.view?.bounds.size)!)
         previousSceneChildren.name = "Previous Scene Children"
         previousSceneChildren.zPosition = 0.0
         
@@ -88,20 +89,29 @@ class LevelsScene: SKScene {
         
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
-        backgroundScreen.name = "Background Screen"
         backgroundScreen.zPosition = 5.1
         addChild(backgroundScreen)
+        
+        let maskRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
+                              y: (-view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing,
+                              width: levelsScreenWidth!,
+                              height: view.bounds.size.height)
+        let mask = SKShapeNode()
+        mask.path = UIBezierPath(roundedRect: maskRect, cornerRadius: 0).cgPath
+        mask.fillColor = .black
+        screenDisplay.maskNode = mask
+        screenDisplay.zPosition = 5.2
+        addChild(screenDisplay)
         
         let roundedRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
                                  y: (view.bounds.size.height / 2) - screenVerticalSpacing - levelsScreenHeight!,
                                  width: levelsScreenWidth!,
                                  height: levelsScreenHeight!)
         levelsScreen = SKShapeNode()
-        levelsScreen.name = "Levels Screen"
         levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(cornerRadius * view.bounds.size.width / 375)).cgPath
-        levelsScreen.fillColor = UIColor.white
-        levelsScreen.zPosition = 5.2
-        addChild(levelsScreen)
+        levelsScreen.fillColor = .white
+        levelsScreen.zPosition = 0.1
+        screenDisplay.addChild(levelsScreen)
         
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
@@ -116,7 +126,7 @@ class LevelsScene: SKScene {
         titleBackground.addChild(backButton)
         
         let levelsTitle = SKLabelNode(text: "LEVELS")
-        levelsTitle.fontColor = UIColor.white
+        levelsTitle.fontColor = .white
         levelsTitle.fontName = ".SFUIText-Medium"
         levelsTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
         levelsTitle.verticalAlignmentMode = .center
