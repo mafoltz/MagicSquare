@@ -35,6 +35,7 @@ class LevelsScene: SKScene {
     private var initialTouchLocation: CGPoint?
     private var touchLocation: CGPoint?
     private var isMoving = false
+    private var isCropMoving = false
     
     private var numPacks: Int! = 0
     private var numLevelsRows: Int! = 0
@@ -93,7 +94,7 @@ class LevelsScene: SKScene {
         addChild(backgroundScreen)
         
         let maskRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
-                              y: (-view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing,
+                              y: -view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight,
                               width: levelsScreenWidth!,
                               height: view.bounds.size.height)
         let mask = SKShapeNode()
@@ -199,13 +200,18 @@ class LevelsScene: SKScene {
             initialTouchLocation = touch.location(in: self)
             touchLocation = touch.location(in: self)
             
-            for i in 0..<levelsNodes.count {
-                if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
-                    indexOfTouchedLevel = i
-                    break
-                } else {
-                    indexOfTouchedLevel = -1
+            if (screenDisplay.maskNode?.contains(touchLocation!))! {
+                let convertedTouchLocation = CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)
+                for i in 0..<levelsNodes.count {
+                    if levelsNodes[i].contains(convertedTouchLocation) {
+                        indexOfTouchedLevel = i
+                        break
+                    } else {
+                        indexOfTouchedLevel = -1
+                    }
                 }
+            } else {
+                indexOfTouchedLevel = -1
             }
         }
     }
