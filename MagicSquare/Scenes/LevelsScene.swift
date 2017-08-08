@@ -224,6 +224,8 @@ class LevelsScene: SKScene {
             
             levelsScreen.run(move)
             if levelsScreen.position.y <= 0 && newTouchLocation.y - (touchLocation?.y)! < 0 {
+                isCropMoving = true
+                screenDisplay.maskNode?.run(move)
                 titleBackground.run(move)
             }
             
@@ -250,16 +252,17 @@ class LevelsScene: SKScene {
         }
         else if levelsScreen.position.y < 0 {
             if abs(levelsScreen.position.y) <= moveToleranceToCloseScene {
-                let titleMove = SKAction.moveTo(y: ((view?.bounds.size.height)! - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.2)
-                titleMove.timingMode = .easeOut
-                titleBackground.run(titleMove)
-                
                 let move = SKAction.moveTo(y: 0.0, duration: 0.2)
                 move.timingMode = .easeOut
                 levelsScreen.run(move)
             } else {
                 closeLevelsScene(to: .down)
             }
+        }
+        
+        if isCropMoving {
+            moveBackTitleAndCropDisplay(duration: 0.2)
+            isCropMoving = false
         }
         
         if indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
@@ -316,6 +319,16 @@ class LevelsScene: SKScene {
     func updatePacksHeightDisplacements(with packHeight: CGFloat) {
         packTitleInitialHeightDisplacement.subtract(packHeight)
         packFirstLevelInitialHeightDisplacement.subtract(packHeight)
+    }
+    
+    func moveBackTitleAndCropDisplay(duration: CGFloat) {
+        let displayMove = SKAction.moveTo(y: 0.0, duration: 0.2)
+        displayMove.timingMode = .easeOut
+        screenDisplay.maskNode?.run(displayMove)
+        
+        let titleMove = SKAction.moveTo(y: ((view?.bounds.size.height)! - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.2)
+        titleMove.timingMode = .easeOut
+        titleBackground.run(titleMove)
     }
     
     func closeLevelsScene(to direction: Direction) {
