@@ -347,16 +347,19 @@ class LevelsScene: SKScene {
     }
     
     func closeLevelsScene(to direction: Direction) {
+        isCropMoving = false
+        
         var y: CGFloat!
         if direction == .up {
-            y = levelsScreenHeight
+            y = (view?.bounds.size.height)!
         } else {
             y = -(view?.bounds.size.height)!
         }
         
-        let hideLevels = SKAction.moveTo(y: y, duration: 0.3)
-        hideLevels.timingMode = .easeIn
-        levelsScreen.run(hideLevels, completion: {
+        let hideLevelsScreen = SKAction.moveBy(x: 0.0, y: y, duration: 0.3)
+        hideLevelsScreen.timingMode = .easeIn
+        titleBackground.run(hideLevelsScreen)
+        screenDisplay.run(hideLevelsScreen, completion: {
             self.isUserInteractionEnabled = true
             self.goBackToPreviousScene()
         })
