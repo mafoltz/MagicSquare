@@ -223,7 +223,7 @@ class LevelsScene: SKScene {
             let move = SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0)
             
             levelsScreen.run(move)
-            if levelsScreen.position.y <= 0 && newTouchLocation.y - (touchLocation?.y)! < 0 {
+            if levelsScreen.position.y <= 0 && (isCropMoving || newTouchLocation.y - (touchLocation?.y)! < 0) {
                 isCropMoving = true
                 screenDisplay.maskNode?.run(move)
                 titleBackground.run(move)
