@@ -47,6 +47,8 @@ class LevelsScene: SKScene {
     private var firstLevelMargin: CGFloat!
     private var backButtonHeight: CGFloat!
     private var titleBackgroundHeight: CGFloat!
+    private var titleBackgroundHeightDisplacement: CGFloat!
+    private var screenDisplayHeightDisplacement: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
     private var screenVerticalSpacing: CGFloat!
@@ -116,7 +118,7 @@ class LevelsScene: SKScene {
         
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
-        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
+        titleBackground.run(SKAction.moveTo(y: titleBackgroundHeightDisplacement, duration: 0.0))
         titleBackground.zPosition = 6.0
         addChild(titleBackground)
         
@@ -220,13 +222,24 @@ class LevelsScene: SKScene {
         if !isMoving {
             let touch: UITouch = touches.first as UITouch!
             let newTouchLocation = touch.location(in: self)
-            let move = SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0)
+            let heightDisplacement = newTouchLocation.y - (touchLocation?.y)!
+            let move = SKAction.moveBy(x: 0.0, y: heightDisplacement, duration: 0.0)
             
             levelsScreen.run(move)
-            if levelsScreen.position.y <= 0 && (isCropMoving || newTouchLocation.y - (touchLocation?.y)! < 0) {
+            if levelsScreen.position.y <= 0 && (isCropMoving || heightDisplacement < 0) {
                 isCropMoving = true
-                screenDisplay.maskNode?.run(move)
-                titleBackground.run(move)
+                
+                if screenDisplayHeightDisplacement >= (screenDisplay.maskNode?.position.y)! + heightDisplacement {
+                    screenDisplay.maskNode?.run(move)
+                } else {
+                    screenDisplay.maskNode?.run(SKAction.moveTo(y: screenDisplayHeightDisplacement, duration: 0.0))
+                }
+                
+                if titleBackgroundHeightDisplacement >= titleBackground.position.y + heightDisplacement {
+                    titleBackground.run(move)
+                } else {
+                    titleBackground.run(SKAction.moveTo(y: titleBackgroundHeightDisplacement, duration: 0.0))
+                }
             }
             
             touchLocation = newTouchLocation
@@ -295,6 +308,8 @@ class LevelsScene: SKScene {
         firstLevelMargin = 0.07 * levelsScreenWidth
         backButtonHeight = floor(37 * view.bounds.size.width / 375)
         titleBackgroundHeight = 85 * levelsScreenWidth / 335
+        titleBackgroundHeightDisplacement = (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1
+        screenDisplayHeightDisplacement = 0.0
         
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
