@@ -61,6 +61,11 @@ class LevelsScene: SKScene {
     private let cornerRadius: CGFloat = 30
     private let moveTolerance: CGFloat = 10
     private let moveToleranceToCloseScene: CGFloat = 150
+	
+	private var firstTimeStamp: TimeInterval!
+	private var totalDeltaY: CGFloat!
+	private var lastTimestamp: TimeInterval!
+	private var speedY: CGFloat!
     
     // MARK: - Methods
     
@@ -208,6 +213,8 @@ class LevelsScene: SKScene {
             let touch: UITouch = touches.first as UITouch!
             initialTouchLocation = touch.location(in: self)
             touchLocation = touch.location(in: self)
+			lastTimestamp = event?.timestamp
+			firstTimeStamp = event?.timestamp
             
             if (screenDisplay.maskNode?.contains(touchLocation!))! {
                 let convertedTouchLocation = CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)
@@ -253,14 +260,26 @@ class LevelsScene: SKScene {
                     titleBackground.run(SKAction.moveTo(y: titleBackgroundHeightDisplacement, duration: 0.0))
                 }
             }
-            
+			
+			totalDeltaY = (touchLocation?.y)! - (touchLocation?.y)!
             touchLocation = newTouchLocation
+			let deltaTime = ((event?.timestamp)! - firstTimeStamp)
+			speedY = totalDeltaY / CGFloat(deltaTime)
+			speedY = speedY / 2
+			print("totalDeltaY: \(totalDeltaY) deltaTime: \(deltaTime) speed: \(speedY)")
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isMoving = true
-        
+		
+		if abs(levelsScreen.position.y) > moveTolerance {
+//			let inertia = SKAction.moveTo(y: (touchLocation?.y)! + speedY, duration: 0.2)
+			let inertia = SKAction.moveBy(x: 0.0, y: speedY, duration: 0.2)
+			inertia.timingMode = .easeOut
+			levelsScreen.run(inertia)
+		}
+		
         if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - titleBackground.position.y)) &&
             abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance {
             closeLevelsScene(to: .down)
