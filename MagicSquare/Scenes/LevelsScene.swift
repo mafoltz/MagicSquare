@@ -17,7 +17,8 @@ class LevelsScene: SKScene {
     
     // MARK: - Properties
     
-    private let json: [[String: Any]] = JsonReader.openJson(named: UserDefaults.standard.string(forKey: "world")!)!
+    private let packNames = ["World4x3"]
+    
     private var levelsPacks = [[[String: Any]]]()
     private var levels = [Level]()
     
@@ -29,11 +30,15 @@ class LevelsScene: SKScene {
     private var backButton: SKSpriteNode!
     private var levelsNodes = [SKSpriteNode!]()
     private var levelsLabelNodes = [SKLabelNode!]()
+    private var screenDisplay = SKCropNode()
     
     private var indexOfTouchedLevel: Int! = -1
     private var initialTouchLocation: CGPoint?
     private var touchLocation: CGPoint?
+    private var scrolledHeight: CGFloat = 0
     private var isMoving = false
+    private var isScrolling = false
+    private var isCropMoving = false
     
     private var numPacks: Int! = 0
     private var numLevelsRows: Int! = 0
@@ -45,6 +50,8 @@ class LevelsScene: SKScene {
     private var firstLevelMargin: CGFloat!
     private var backButtonHeight: CGFloat!
     private var titleBackgroundHeight: CGFloat!
+    private var titleBackgroundHeightDisplacement: CGFloat!
+    private var screenDisplayHeightDisplacement: CGFloat!
     private var verticalSpacingBetweenLevels: CGFloat!
     private var horizontalSpacingBetweenLevels: CGFloat!
     private var screenVerticalSpacing: CGFloat!
@@ -58,10 +65,10 @@ class LevelsScene: SKScene {
     // MARK: - Methods
     
     func prepareScene(from previousScene: SKScene) {
-        backgroundColor = UIColor.white
+        backgroundColor = .white
         
         self.previousScene = previousScene
-        previousSceneChildren = SKSpriteNode(color: UIColor.white, size: (previousScene.view?.bounds.size)!)
+        previousSceneChildren = SKSpriteNode(color: .white, size: (previousScene.view?.bounds.size)!)
         previousSceneChildren.name = "Previous Scene Children"
         previousSceneChildren.zPosition = 0.0
         
@@ -80,34 +87,44 @@ class LevelsScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        // TEST
-        //levelsPacks.append(json)
-        levelsPacks.append(json)
+        for packName in packNames {
+            let json: [[String: Any]] = JsonReader.openJson(named: packName)!
+            levelsPacks.append(json)
+        }
         
         calculateSizes(from: view)
         
         let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
-        backgroundScreen.name = "Background Screen"
         backgroundScreen.zPosition = 5.1
         addChild(backgroundScreen)
+        
+        let maskRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
+                              y: -view.bounds.size.height / 2 - screenVerticalSpacing - titleBackgroundHeight,
+                              width: levelsScreenWidth!,
+                              height: view.bounds.size.height)
+        let mask = SKShapeNode()
+        mask.path = UIBezierPath(roundedRect: maskRect, cornerRadius: 0).cgPath
+        mask.fillColor = .black
+        screenDisplay.maskNode = mask
+        screenDisplay.zPosition = 5.2
+        addChild(screenDisplay)
         
         let roundedRect = CGRect(x: screenHorizontalSpacing - (view.bounds.size.width / 2),
                                  y: (view.bounds.size.height / 2) - screenVerticalSpacing - levelsScreenHeight!,
                                  width: levelsScreenWidth!,
                                  height: levelsScreenHeight!)
         levelsScreen = SKShapeNode()
-        levelsScreen.name = "Levels Screen"
         levelsScreen.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(cornerRadius * view.bounds.size.width / 375)).cgPath
-        levelsScreen.fillColor = UIColor.white
-        levelsScreen.zPosition = 5.2
-        addChild(levelsScreen)
+        levelsScreen.fillColor = .white
+        levelsScreen.zPosition = 0.1
+        screenDisplay.addChild(levelsScreen)
         
         titleBackground = SKSpriteNode(imageNamed: "LevelsScreenTitleBackground")
         titleBackground.size = CGSize(width: levelsScreenWidth + 2, height: titleBackgroundHeight)
-        titleBackground.run(SKAction.moveTo(y: (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.0))
+        titleBackground.run(SKAction.moveTo(y: titleBackgroundHeightDisplacement, duration: 0.0))
         titleBackground.zPosition = 6.0
-        levelsScreen.addChild(titleBackground)
+        addChild(titleBackground)
         
         backButton = SKSpriteNode(imageNamed: "backButton")
         backButton.size = CGSize(width: backButtonHeight, height: backButtonHeight)
@@ -116,7 +133,7 @@ class LevelsScene: SKScene {
         titleBackground.addChild(backButton)
         
         let levelsTitle = SKLabelNode(text: "LEVELS")
-        levelsTitle.fontColor = UIColor.white
+        levelsTitle.fontColor = .white
         levelsTitle.fontName = ".SFUIText-Medium"
         levelsTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
         levelsTitle.verticalAlignmentMode = .center
@@ -124,10 +141,13 @@ class LevelsScene: SKScene {
         levelsTitle.zPosition = 0.1
         titleBackground.addChild(levelsTitle)
         
-        for pack in levelsPacks {
-            let world = UserDefaults.standard.string(forKey: "world")
+        for (packIndex, pack) in levelsPacks.enumerated() {
+            var packName = packNames[packIndex]
+            if packIndex == 0 {
+                packName = "4x3 Esle's Starter Pack"
+            }
             
-            let packTitle = SKLabelNode(text: "4x3 Esle's Starter Pack")
+            let packTitle = SKLabelNode(text: packName)
             packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
             packTitle.fontName = ".SFUIText-Medium"
             packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
@@ -137,11 +157,11 @@ class LevelsScene: SKScene {
             packTitle.zPosition = 0.1
             levelsScreen.addChild(packTitle)
             
-            for i in 0..<json.count {
-                levels.append(JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: i+1)!)
+            for i in 0..<pack.count {
+                levels.append(JsonReader.loadLevel(from: pack, worldName: packNames[packIndex], numberOfLevel: i+1)!)
                 
                 let spriteNode = CoinSpriteNode()
-                spriteNode.setCoinForRecord(from: levels[i])
+                spriteNode.setCoinForRecord(from: levels.last!)
                 spriteNode.size = CGSize(width: levelsSize, height: levelsSize)
                 resetAnchor(of: spriteNode)
                 spriteNode.run(SKAction.moveBy(x: firstLevelMargin + CGFloat(i % levelsByRow) * (levelsSize + horizontalSpacingBetweenLevels),
@@ -151,8 +171,8 @@ class LevelsScene: SKScene {
                 levelsScreen.addChild(spriteNode)
                 levelsNodes.append(spriteNode)
                 
-                let labelNode = SKLabelNode(text: levels[i].level)
-                labelNode.fontColor = levels[i].getMedalColorForRecord()
+                let labelNode = SKLabelNode(text: levels.last!.level)
+                labelNode.fontColor = levels.last!.getMedalColorForRecord()
                 labelNode.fontName = ".SFUIText-Heavy"
                 labelNode.fontSize = getFontSize(fontSize: 28.0, screenHeight: view.bounds.size.height)
                 labelNode.verticalAlignmentMode = .center
@@ -169,28 +189,36 @@ class LevelsScene: SKScene {
         let moveLevels = SKAction.moveBy(x: 0.0, y: view.bounds.size.height - screenVerticalSpacing, duration: 0.3)
         moveLevels.timingMode = .easeOut
         let actionsSequence = SKAction.sequence([hideLevels, moveLevels])
-        //titleBackground.run(actionsSequence)
+        
         levelsScreen.run(actionsSequence, completion: {
             if let hud: Hud = self.previousSceneChildren.childNode(withName: "hud") as? Hud {
                 hud.resetEslePosition()
             }
             self.isUserInteractionEnabled = true
         })
+        titleBackground.run(actionsSequence)
         
         isUserInteractionEnabled = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        isUserInteractionEnabled = false
-        
-        let touch: UITouch = touches.first as UITouch!
-        initialTouchLocation = touch.location(in: self)
-        touchLocation = touch.location(in: self)
-        
-        for i in 0..<levelsNodes.count {
-            if levelsNodes[i].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
-                indexOfTouchedLevel = i
-                break
+        if !isMoving {
+            isUserInteractionEnabled = false
+            
+            let touch: UITouch = touches.first as UITouch!
+            initialTouchLocation = touch.location(in: self)
+            touchLocation = touch.location(in: self)
+            
+            if (screenDisplay.maskNode?.contains(touchLocation!))! {
+                let convertedTouchLocation = CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)
+                for i in 0..<levelsNodes.count {
+                    if levelsNodes[i].contains(convertedTouchLocation) {
+                        indexOfTouchedLevel = i
+                        break
+                    } else {
+                        indexOfTouchedLevel = -1
+                    }
+                }
             } else {
                 indexOfTouchedLevel = -1
             }
@@ -198,11 +226,34 @@ class LevelsScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !isMoving && levelsScreen.contains(touchLocation!) {
+        if !isMoving {
             let touch: UITouch = touches.first as UITouch!
             let newTouchLocation = touch.location(in: self)
-        
-            levelsScreen.run(SKAction.moveBy(x: 0.0, y: newTouchLocation.y - (touchLocation?.y)!, duration: 0.0))
+            let heightDisplacement = newTouchLocation.y - (touchLocation?.y)!
+            let move = SKAction.moveBy(x: 0.0, y: heightDisplacement, duration: 0.0)
+            
+            scrolledHeight.add(abs(heightDisplacement))
+            if scrolledHeight > moveTolerance {
+                isScrolling = true
+            }
+            
+            levelsScreen.run(move)
+            if levelsScreen.position.y <= 0 && (isCropMoving || heightDisplacement < 0) {
+                isCropMoving = true
+                
+                if screenDisplayHeightDisplacement >= (screenDisplay.maskNode?.position.y)! + heightDisplacement {
+                    screenDisplay.maskNode?.run(move)
+                } else {
+                    screenDisplay.maskNode?.run(SKAction.moveTo(y: screenDisplayHeightDisplacement, duration: 0.0))
+                }
+                
+                if titleBackgroundHeightDisplacement >= titleBackground.position.y + heightDisplacement {
+                    titleBackground.run(move)
+                } else {
+                    titleBackground.run(SKAction.moveTo(y: titleBackgroundHeightDisplacement, duration: 0.0))
+                }
+            }
+            
             touchLocation = newTouchLocation
         }
     }
@@ -234,12 +285,18 @@ class LevelsScene: SKScene {
             }
         }
         
-        if indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
-            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)!,
-                                                              y: (touchLocation?.y)! - levelsScreen.position.y)) {
+        if isCropMoving {
+            moveBackTitleAndCropDisplay(duration: 0.2)
+            isCropMoving = false
+        }
+        
+        if !isScrolling && indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
+            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
             goToGameScene(with: levels[indexOfTouchedLevel])
         }
         
+        scrolledHeight = 0
+        isScrolling = false
         isUserInteractionEnabled = true
     }
     
@@ -253,9 +310,9 @@ class LevelsScene: SKScene {
         screenVerticalSpacing = 20 * view.bounds.size.width / 375
         screenHorizontalSpacing = screenVerticalSpacing
         
-        for json in levelsPacks {
+        for pack in levelsPacks {
             numPacks = numPacks + 1
-            numLevelsRows = numLevelsRows + ((json.count - 1) / levelsByRow) + 1
+            numLevelsRows = numLevelsRows + ((pack.count - 1) / levelsByRow) + 1
         }
         
         levelsScreenWidth = view.bounds.size.width - 2 * screenHorizontalSpacing
@@ -264,6 +321,8 @@ class LevelsScene: SKScene {
         firstLevelMargin = 0.07 * levelsScreenWidth
         backButtonHeight = floor(37 * view.bounds.size.width / 375)
         titleBackgroundHeight = 85 * levelsScreenWidth / 335
+        titleBackgroundHeightDisplacement = (view.bounds.size.height - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1
+        screenDisplayHeightDisplacement = 0.0
         
         verticalSpacingBetweenLevels = 0.06 * levelsScreenWidth
         horizontalSpacingBetweenLevels = 0.06 * levelsScreenWidth
@@ -290,17 +349,30 @@ class LevelsScene: SKScene {
         packFirstLevelInitialHeightDisplacement.subtract(packHeight)
     }
     
+    func moveBackTitleAndCropDisplay(duration: CGFloat) {
+        let displayMove = SKAction.moveTo(y: 0.0, duration: 0.2)
+        displayMove.timingMode = .easeOut
+        screenDisplay.maskNode?.run(displayMove)
+        
+        let titleMove = SKAction.moveTo(y: ((view?.bounds.size.height)! - titleBackgroundHeight) / 2 - screenVerticalSpacing + 1, duration: 0.2)
+        titleMove.timingMode = .easeOut
+        titleBackground.run(titleMove)
+    }
+    
     func closeLevelsScene(to direction: Direction) {
+        isCropMoving = false
+        
         var y: CGFloat!
         if direction == .up {
-            y = levelsScreenHeight
+            y = (view?.bounds.size.height)!
         } else {
             y = -(view?.bounds.size.height)!
         }
         
-        let hideLevels = SKAction.moveTo(y: y, duration: 0.3)
-        hideLevels.timingMode = .easeIn
-        levelsScreen.run(hideLevels, completion: {
+        let hideLevelsScreen = SKAction.moveBy(x: 0.0, y: y, duration: 0.3)
+        hideLevelsScreen.timingMode = .easeIn
+        titleBackground.run(hideLevelsScreen)
+        screenDisplay.run(hideLevelsScreen, completion: {
             self.isUserInteractionEnabled = true
             self.goBackToPreviousScene()
         })
