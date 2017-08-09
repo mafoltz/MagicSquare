@@ -34,7 +34,9 @@ class LevelsScene: SKScene {
     private var indexOfTouchedLevel: Int! = -1
     private var initialTouchLocation: CGPoint?
     private var touchLocation: CGPoint?
+    private var scrolledHeight: CGFloat = 0
     private var isMoving = false
+    private var isScrolling = false
     private var isCropMoving = false
     
     private var numPacks: Int! = 0
@@ -225,6 +227,11 @@ class LevelsScene: SKScene {
             let heightDisplacement = newTouchLocation.y - (touchLocation?.y)!
             let move = SKAction.moveBy(x: 0.0, y: heightDisplacement, duration: 0.0)
             
+            scrolledHeight.add(abs(heightDisplacement))
+            if scrolledHeight > moveTolerance {
+                isScrolling = true
+            }
+            
             levelsScreen.run(move)
             if levelsScreen.position.y <= 0 && (isCropMoving || heightDisplacement < 0) {
                 isCropMoving = true
@@ -278,12 +285,13 @@ class LevelsScene: SKScene {
             isCropMoving = false
         }
         
-        if indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
-            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)!,
-                                                              y: (touchLocation?.y)! - levelsScreen.position.y)) {
+        if !isScrolling && indexOfTouchedLevel >= 0 && abs((touchLocation?.y)! - (initialTouchLocation?.y)!) <= moveTolerance &&
+            levelsNodes[indexOfTouchedLevel].contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)) {
             goToGameScene(with: levels[indexOfTouchedLevel])
         }
         
+        scrolledHeight = 0
+        isScrolling = false
         isUserInteractionEnabled = true
     }
     
