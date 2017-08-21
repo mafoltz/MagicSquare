@@ -41,6 +41,7 @@ class GameViewController: UIViewController {
             // Replace old pack name
             if world == "World4x3" {
                 world = "4x3 Esle's Starter Pack"
+                UserDefaults.standard.set(world, forKey: "world")
             }
             
             let json: [[String: Any]] = JsonReader.openJson(named: world!)!
