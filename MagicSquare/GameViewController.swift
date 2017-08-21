@@ -38,10 +38,16 @@ class GameViewController: UIViewController {
         let level = UserDefaults.standard.integer(forKey: "level")
         
         if world != nil {
-            // Replace old pack name
-            if world == "World4x3" {
+            // Replace old pack save data
+            let oldWorld = "World4x3"
+            if world == oldWorld {
                 world = "4x3 Esle's Starter Pack"
                 UserDefaults.standard.set(world, forKey: "world")
+                
+                if let recordsDictionary = UserDefaults.standard.dictionary(forKey: oldWorld) {
+                    UserDefaults.standard.set(recordsDictionary, forKey: world!)
+                    UserDefaults.standard.removeObject(forKey: oldWorld)
+                }
             }
             
             let json: [[String: Any]] = JsonReader.openJson(named: world!)!
