@@ -88,7 +88,7 @@ class TemplateBoard: SKSpriteNode {
         touchNode.zPosition = 2.0
         addChild(touchNode)
         
-        if currentLevel.number == 1 {
+        if currentLevel.number == 1 && currentLevel.world == "4x3 Esle's Starter Pack" {
             isTutorial = true
             setTemplateText(with: "Hi, I'm Esle, the octopus! Tap to continue.")
         } else {

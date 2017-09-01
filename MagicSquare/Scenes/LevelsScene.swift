@@ -17,7 +17,8 @@ class LevelsScene: SKScene {
     
     // MARK: - Properties
     
-    private let packNames = ["World4x3"]
+    private let packNames = ["4x3 Esle's Starter Pack",
+                             "4x3 Coral Lover Pack"]
     
     private var levelsPacks = [[[String: Any]]]()
     private var levels = [Level]()
@@ -147,10 +148,7 @@ class LevelsScene: SKScene {
         titleBackground.addChild(levelsTitle)
         
         for (packIndex, pack) in levelsPacks.enumerated() {
-            var packName = packNames[packIndex]
-            if packIndex == 0 {
-                packName = "4x3 Esle's Starter Pack"
-            }
+            let packName = packNames[packIndex]
             
             let packTitle = SKLabelNode(text: packName)
             packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)

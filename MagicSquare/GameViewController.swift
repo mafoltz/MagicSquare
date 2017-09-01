@@ -34,10 +34,22 @@ class GameViewController: UIViewController {
     func goToGameScene(from view: SKView) {
         let scene = GameScene()
         
-        let world = UserDefaults.standard.string(forKey: "world")
+        var world = UserDefaults.standard.string(forKey: "world")
         let level = UserDefaults.standard.integer(forKey: "level")
         
         if world != nil {
+            // Replace old pack save data
+            let oldWorld = "World4x3"
+            if world == oldWorld {
+                world = "4x3 Esle's Starter Pack"
+                UserDefaults.standard.set(world, forKey: "world")
+                
+                if let recordsDictionary = UserDefaults.standard.dictionary(forKey: oldWorld) {
+                    UserDefaults.standard.set(recordsDictionary, forKey: world!)
+                    UserDefaults.standard.removeObject(forKey: oldWorld)
+                }
+            }
+            
             let json: [[String: Any]] = JsonReader.openJson(named: world!)!
             
             if level >= 1 {
@@ -46,7 +58,7 @@ class GameViewController: UIViewController {
                 scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: 1)!
             }
         } else {
-            let initialWorld = "World4x3"
+            let initialWorld = "4x3 Esle's Starter Pack"
             UserDefaults.standard.set(initialWorld, forKey: "world")
             
             let json: [[String: Any]] = JsonReader.openJson(named: initialWorld)!
