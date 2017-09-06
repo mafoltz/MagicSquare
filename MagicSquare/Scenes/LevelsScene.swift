@@ -64,9 +64,11 @@ class LevelsScene: SKScene {
     private let moveToleranceToCloseScene: CGFloat = 150
 	
 	private var firstTimeStamp: TimeInterval!
-	private var totalDeltaY: CGFloat!
 	private var lastTimestamp: TimeInterval!
-	private var speedY: CGFloat!
+	private var totalDeltaT: TimeInterval!
+	private var firstY: CGFloat!
+	private var lastY: CGFloat!
+	private var totalDeltaY: CGFloat!
     
     // MARK: - Methods
     
@@ -213,6 +215,8 @@ class LevelsScene: SKScene {
             touchLocation = touch.location(in: self)
 			lastTimestamp = event?.timestamp
 			firstTimeStamp = event?.timestamp
+			lastY = touchLocation?.y
+			firstY = touchLocation?.y
             
             if (screenDisplay.maskNode?.contains(touchLocation!))! {
                 let convertedTouchLocation = CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - levelsScreen.position.y)
@@ -259,12 +263,12 @@ class LevelsScene: SKScene {
                 }
             }
 			
-			totalDeltaY = (touchLocation?.y)! - (touchLocation?.y)!
-            touchLocation = newTouchLocation
-			let deltaTime = ((event?.timestamp)! - firstTimeStamp)
-			speedY = totalDeltaY / CGFloat(deltaTime)
-			speedY = speedY / 2
-			print("totalDeltaY: \(totalDeltaY) deltaTime: \(deltaTime) speed: \(speedY)")
+			totalDeltaY = (touchLocation?.y)! - newTouchLocation.y
+			touchLocation = newTouchLocation
+			lastY = newTouchLocation.y
+			totalDeltaT = lastTimestamp! - (event?.timestamp)!
+			lastTimestamp = event?.timestamp
+			
         }
     }
     
@@ -272,10 +276,27 @@ class LevelsScene: SKScene {
         isMoving = true
 		
 		if abs(levelsScreen.position.y) > moveTolerance {
-//			let inertia = SKAction.moveTo(y: (touchLocation?.y)! + speedY, duration: 0.2)
-			let inertia = SKAction.moveBy(x: 0.0, y: speedY, duration: 0.2)
-			inertia.timingMode = .easeOut
-			levelsScreen.run(inertia)
+			if totalDeltaT != 0 {
+				totalDeltaT = totalDeltaT * 10
+				print("deltaY: \(totalDeltaY)")
+				print("deltaT: \(totalDeltaT)")
+				print("deslocamento: \(totalDeltaY/CGFloat(totalDeltaT))")
+				print("move levelsScreen from \(levelsScreen.position.y) to \(levelsScreen.position.y + totalDeltaY/CGFloat(totalDeltaT))")
+				if levelsScreen.position.y + totalDeltaY/CGFloat(totalDeltaT) > 1120 {
+					let inertia = SKAction.moveTo(y: 1120, duration: 0.2)
+					inertia.timingMode = .easeOut
+					levelsScreen.run(inertia)
+				} else if levelsScreen.position.y + totalDeltaY/CGFloat(totalDeltaT) < -16 {
+					let inertia = SKAction.moveTo(y: -16, duration: 0.2)
+					inertia.timingMode = .easeOut
+					levelsScreen.run(inertia)
+					} else {
+						let inertia = SKAction.moveBy(x: 0.0, y: totalDeltaY/CGFloat(totalDeltaT), duration: 0.2)
+						inertia.timingMode = .easeOut
+						levelsScreen.run(inertia)
+				}
+			}
+			
 		}
 		
         if backButton.contains(CGPoint(x: (touchLocation?.x)!, y: (touchLocation?.y)! - titleBackground.position.y)) &&
