@@ -154,6 +154,8 @@ class BoardNode: SKNode {
 				yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
 			} else if board.numColumns == 4 {
 				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5)
+			} else if board.numColumns == 3 && board.numRows == 5 {
+				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) + cellsSpacing * 0.5
 			} else {
 				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) + cellsSpacing
 			}
