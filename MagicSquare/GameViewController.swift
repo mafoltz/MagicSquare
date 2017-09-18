@@ -51,16 +51,9 @@ class GameViewController: UIViewController {
             }
             
             let json: [[String: Any]] = JsonReader.openJson(named: world!)!
-            
-            if level >= 1 {
-                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: level)!
-            } else {
-                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: 1)!
-            }
+            scene.currentLevel = JsonReader.loadLevel(from: json, worldName: world!, numberOfLevel: level)!
         } else {
             let initialWorld = "4x3 Esle's Starter Pack"
-            UserDefaults.standard.set(initialWorld, forKey: "world")
-            
             let json: [[String: Any]] = JsonReader.openJson(named: initialWorld)!
             scene.currentLevel = JsonReader.loadLevel(from: json, worldName: initialWorld, numberOfLevel: 1)!
         }

@@ -115,7 +115,7 @@ class ResultsScene: SKScene {
         secondButtonLabel.fontColor = UIColor.white
         
         if isLastLevel {
-            secondButtonLabel.text = "GO BACK TO LEVEL 1"
+            secondButtonLabel.text = "GO TO NEXT PACK"
         }
         else{
             secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
@@ -167,7 +167,7 @@ class ResultsScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
-        let json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
+        var json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
         if buttonRetray.contains(touch!.location(in: self)){
             let scene: GameScene = GameScene()
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -192,6 +192,7 @@ class ResultsScene: SKScene {
                 if currentWorldIndex < World.packNames.count - 1 {
                     nextWorld = World.packNames[currentWorldIndex + 1]
                     nextLevel = 1
+                    json = JsonReader.openJson(named: nextWorld)!
                 } else {
                     nextWorld = currentLevel.world
                     nextLevel = currentLevel.number
