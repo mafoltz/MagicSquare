@@ -185,11 +185,23 @@ class ResultsScene: SKScene {
                 scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: (currentLevel?.number)! + 1)
                 super.view?.presentScene(scene)
             } else {
+                let nextWorld: String!
+                let nextLevel: Int!
+                let currentWorldIndex = World.packNames.index(of: currentLevel.world)!
+                
+                if currentWorldIndex < World.packNames.count - 1 {
+                    nextWorld = World.packNames[currentWorldIndex + 1]
+                    nextLevel = 1
+                } else {
+                    nextWorld = currentLevel.world
+                    nextLevel = currentLevel.number
+                }
+                
                 let scene: GameScene = GameScene()
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
                 scene.scaleMode = .aspectFill
-                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: 1)
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: nextWorld, numberOfLevel: nextLevel)
                 super.view?.presentScene(scene)
             }
         }

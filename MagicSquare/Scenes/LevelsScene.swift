@@ -17,9 +17,6 @@ class LevelsScene: SKScene {
     
     // MARK: - Properties
     
-    private let packNames = ["4x3 Esle's Starter Pack",
-                             "4x3 Coral Lover Pack"]
-    
     private var levelsPacks = [[[String: Any]]]()
     private var levels = [Level]()
     
@@ -95,7 +92,7 @@ class LevelsScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        for packName in packNames {
+        for packName in World.packNames {
             let json: [[String: Any]] = JsonReader.openJson(named: packName)!
             levelsPacks.append(json)
         }
@@ -150,7 +147,7 @@ class LevelsScene: SKScene {
         titleBackground.addChild(levelsTitle)
         
         for (packIndex, pack) in levelsPacks.enumerated() {
-            let packName = packNames[packIndex]
+            let packName = World.packNames[packIndex]
             
             let packTitle = SKLabelNode(text: packName)
             packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
@@ -163,7 +160,7 @@ class LevelsScene: SKScene {
             levelsScreen.addChild(packTitle)
             
             for i in 0..<pack.count {
-                levels.append(JsonReader.loadLevel(from: pack, worldName: packNames[packIndex], numberOfLevel: i+1)!)
+                levels.append(JsonReader.loadLevel(from: pack, worldName: World.packNames[packIndex], numberOfLevel: i+1)!)
                 
                 let spriteNode = CoinSpriteNode()
                 spriteNode.setCoinForRecord(from: levels.last!)

@@ -34,6 +34,7 @@
 		577188FC1F223C35003232B3 /* BoardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FB1F223C35003232B3 /* BoardNode.swift */; };
 		577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */; };
 		577189001F223C44003232B3 /* BoardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577188FE1F223C44003232B3 /* BoardDelegate.swift */; };
+		577DD5661F70644300716497 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577DD5651F70644300716497 /* World.swift */; };
 		5783B7151F2909810081D261 /* BoardCellShapeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783B7141F2909810081D261 /* BoardCellShapeNode.swift */; };
 		57F8E9B71F4B7DF30088277D /* 4x3 Coral Lover Pack.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F8E9B51F4B7DF30088277D /* 4x3 Coral Lover Pack.json */; };
 		57F8E9BA1F4B7E150088277D /* Test.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F8E9B91F4B7E150088277D /* Test.json */; };
@@ -77,6 +78,7 @@
 		577188FB1F223C35003232B3 /* BoardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardNode.swift; path = Scenes/Elements/BoardNode.swift; sourceTree = "<group>"; };
 		577188FD1F223C44003232B3 /* ActionHandlerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionHandlerDelegate.swift; path = Scenes/Delegate/ActionHandlerDelegate.swift; sourceTree = "<group>"; };
 		577188FE1F223C44003232B3 /* BoardDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardDelegate.swift; path = Scenes/Delegate/BoardDelegate.swift; sourceTree = "<group>"; };
+		577DD5651F70644300716497 /* World.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = World.swift; path = Model/World.swift; sourceTree = "<group>"; };
 		5783B7141F2909810081D261 /* BoardCellShapeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCellShapeNode.swift; path = Scenes/Elements/BoardCellShapeNode.swift; sourceTree = "<group>"; };
 		57F8E9B51F4B7DF30088277D /* 4x3 Coral Lover Pack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "4x3 Coral Lover Pack.json"; path = "Levels/4x3 Coral Lover Pack.json"; sourceTree = "<group>"; };
 		57F8E9B91F4B7E150088277D /* Test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Test.json; path = Levels/Test.json; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 		571193EF1F15584700E1ECEA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				577DD5651F70644300716497 /* World.swift */,
 				571193ED1F15584000E1ECEA /* Level.swift */,
 				571193F01F15586700E1ECEA /* Board.swift */,
 				D7CBD5511F326039005EFBBA /* UIColorExtension.swift */,
@@ -341,6 +344,7 @@
 				D7CBD5521F326039005EFBBA /* UIColorExtension.swift in Sources */,
 				571193F11F15586700E1ECEA /* Board.swift in Sources */,
 				571193FC1F15594B00E1ECEA /* ResultsScene.swift in Sources */,
+				577DD5661F70644300716497 /* World.swift in Sources */,
 				575ECE921F30D35E0064079A /* Label.swift in Sources */,
 				5783B7151F2909810081D261 /* BoardCellShapeNode.swift in Sources */,
 				571193EE1F15584000E1ECEA /* Level.swift in Sources */,
