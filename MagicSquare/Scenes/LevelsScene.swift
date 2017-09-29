@@ -99,7 +99,7 @@ class LevelsScene: SKScene {
         
         calculateSizes(from: view)
         
-        let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
+        let backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.35)
         backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
         backgroundScreen.zPosition = 5.1
         addChild(backgroundScreen)
@@ -150,7 +150,7 @@ class LevelsScene: SKScene {
             let packName = World.packNames[packIndex]
             
             let packTitle = SKLabelNode(text: packName)
-            packTitle.fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+            packTitle.fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
             packTitle.fontName = ".SFUIText-Medium"
             packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
             packTitle.verticalAlignmentMode = .center

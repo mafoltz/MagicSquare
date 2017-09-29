@@ -41,7 +41,7 @@ class TemplateBoard: SKSpriteNode {
         
         bottomSpacing = 0.045 * view.bounds.size.height
         
-        let backgroundColor = UIColor(colorLiteralRed: 0, green: 0, blue: 0, alpha: 0.35)
+        let backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.35)
         let backgroundScreen = SKSpriteNode(color: backgroundColor, size: view.bounds.size)
         backgroundScreen.run(SKAction.moveBy(x: 0.0, y: view.bounds.size.height / 2, duration: 0.0))
         backgroundScreen.zPosition = 0.1
@@ -102,7 +102,7 @@ class TemplateBoard: SKSpriteNode {
             templateBaloon.removeChildren(in: [templateText])
         }
         
-        let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        let fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
         templateText = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 18.0, width: self.baloonSize.width*0.708, fontColor: fontColor)
         if UIDevice.current.userInterfaceIdiom == .pad {
             templateText = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: self.baloonSize.width*0.708, fontColor: fontColor)

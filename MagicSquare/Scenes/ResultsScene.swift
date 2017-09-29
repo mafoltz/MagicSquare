@@ -78,7 +78,7 @@ class ResultsScene: SKScene {
         
         let numberOfMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Heavy")
         numberOfMovesLabel.zPosition = medal.zPosition
-        numberOfMovesLabel.fontColor = UIColor(colorLiteralRed: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
+        numberOfMovesLabel.fontColor = UIColor(red: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
         numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
 		numberOfMovesLabel.fontSize = getFontSize(fontSize: 80, screenHeight: self.size.height)
 		
@@ -90,14 +90,14 @@ class ResultsScene: SKScene {
         
         let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
         bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
-        bestMovesLabel.fontColor = UIColor(colorLiteralRed: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
+        bestMovesLabel.fontColor = UIColor(red: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
         bestMovesLabel.text = "Best score: \(bestMoves) \(bestMoves > 1 ? "moves" : "move")"
         bestMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
         
         
         buttonRetray.size = CGSize(width: buttonRetraySize, height: buttonRetraySize)
         
-        buttonRetray.color = UIColor(colorLiteralRed: 0, green: 152.0/255.0, blue: 156.0/255.0, alpha: 1)
+        buttonRetray.color = UIColor(red: 0, green: 152.0/255.0, blue: 156.0/255.0, alpha: 1)
         buttonRetray.zPosition = medal.zPosition
         
         let retryImage = SKSpriteNode(imageNamed: "retry")

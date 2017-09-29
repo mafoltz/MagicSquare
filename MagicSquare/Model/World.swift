@@ -9,5 +9,5 @@
 import UIKit
 
 class World {
-    public static let packNames = ["4x3 Esle's Starter Pack", "4x3 Coral Lover Pack"]
+    public static let packNames = ["4x3 Esle's Starter Pack", "Coral Lover Pack"]
 }

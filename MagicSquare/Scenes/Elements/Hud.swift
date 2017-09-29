@@ -111,7 +111,7 @@ class Hud: SKSpriteNode {
             removeChildren(in: [quoteLabel])
         }
         
-        let fontColor = UIColor(colorLiteralRed: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
+        let fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
         quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: fontSize, width: size.width*0.808, fontColor: fontColor)
 		
         quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
