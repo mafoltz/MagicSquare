@@ -160,7 +160,9 @@ class ResultsScene: SKScene {
     }
     
     func setClapsMusic() {
+		
         if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+			MusicController.sharedInstance.stop()
             MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
         }
     }

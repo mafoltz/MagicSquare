@@ -38,8 +38,10 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         } else {
             playerBoard.addGestureRecognizer()
         }
-        
-        MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
+		
+		if UserDefaults.standard.bool(forKey: "isMusicOn") {
+			MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
+		}
         
         let isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
         if !isMusicOn{
@@ -172,8 +174,9 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func goToResultsScene() {
-        MusicController.sharedInstance.stop()
+		
         if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+			MusicController.sharedInstance.stop()
             MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
         }
         
