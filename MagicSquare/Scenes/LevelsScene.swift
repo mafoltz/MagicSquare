@@ -19,7 +19,8 @@ class LevelsScene: SKScene {
     
     private var levelsPacks = [[[String: Any]]]()
     private var levels = [Level]()
-    
+	private var currentLevel: (String, Int) = ("-", 0)
+	
     private var previousScene: SKScene!
     private var previousSceneChildren: SKSpriteNode!
     private var backgroundScreen: SKSpriteNode!
@@ -199,7 +200,11 @@ class LevelsScene: SKScene {
             self.isUserInteractionEnabled = true
         })
         titleBackground.run(actionsSequence)
-        
+		
+//		self.currentLevel.0 = UserDefaults.standard.string(forKey: "world")!
+//		self.currentLevel.1 = UserDefaults.standard.integer(forKey: "level")
+//		print("World \(currentLevel.0) - level \(currentLevel.1)")
+		
         isUserInteractionEnabled = false
     }
     
@@ -275,10 +280,6 @@ class LevelsScene: SKScene {
 		if abs(levelsScreen.position.y) > moveTolerance {
 			if totalDeltaT != 0 {
 				totalDeltaT = totalDeltaT * 10
-				print("deltaY: \(totalDeltaY)")
-				print("deltaT: \(totalDeltaT)")
-				print("deslocamento: \(totalDeltaY/CGFloat(totalDeltaT))")
-				print("move levelsScreen from \(levelsScreen.position.y) to \(levelsScreen.position.y + totalDeltaY/CGFloat(totalDeltaT))")
 				if levelsScreen.position.y + totalDeltaY/CGFloat(totalDeltaT) > 1120 {
 					let inertia = SKAction.moveTo(y: 1120, duration: 0.2)
 					inertia.timingMode = .easeOut
