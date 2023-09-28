@@ -250,11 +250,13 @@ class TemplateBoard: SKSpriteNode {
         Timer.scheduledTimer(timeInterval: speed, target: self, selector: #selector(self.setHidden), userInfo: nil, repeats: false)
         Timer.scheduledTimer(timeInterval: speed + 0.1, target: self, selector: #selector(self.setUserInteractionEnabled), userInfo: nil, repeats: false)
     }
-    
+
+    @objc
     func setHidden() {
         isHidden = true
     }
-    
+
+    @objc
     func setUserInteractionEnabled() {
         isUserInteractionEnabled = true
     }

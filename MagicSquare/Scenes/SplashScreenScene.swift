@@ -40,7 +40,8 @@ class SplashScreenScene: SKScene {
         
         Timer.scheduledTimer(timeInterval: 2.00, target: self, selector: #selector(goToGameScene), userInfo: nil, repeats: false)
     }
-    
+
+    @objc
     func goToGameScene() {
         let scene = GameScene()
         

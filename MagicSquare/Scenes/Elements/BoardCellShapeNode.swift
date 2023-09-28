@@ -17,7 +17,8 @@ class BoardCellShapeNode: SKShapeNode {
     // MARK: - Methods
     
     func blinkColor() {
-		borderNode = self.copy() as! SKShapeNode
+        guard let borderNode = self.copy() as? SKShapeNode else { return }
+
 		borderNode.xScale = 1.1
 		borderNode.yScale = 1.1
 		borderNode.zPosition -= 0.1
@@ -41,6 +42,7 @@ class BoardCellShapeNode: SKShapeNode {
 		borderNode.run(sequence, completion: {
 			self.borderNode.removeFromParent()
 		})
+
 		addChild(borderNode)
     }
 }

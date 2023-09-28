@@ -160,13 +160,15 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
             Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
         }
     }
-    
+
+    @objc
     func blinkPlayerBoardInRow(timer: Timer) {
         let info = timer.userInfo as! NSDictionary
         let row = info.value(forKey: "row") as! Int
         playerBoard.blinkColor(inRow: row, level: currentLevel)
     }
-    
+
+    @objc
     func blinkPlayerBoardInColumn(timer: Timer) {
         let info = timer.userInfo as! NSDictionary
         let column = info.value(forKey: "column") as! Int

@@ -27,8 +27,8 @@ class LevelsScene: SKScene {
     private var levelsScreen: SKShapeNode!
     private var titleBackground: SKSpriteNode!
     private var backButton: SKSpriteNode!
-    private var levelsNodes = [SKSpriteNode!]()
-    private var levelsLabelNodes = [SKLabelNode!]()
+    private var levelsNodes = [SKSpriteNode]()
+    private var levelsLabelNodes = [SKLabelNode]()
     private var screenDisplay = SKCropNode()
     
     private var indexOfTouchedLevel: Int! = -1
@@ -212,7 +212,7 @@ class LevelsScene: SKScene {
         if !isMoving {
             isUserInteractionEnabled = false
             
-            let touch: UITouch = touches.first as UITouch!
+            let touch: UITouch = touches.first!
             initialTouchLocation = touch.location(in: self)
             touchLocation = touch.location(in: self)
 			lastTimestamp = event?.timestamp
@@ -238,12 +238,12 @@ class LevelsScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isMoving {
-            let touch: UITouch = touches.first as UITouch!
+            let touch: UITouch = touches.first!
             let newTouchLocation = touch.location(in: self)
             let heightDisplacement = newTouchLocation.y - (touchLocation?.y)!
             let move = SKAction.moveBy(x: 0.0, y: heightDisplacement, duration: 0.0)
             
-            scrolledHeight.add(abs(heightDisplacement))
+            scrolledHeight += abs(heightDisplacement)
             if scrolledHeight > moveTolerance {
                 isScrolling = true
             }
@@ -381,8 +381,8 @@ class LevelsScene: SKScene {
     }
     
     func updatePacksHeightDisplacements(with packHeight: CGFloat) {
-        packTitleInitialHeightDisplacement.subtract(packHeight)
-        packFirstLevelInitialHeightDisplacement.subtract(packHeight)
+        packTitleInitialHeightDisplacement -= packHeight
+        packFirstLevelInitialHeightDisplacement -= packHeight
     }
     
     func moveBackTitleAndCropDisplay(duration: CGFloat) {

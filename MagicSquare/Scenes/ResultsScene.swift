@@ -41,33 +41,27 @@ class ResultsScene: SKScene {
         else if currentLevel.playerMoves < bestMoves{
             bestMoves = currentLevel.playerMoves
         }
-        
-        
+
         let medalType = currentLevel.getMedalNameForCurrentGame()
-        
         var buttonRetraySize: CGFloat = size.width*0.227
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             buttonRetraySize = size.width*0.1
         }
         
-        
-        var backgroung: SKSpriteNode!
-        
-        if let backgroundResultScene = SKScene(fileNamed: "ResultsScene"){
-            backgroung = backgroundResultScene.childNode(withName: "background") as! SKSpriteNode
-        }
-        backgroung.removeFromParent()
-        backgroung.position = CGPoint.zero
-        backgroung.zPosition = 1
+        guard let backgroundResultScene = SKScene(fileNamed: "ResultsScene") else { return }
+        let background: SKSpriteNode = (backgroundResultScene.childNode(withName: "background") as! SKSpriteNode)
+
+        background.removeFromParent()
+        background.position = CGPoint.zero
+        background.zPosition = 1
         
         let medal = SKSpriteNode(imageNamed: medalType)
-        medal.zPosition = backgroung.zPosition + 1
+        medal.zPosition = background.zPosition + 1
         
         let medalScale = (size.width*0.504)/medal.size.width
         medal.xScale = medalScale
         medal.yScale = medalScale
-        
         
         let levelUpBanner = SKSpriteNode(imageNamed: "levelUpBanner")
         levelUpBanner.zPosition = medal.zPosition + 1
@@ -144,7 +138,7 @@ class ResultsScene: SKScene {
         starsPosition = medal.position
         
         //Add Children
-        addChild(backgroung)
+        addChild(background)
         addChild(medal)
         addChild(levelUpBanner)
         addChild(numberOfMovesLabel)
@@ -158,7 +152,8 @@ class ResultsScene: SKScene {
         
         Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.setClapsMusic), userInfo: nil, repeats: false)
     }
-    
+
+    @objc
     func setClapsMusic() {
 		
         if UserDefaults.standard.bool(forKey: "isSoundsOn") {
@@ -189,7 +184,7 @@ class ResultsScene: SKScene {
             } else {
                 let nextWorld: String!
                 let nextLevel: Int!
-                let currentWorldIndex = World.packNames.index(of: currentLevel.world)!
+                let currentWorldIndex = World.packNames.firstIndex(of: currentLevel.world)!
                 
                 if currentWorldIndex < World.packNames.count - 1 {
                     nextWorld = World.packNames[currentWorldIndex + 1]

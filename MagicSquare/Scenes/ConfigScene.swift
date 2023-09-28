@@ -125,7 +125,7 @@ class ConfigScene: SKScene {
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		isUserInteractionEnabled = false
 
-		let touch: UITouch = touches.first as UITouch!
+		let touch: UITouch = touches.first!
 		firstTouchLocation = touch.location(in: self)
 		touchLocation = touch.location(in: self)
 		firstScreenTouch = touch.location(in: screen)
@@ -153,7 +153,7 @@ class ConfigScene: SKScene {
 	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 		if !isMoving {
 			
-			let touch: UITouch = touches.first as UITouch!
+			let touch: UITouch = touches.first!
 			let newTouchLocation = touch.location(in: self)
 			screenTouch = touch.location(in: screen)
 			

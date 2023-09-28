@@ -464,7 +464,8 @@ class BoardNode: SKNode {
             }
         }
     }
-    
+
+    @objc
     func handlePan(recognizer:UIPanGestureRecognizer) {
         recognizer.maximumNumberOfTouches = 1
         
@@ -690,7 +691,8 @@ class BoardNode: SKNode {
 			}
         }
     }
-    
+
+    @objc
     func setNotMoving() {
         isMoving = false
     }
