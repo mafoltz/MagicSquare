@@ -105,7 +105,8 @@ class BoardNode: SKNode {
 	func calculateSizes(_ board: Board) {
         self.bottomSpacing = ((sceneSize.height) * 0.045)
         self.cellsSpacing = ((sceneSize.height) * CGFloat(0.0375))
-        let widthOffset = CGFloat((sceneSize.width) * 0.10667)
+
+        let widthOffset = CGFloat((sceneSize.width) * 0.1)
         let maxHeight = CGFloat((sceneSize.height) * CGFloat(0.6))
         let maxWidth = CGFloat((sceneSize.width) - (widthOffset * 2))
         let rowsCount = CGFloat(board.numRows)
@@ -114,7 +115,7 @@ class BoardNode: SKNode {
         let horizontalLength = (maxWidth - (cellsSpacing * (columnsCount - 1.0))) / columnsCount
         let verticalLength = (maxHeight - (cellsSpacing * (rowsCount - 1))) / rowsCount
         
-        var smallest = CGFloat()
+        let smallest: CGFloat
         if horizontalLength < verticalLength {
             smallest = horizontalLength
         } else {
@@ -143,21 +144,21 @@ class BoardNode: SKNode {
         
         if board.numRows % 2 == 0 {
 			if board.numRows >= 6 {
-				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) - cellsSpacing * 0.25
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
 			} else {
-				yHead = (sceneSize.height * 0.6425) - (cellsSize.height * 0.5)
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5)
 			}
         } else {
             if board.numRows <= 3 {
-                yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
+                yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
 			} else if board.numRows >= 5 && board.numColumns >= 5 {
-				yHead = (sceneSize.height * 0.602) - (cellsSize.height * 0.5) - cellsSpacing
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
 			} else if board.numColumns == 4 {
-				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5)
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5)
 			} else if board.numColumns == 3 && board.numRows == 5 {
-				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) + cellsSpacing * 0.5
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing * 0.5
 			} else {
-				yHead = (sceneSize.height * 0.6225) - (cellsSize.height * 0.5) + cellsSpacing
+				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing
 			}
         }
         
@@ -189,7 +190,6 @@ class BoardNode: SKNode {
         }
 
 		boardDisplay.addChild(boardContentNode)
-//		self.addChild(boardContentNode)
         self.addChild(boardDisplay)
         storeFirstNodePosition = playerBoard[1][1].position
     }

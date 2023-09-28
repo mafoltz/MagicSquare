@@ -12,12 +12,13 @@ class BoardCellShapeNode: SKShapeNode {
     
     // MARK: - Properties
     
-    private var borderNode: SKShapeNode!
+    private var borderNode: SKShapeNode?
     
     // MARK: - Methods
     
     func blinkColor() {
         guard let borderNode = self.copy() as? SKShapeNode else { return }
+        self.borderNode = borderNode
 
 		borderNode.xScale = 1.1
 		borderNode.yScale = 1.1
@@ -40,7 +41,7 @@ class BoardCellShapeNode: SKShapeNode {
 		let sequence = SKAction.sequence([fadeAlpha, fadeOut])
 		
 		borderNode.run(sequence, completion: {
-			self.borderNode.removeFromParent()
+			self.borderNode?.removeFromParent()
 		})
 
 		addChild(borderNode)
