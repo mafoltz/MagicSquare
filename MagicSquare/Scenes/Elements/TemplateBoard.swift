@@ -78,7 +78,7 @@ class TemplateBoard: SKSpriteNode {
         baloonSize = roundedRect.size
         templateBaloon.path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
         templateBaloon.fillColor = UIColor.white
-        templateBaloon.zPosition = 0.2
+        templateBaloon.zPosition = 1.1
         addChild(templateBaloon)
         
 		templateBoard = BoardNode(with: view.bounds.size, board: currentLevel.templateBoard, needsExtraCells: false)
@@ -108,7 +108,7 @@ class TemplateBoard: SKSpriteNode {
             templateText = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: self.baloonSize.width*0.708, fontColor: fontColor)
         }
         
-        templateText.position = CGPoint(x: 0.0, y: self.baloonSize.height*0.95)
+        templateText.position = CGPoint(x: 0.0, y: self.baloonSize.height * 0.9)
         templateText.zPosition = 0.1
         templateBaloon.addChild(templateText)
     }

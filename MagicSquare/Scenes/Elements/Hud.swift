@@ -41,11 +41,11 @@ class Hud: SKSpriteNode {
 		}
 		
         buttonWidthDistance = 0.372 * self.size.width
-        buttonsLineHeight = 0.2 * self.size.height
-        
+        buttonsLineHeight = 0.05 * self.size.height
+
         esleButton = SKSpriteNode(imageNamed: "mascot")
         esleButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
-        esleButton.run(SKAction.moveBy(x: 0.0, y: -0.3 * buttonsLineHeight, duration: 0.0))
+        esleButton.run(SKAction.moveBy(x: 0.0, y: -0.4 * self.size.height, duration: 0.0))
         esleButton.zPosition = 2.0
         addChild(esleButton)
         
@@ -72,7 +72,7 @@ class Hud: SKSpriteNode {
         levelTitleLabel.fontColor = UIColor.white
         levelTitleLabel.fontName = ".SFUIText-Medium"
         levelTitleLabel.fontSize = fontSize
-        levelTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        levelTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -6 * buttonsLineHeight, duration: 0.0))
         levelTitleLabel.zPosition = 0.1
         addChild(levelTitleLabel)
         
@@ -80,7 +80,7 @@ class Hud: SKSpriteNode {
         levelLabel.fontColor = UIColor.white
         levelLabel.fontName = ".SFUIText-Heavy"
         levelLabel.fontSize = fontSize
-        levelLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        levelLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -8.5 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
         
@@ -88,7 +88,7 @@ class Hud: SKSpriteNode {
         movesTitleLabel.fontColor = UIColor.white
         movesTitleLabel.fontName = ".SFUIText-Medium"
         movesTitleLabel.fontSize = fontSize
-        movesTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -buttonsLineHeight, duration: 0.0))
+        movesTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -6 * buttonsLineHeight, duration: 0.0))
         movesTitleLabel.zPosition = 0.1
         addChild(movesTitleLabel)
         
@@ -96,7 +96,7 @@ class Hud: SKSpriteNode {
         movesLabel.fontColor = UIColor.white
         movesLabel.fontName = ".SFUIText-Heavy"
         movesLabel.fontSize = fontSize
-        movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -1.8 * buttonsLineHeight, duration: 0.0))
+        movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -8.5 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)
     }
@@ -113,8 +113,8 @@ class Hud: SKSpriteNode {
         
         let fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
         quoteLabel = Label(text: text, fontName: ".SFUIText-Medium", fontSize: fontSize, width: size.width*0.808, fontColor: fontColor)
-		
-        quoteLabel.position = CGPoint(x: 0.0, y: -((size.height*0.5) + (size.height*0.33)))
+
+        quoteLabel.position = CGPoint(x: 0.0, y: -(size.height * 1.1))
         quoteLabel.zPosition = 0.1
         addChild(quoteLabel)
         animatePopLabel(quoteLabel)

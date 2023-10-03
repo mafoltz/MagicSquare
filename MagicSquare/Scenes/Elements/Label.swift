@@ -16,9 +16,7 @@ class Label: SKNode{
     init(text: String, fontName: String, fontSize: CGFloat, width: CGFloat, fontColor: UIColor){
         super.init()
         labels = [SKLabelNode]()
-        
-        
-        
+
         var words = text.components(separatedBy: " ")
         var textLabel = ""
         var space = false
@@ -74,8 +72,6 @@ class Label: SKNode{
             addChild(label)
             y -= maxHeight
         }
-        
-        
     }
     
     private func createNewLabel(withFontName fontName: String, andFontColor fontColor: UIColor, andFontSize fontSize: CGFloat) -> SKLabelNode{
