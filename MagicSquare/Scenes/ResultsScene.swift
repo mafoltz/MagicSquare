@@ -12,10 +12,12 @@ class ResultsScene: SKScene {
     
     // MARK: - Properties
     
-    public var currentLevel : Level!
+    var currentLevel: Level
+
     private var starAngle = CGFloat(0)
-    private var starsPosition: CGPoint!
+    private var starsPosition: CGPoint = .zero
     private var numberOfStars = 0
+
     var buttonRetray = SKSpriteNode()
     var secondButton = SKSpriteNode()
     
@@ -23,14 +25,25 @@ class ResultsScene: SKScene {
     
     private var time: TimeInterval!
     
+    // MARK: - Inits
+
+    init(currentLevel: Level) {
+        self.currentLevel = currentLevel
+        super.init(size: .zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         currentLevel.updateRecord()
-        
+
         let json: [[String: Any]] = JsonReader.openJson(named: currentLevel.world)!
-        if (currentLevel?.number)! == json.count {
+        if currentLevel.number == json.count {
             isLastLevel = true
         }
         
@@ -38,7 +51,7 @@ class ResultsScene: SKScene {
         if bestMoves <= 0 {
             bestMoves = currentLevel.playerMoves
         }
-        else if currentLevel.playerMoves < bestMoves{
+        else if currentLevel.playerMoves < bestMoves {
             bestMoves = currentLevel.playerMoves
         }
 
@@ -155,7 +168,6 @@ class ResultsScene: SKScene {
 
     @objc
     func setClapsMusic() {
-		
         if UserDefaults.standard.bool(forKey: "isSoundsOn") {
 			MusicController.sharedInstance.stop()
             MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
@@ -179,7 +191,8 @@ class ResultsScene: SKScene {
                 scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 scene.size = (super.view?.bounds.size)!
                 scene.scaleMode = .aspectFill
-                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, numberOfLevel: (currentLevel?.number)! + 1)
+                scene.currentLevel = JsonReader.loadLevel(from: json, worldName: currentLevel.world, 
+                                                          numberOfLevel: currentLevel.number + 1)
                 super.view?.presentScene(scene)
             } else {
                 let nextWorld: String!
