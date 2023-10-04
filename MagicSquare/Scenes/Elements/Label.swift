@@ -8,12 +8,12 @@
 
 import SpriteKit
 
-class Label: SKNode{
-    
+class Label: SKNode {
+
     var labels = [SKLabelNode]()
     public var height = CGFloat(0)
     
-    init(text: String, fontName: String, fontSize: CGFloat, width: CGFloat, fontColor: UIColor){
+    init(text: String, fontName: String, fontSize: CGFloat, width: CGFloat, fontColor: UIColor) {
         super.init()
         labels = [SKLabelNode]()
 
@@ -73,16 +73,16 @@ class Label: SKNode{
             y -= maxHeight
         }
     }
-    
-    private func createNewLabel(withFontName fontName: String, andFontColor fontColor: UIColor, andFontSize fontSize: CGFloat) -> SKLabelNode{
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func createNewLabel(withFontName fontName: String, andFontColor fontColor: UIColor, andFontSize fontSize: CGFloat) -> SKLabelNode {
         let label = SKLabelNode(fontNamed: fontName)
         label.fontColor = fontColor
         label.fontSize = fontSize
         label.text = ""
         return label
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

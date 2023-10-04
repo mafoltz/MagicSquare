@@ -200,11 +200,6 @@ class LevelsScene: SKScene {
             self.isUserInteractionEnabled = true
         })
         titleBackground.run(actionsSequence)
-		
-//		self.currentLevel.0 = UserDefaults.standard.string(forKey: "world")!
-//		self.currentLevel.1 = UserDefaults.standard.integer(forKey: "level")
-//		print("World \(currentLevel.0) - level \(currentLevel.1)")
-		
         isUserInteractionEnabled = false
     }
     

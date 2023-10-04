@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import SwiftUI
 
 class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     
@@ -39,20 +40,13 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
             playerBoard.addGestureRecognizer()
         }
 		
-		if UserDefaults.standard.bool(forKey: "isMusicOn") {
+        if UserDefaultsManager.shared.isMusicEnabled {
 			MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
-		}
-        
-        let isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
-        if !isMusicOn{
-            MusicController.sharedInstance.music?.pause()
         }
-        
+
         // Save current world and level
-        UserDefaults.standard.set(currentLevel.world, forKey: "world")
-        UserDefaults.standard.set(currentLevel.number, forKey: "level")
-        UserDefaults.standard.synchronize()
-      
+        UserDefaultsManager.shared.saveCurrentLevel(currentLevel.number, world: currentLevel.world)
+
         hasGameBegun = true
     }
     
@@ -177,7 +171,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     
     func goToResultsScene() {
 		
-        if UserDefaults.standard.bool(forKey: "isSoundsOn") {
+        if UserDefaultsManager.shared.isSFXEnabled {
 			MusicController.sharedInstance.stop()
             MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
         }

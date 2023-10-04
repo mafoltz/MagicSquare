@@ -148,28 +148,15 @@ class Tutorial: BoardNode {
         for index in 0..<playerBoard.count {
             playerBoard[index][1].removeAction(forKey: "vibrate")
         }
-        /*let diff = playerBoard[playerBoard.count-2][1].position.y - initialPoint.y
-        if diff != 0 {
-            for index in 0..<playerBoard.count {
-                playerBoard[index][1].run(SKAction.moveBy(x: 0.0, y: diff, duration: 0.0))
-            }
-        }*/
     }
 
     func removeVibrateRows() {
         for index in 0..<playerBoard[0].count {
             playerBoard[playerBoard.count-2][index].removeAction(forKey: "vibrate")
         }
-        /*let diff = playerBoard[playerBoard.count-2][1].position.x - initialPoint.x
-        if diff != 0 {
-            for index in 0..<playerBoard[0].count {
-                playerBoard[playerBoard.count-2][index].run(SKAction.moveBy(x: diff, y: 0.0, duration: 0.0))
-            }
-        }*/
     }
 }
 
-//MARK ------------------------------------------ EXTENSION
 extension CGFloat {
     static func *(lhs: Int, rhs: CGFloat) -> CGFloat {
         return CGFloat(lhs)*rhs

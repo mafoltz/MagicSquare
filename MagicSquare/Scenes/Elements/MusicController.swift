@@ -16,12 +16,17 @@ public class MusicController {
     
     static let sharedInstance: MusicController = {
         let instance = MusicController()
+        _ = try? AVAudioSession.sharedInstance().setCategory(.playback, options: .mixWithOthers)
         return instance
     }()
     
-    private init(){}
-    
-    func play(music: String, type: String){
+    private init() { /* no-op */ }
+
+    // MARK: Playback Methods
+
+    func play(music: String, type: String) {
+        guard UserDefaultsManager.shared.isMusicEnabled else { return }
+
         if (currentMusic == nil || currentMusic != music) {
             do {
                 let path = Bundle.main.path(forResource: music, ofType:type)!
@@ -40,7 +45,9 @@ public class MusicController {
         }
     }
     
-    func play(sound: String, type: String){
+    func play(sound: String, type: String) {
+        guard UserDefaultsManager.shared.isSFXEnabled else { return }
+
         do {
             let path = Bundle.main.path(forResource: sound, ofType:type)!
             let url = URL(fileURLWithPath: path)

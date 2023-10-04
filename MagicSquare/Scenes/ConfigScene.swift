@@ -282,7 +282,8 @@ class ConfigScene: SKScene {
 				musicButton.texture = SKTexture(imageNamed: "MusicOn")
 			}
 		}
-		UserDefaults.standard.set(isMusicOn, forKey: "isMusicOn")
+
+        UserDefaultsManager.shared.setConfig(isMusicOn, forKey: .music)
 	}
 	
 	func changeSound() {
@@ -297,7 +298,8 @@ class ConfigScene: SKScene {
 				soundButton.texture = SKTexture(imageNamed: "SoundOn")
 			}
 		}
-		UserDefaults.standard.set(isSoundsOn, forKey: "isSoundsOn")
+
+        UserDefaultsManager.shared.setConfig(isSoundsOn, forKey: .sfx)
 	}
 	
 	func changeColorBlind() {
@@ -312,8 +314,8 @@ class ConfigScene: SKScene {
 				colorBlindButton.texture = SKTexture(imageNamed: "ColorBlindOn")
 			}
 		}
-		UserDefaults.standard.set(isColorBlind, forKey: "isColorBlind")
-		
+
+        UserDefaultsManager.shared.setConfig(isColorBlind, forKey: .colorBlind)
 	}
 	
 	func initScene() {
@@ -415,10 +417,10 @@ class ConfigScene: SKScene {
 		var soundStatus = "Sound"
 		var colorBlindStatus = "ColorBlind"
 		
-		isMusicOn = UserDefaults.standard.bool(forKey: "isMusicOn")
-		isSoundsOn = UserDefaults.standard.bool(forKey: "isSoundsOn")
-		isColorBlind = UserDefaults.standard.bool(forKey: "isColorBlind")
-		
+        isMusicOn = UserDefaultsManager.shared.isMusicEnabled
+        isSoundsOn = UserDefaultsManager.shared.isSFXEnabled
+        isColorBlind = UserDefaultsManager.shared.isColorblindEnabled
+
 		if isMusicOn {
 			musicStatus.append("On")
 		} else {
@@ -529,7 +531,6 @@ class ConfigScene: SKScene {
 	}
 	
 	func initLabels(root: SKShapeNode) {
-		
 		let musicLabel = SKLabelNode(text: "MUSIC")
 		musicLabel.name = "musicButton"
 		musicLabel.verticalAlignmentMode = .center
@@ -567,9 +568,8 @@ class ConfigScene: SKScene {
 	}
 	
 	func addConfigHUD() {
-		
 		let circleRadius = self.size.height * 0.007875
-		let circleSpacement = self.size.height * 0.007875 * 2 //0.0105
+		let circleSpacement = self.size.height * 0.007875 * 2
 		
 		configHUD = SKNode.init()
 		configHUD.position = CGPoint(x: self.size.width/4, y: self.size.height * 0.02)
@@ -595,7 +595,5 @@ class ConfigScene: SKScene {
 		screen2.position = CGPoint(x: configHUD.position.x + circleSpacement, y: configHUD.position.y)
 		screen2.alpha = 0.5
 		configHUD.addChild(screen2)
-		
 	}
-	
 }

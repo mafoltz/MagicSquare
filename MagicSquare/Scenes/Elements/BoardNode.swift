@@ -55,7 +55,7 @@ class BoardNode: SKNode {
 	init(with size: CGSize, board: Board, needsExtraCells extra: Bool) {
         super.init()
         sceneSize = size
-		isColorBlind = UserDefaults.standard.bool(forKey: "isColorBlind")
+        isColorBlind = UserDefaultsManager.shared.isColorblindEnabled
 		
         boardDisplay = SKCropNode()
         boardDisplay.position = CGPoint(x: 0, y: (sceneSize.height)/2)
