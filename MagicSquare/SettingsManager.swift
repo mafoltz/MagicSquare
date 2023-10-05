@@ -1,14 +1,15 @@
 //
-//  UserDefaultsManager.swift
+//  SettingsManager.swift
 //  MagicSquare
 //
 //  Created by Athos Lagemann on 04/10/23.
 //  Copyright © 2023 Marcelo Andrighetto Foltz. All rights reserved.
 //
 
+import CoreHaptics
 import Foundation
 
-class UserDefaultsManager {
+class SettingsManager {
 
     // MARK: Keys
 
@@ -21,13 +22,16 @@ class UserDefaultsManager {
 
         // Visuals
         case colorBlind
+
+        // Haptics
+        case haptics
     }
 
     // MARK: Singleton Configuration
 
     private init() { /* no-op */ }
 
-    static var shared: UserDefaultsManager = UserDefaultsManager()
+    static var shared: SettingsManager = SettingsManager()
 
     // MARK: Public Getters
 
@@ -57,6 +61,24 @@ class UserDefaultsManager {
         return boolForKey(.colorBlind)
     }
 
+    // Haptic Elements
+
+    var supportsHaptics: Bool {
+        let hapticsCapability = CHHapticEngine.capabilitiesForHardware()
+        return hapticsCapability.supportsHaptics
+    }
+
+    var isHapticsEnabled: Bool {
+        guard supportsHaptics else { return false }
+        return boolForKey(.haptics)
+    }
+
+    // MARK: Entry Check
+
+    func hasEntryForKey(_ key: Key) -> Bool {
+        return UserDefaults.standard.value(forKey: key.rawValue) != nil
+    }
+
     // MARK: Public Setters
 
     func saveCurrentLevel(_ level: Int, world: String) {
@@ -71,7 +93,7 @@ class UserDefaultsManager {
 
 // MARK: Private Utility Methods
 
-extension UserDefaultsManager {
+extension SettingsManager {
 
     private func boolForKey(_ key: Key) -> Bool {
         return UserDefaults.standard.bool(forKey: key.rawValue)

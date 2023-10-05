@@ -284,7 +284,7 @@ class ConfigScene: SKScene {
 			}
 		}
 
-        UserDefaultsManager.shared.setConfig(isMusicOn, forKey: .music)
+        SettingsManager.shared.setConfig(isMusicOn, forKey: .music)
 	}
 	
 	func changeSound() {
@@ -300,7 +300,7 @@ class ConfigScene: SKScene {
 			}
 		}
 
-        UserDefaultsManager.shared.setConfig(isSoundsOn, forKey: .sfx)
+        SettingsManager.shared.setConfig(isSoundsOn, forKey: .sfx)
 	}
 	
 	func changeColorBlind() {
@@ -316,7 +316,7 @@ class ConfigScene: SKScene {
 			}
 		}
 
-        UserDefaultsManager.shared.setConfig(isColorBlind, forKey: .colorBlind)
+        SettingsManager.shared.setConfig(isColorBlind, forKey: .colorBlind)
 	}
 	
 	func initScene() {
@@ -367,9 +367,9 @@ class ConfigScene: SKScene {
 		var soundStatus = "Sound"
 		var colorBlindStatus = "ColorBlind"
 		
-        isMusicOn = UserDefaultsManager.shared.isMusicEnabled
-        isSoundsOn = UserDefaultsManager.shared.isSFXEnabled
-        isColorBlind = UserDefaultsManager.shared.isColorblindEnabled
+        isMusicOn = SettingsManager.shared.isMusicEnabled
+        isSoundsOn = SettingsManager.shared.isSFXEnabled
+        isColorBlind = SettingsManager.shared.isColorblindEnabled
 
 		if isMusicOn {
 			musicStatus.append("On")

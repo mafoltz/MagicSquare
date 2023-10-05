@@ -38,7 +38,8 @@
 		5783B7151F2909810081D261 /* BoardCellShapeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5783B7141F2909810081D261 /* BoardCellShapeNode.swift */; };
 		57F8E9B71F4B7DF30088277D /* Coral Lover Pack.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F8E9B51F4B7DF30088277D /* Coral Lover Pack.json */; };
 		57F8E9BA1F4B7E150088277D /* Test.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F8E9B91F4B7E150088277D /* Test.json */; };
-		7E1775342ACE292D005974A8 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1775332ACE292D005974A8 /* UserDefaultsManager.swift */; };
+		7E105FC22ACF597D0000C5AB /* HapticsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E105FC12ACF597D0000C5AB /* HapticsController.swift */; };
+		7E1775342ACE292D005974A8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1775332ACE292D005974A8 /* SettingsManager.swift */; };
 		7E28148D1F32715B008D1ABA /* FontSizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28148C1F32715B008D1ABA /* FontSizer.swift */; };
 		7ED859771F29477000F5767A /* ConfigScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED859761F29477000F5767A /* ConfigScene.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
@@ -83,7 +84,8 @@
 		5783B7141F2909810081D261 /* BoardCellShapeNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoardCellShapeNode.swift; path = Scenes/Elements/BoardCellShapeNode.swift; sourceTree = "<group>"; };
 		57F8E9B51F4B7DF30088277D /* Coral Lover Pack.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "Coral Lover Pack.json"; path = "Levels/Coral Lover Pack.json"; sourceTree = "<group>"; };
 		57F8E9B91F4B7E150088277D /* Test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Test.json; path = Levels/Test.json; sourceTree = "<group>"; };
-		7E1775332ACE292D005974A8 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		7E105FC12ACF597D0000C5AB /* HapticsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsController.swift; sourceTree = "<group>"; };
+		7E1775332ACE292D005974A8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		7E28148C1F32715B008D1ABA /* FontSizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontSizer.swift; path = Tools/FontSizer.swift; sourceTree = "<group>"; };
 		7ED859761F29477000F5767A /* ConfigScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigScene.swift; path = Scenes/ConfigScene.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
@@ -220,7 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				572F86791F27D8F800C0AD3B /* MusicController.swift */,
-				7E1775332ACE292D005974A8 /* UserDefaultsManager.swift */,
+				7E105FC12ACF597D0000C5AB /* HapticsController.swift */,
+				7E1775332ACE292D005974A8 /* SettingsManager.swift */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			files = (
 				576CAD031F1FE8CF00AF38A7 /* Hud.swift in Sources */,
 				571193F81F15592500E1ECEA /* LevelsScene.swift in Sources */,
+				7E105FC22ACF597D0000C5AB /* HapticsController.swift in Sources */,
 				571193F61F15590A00E1ECEA /* GameScene.swift in Sources */,
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
 				7ED859771F29477000F5767A /* ConfigScene.swift in Sources */,
@@ -353,7 +357,7 @@
 				5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */,
 				D78CAE791F2BA48D00D05A9A /* GameConfiguration.swift in Sources */,
 				577188FF1F223C44003232B3 /* ActionHandlerDelegate.swift in Sources */,
-				7E1775342ACE292D005974A8 /* UserDefaultsManager.swift in Sources */,
+				7E1775342ACE292D005974A8 /* SettingsManager.swift in Sources */,
 				576CAD071F1FF1FE00AF38A7 /* JsonReader.swift in Sources */,
 				575ECE901F30D2BB0064079A /* SplashScreenScene.swift in Sources */,
 				D7CBD5521F326039005EFBBA /* UIColorExtension.swift in Sources */,

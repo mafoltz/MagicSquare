@@ -25,7 +25,7 @@ public class MusicController {
     // MARK: Playback Methods
 
     func play(music: String, type: String) {
-        guard UserDefaultsManager.shared.isMusicEnabled else { return }
+        guard SettingsManager.shared.isMusicEnabled else { return }
 
         if (currentMusic == nil || currentMusic != music) {
             do {
@@ -46,7 +46,7 @@ public class MusicController {
     }
     
     func play(sound: String, type: String) {
-        guard UserDefaultsManager.shared.isSFXEnabled else { return }
+        guard SettingsManager.shared.isSFXEnabled else { return }
 
         do {
             let path = Bundle.main.path(forResource: sound, ofType:type)!

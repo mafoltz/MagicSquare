@@ -168,7 +168,7 @@ class ResultsScene: SKScene {
 
     @objc
     func setClapsMusic() {
-        if UserDefaultsManager.shared.isSFXEnabled {
+        if SettingsManager.shared.isSFXEnabled {
             MusicController.sharedInstance.play(sound: "Kids Cheering", type: "caf")
         }
     }

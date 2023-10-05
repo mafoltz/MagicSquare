@@ -14,7 +14,7 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let view = self.view as! SKView? {
             let scene = SplashScreenScene()
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)

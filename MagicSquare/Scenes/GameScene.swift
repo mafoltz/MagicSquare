@@ -40,18 +40,14 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
             playerBoard.addGestureRecognizer()
         }
 		
-        if UserDefaultsManager.shared.isMusicEnabled {
+        if SettingsManager.shared.isMusicEnabled {
 			MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
         }
 
         // Save current world and level
-        UserDefaultsManager.shared.saveCurrentLevel(currentLevel.number, world: currentLevel.world)
+        SettingsManager.shared.saveCurrentLevel(currentLevel.number, world: currentLevel.world)
 
         hasGameBegun = true
-    }
-    
-    override func didChangeSize(_ oldSize: CGSize) {
-        super.didChangeSize(oldSize)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -139,19 +135,23 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         
         if orientation == .vertical && (moves > 0 && moves != height) && columnOrRow >= 0 {
             currentLevel.moveUpPlayerBoard(column: columnOrRow, moves: abs(moves))
-            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkWholeBoard),
+                                 userInfo: ["column": columnOrRow], repeats: false)
         }
         else if orientation == .vertical && (moves < 0 && moves != -height) && columnOrRow >= 0 {
             currentLevel.moveDownPlayerBoard(column: columnOrRow, moves:abs(moves))
-            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInColumn), userInfo: ["column":columnOrRow], repeats: false)
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkWholeBoard), 
+                                 userInfo: ["column": columnOrRow], repeats: false)
         }
         else if orientation == .horizontal && (moves > 0 && moves != width) && columnOrRow >= 0 {
             currentLevel.moveRightPlayerBoard(row: columnOrRow, moves: abs(moves))
-            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkWholeBoard), 
+                                 userInfo: ["row": columnOrRow], repeats: false)
         }
         else if orientation == .horizontal && (moves < 0 && moves != -width) && columnOrRow >= 0 {
             currentLevel.moveLeftPlayerBoard(row: columnOrRow, moves: abs(moves))
-            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkPlayerBoardInRow), userInfo: ["row":columnOrRow], repeats: false)
+            Timer.scheduledTimer(timeInterval: 0.25, target: self, selector: #selector(blinkWholeBoard), 
+                                 userInfo: ["row": columnOrRow], repeats: false)
         }
     }
 
@@ -168,10 +168,20 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         let column = info.value(forKey: "column") as! Int
         playerBoard.blinkColor(inColumn: column, level: currentLevel)
     }
-    
+
+    @objc
+    func blinkWholeBoard(timer: Timer) {
+        playerBoard.blinkColor(from: currentLevel)
+
+        if currentLevel.hasLevelWon() {
+            HapticsController.shared?.hapticVictory()
+        } else {
+            HapticsController.shared?.hapticBlink()
+        }
+    }
+
     func goToResultsScene() {
-		
-        if UserDefaultsManager.shared.isSFXEnabled {
+        if SettingsManager.shared.isSFXEnabled {
 			MusicController.sharedInstance.stop()
             MusicController.sharedInstance.play(sound: "Esles_Victory", type: "mp3")
         }

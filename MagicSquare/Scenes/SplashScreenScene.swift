@@ -45,11 +45,11 @@ class SplashScreenScene: SKScene {
     @objc
     func goToGameScene() {
         let scene = GameScene()
-        let world = UserDefaultsManager.shared.currentWorld ?? "4x3 Esle's Starter Pack"
-        let level = UserDefaultsManager.shared.currentLevel
+        let world = SettingsManager.shared.currentWorld ?? "4x3 Esle's Starter Pack"
+        let level = SettingsManager.shared.currentLevel
 
-        if UserDefaultsManager.shared.currentWorld == nil {
-            UserDefaultsManager.shared.setConfig(world, forKey: .world)
+        if SettingsManager.shared.currentWorld == nil {
+            SettingsManager.shared.setConfig(world, forKey: .world)
         }
 
         let json: [[String: Any]] = JsonReader.openJson(named: world)!
