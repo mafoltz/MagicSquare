@@ -141,25 +141,16 @@ class BoardNode: SKNode {
             // impar
             xHead = CGFloat(-(cellsSize.width + cellsSpacing) * CGFloat(columnsCount/2))
         }
-        
-        if board.numRows % 2 == 0 {
-			if board.numRows >= 6 {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
-			} else {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5)
-			}
-        } else {
-            if board.numRows <= 3 {
-                yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
-			} else if board.numRows >= 5 && board.numColumns >= 5 {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
-			} else if board.numColumns == 4 {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5)
-			} else if board.numColumns == 3 && board.numRows == 5 {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing * 0.5
-			} else {
-				yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing
-			}
+
+        switch (board.numColumns, board.numRows) {
+        case (3, 3):
+            yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) - cellsSpacing
+        case (3, 4), (4, _):
+            yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5)
+        case (3, 5):
+            yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing
+        default:
+            yHead = (sceneSize.height * 0.6) - (cellsSize.height * 0.5) + cellsSpacing
         }
         
         var xOffset = xHead
