@@ -59,7 +59,7 @@ class HapticsController {
             }
 
         } catch {
-            print("Failed to play slice: \(error.localizedDescription)")
+            print("[Haptics] Failed to play haptic pattern: \(error.localizedDescription)")
         }
     }
 
@@ -69,7 +69,7 @@ class HapticsController {
                                     CHHapticEventParameter(parameterID: .hapticIntensity, value: 1.0),
                                     CHHapticEventParameter(parameterID: .hapticSharpness, value: 1.0)
                                  ],
-                                 relativeTime: 0.08)
+                                 relativeTime: 0)
 
         return try CHHapticPattern(events: [snip], parameters: [])
     }
@@ -78,8 +78,8 @@ class HapticsController {
         let step1 = CHHapticEvent(
             eventType: .hapticTransient,
             parameters: [
-                CHHapticEventParameter(parameterID: .hapticIntensity, value: 1.0),
-                CHHapticEventParameter(parameterID: .hapticSharpness, value: 1.0)
+                CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.75),
+                CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.75)
             ],
             relativeTime: 0)
 
@@ -89,7 +89,7 @@ class HapticsController {
                 CHHapticEventParameter(parameterID: .hapticIntensity, value: 1.0),
                 CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.3)
             ],
-            relativeTime: 0.3)
+            relativeTime: 0.2)
 
         return try CHHapticPattern(events: [step1, step2], parameters: [])
     }

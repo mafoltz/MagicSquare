@@ -17,10 +17,7 @@ class ConfigScene: SKScene {
                  "https://www.linkedin.com/in/eduardo-segura-fornari-a23728a7/",
                  "https://luisascaletsky.myportfolio.com",
                  "https://www.linkedin.com/in/marcelo-andrighetto-foltz-b238ba111/"]
-	
-	internal var isMusicOn: Bool!
-	internal var isSoundsOn: Bool!
-	internal var isColorBlind: Bool!
+
 	
 	internal var previousScene: SKScene!
 	private var previousSceneChildren: SKSpriteNode!
@@ -40,7 +37,8 @@ class ConfigScene: SKScene {
 	private var buttonSize: CGSize!
 	private var musicButtonPosition: CGPoint!
 	private var soundButtonPosition: CGPoint!
-	private var colorBlindButtonPosition: CGPoint!
+    private var colorBlindButtonPosition: CGPoint!
+	private var hapticsButtonPosition: CGPoint!
 	private var buttonLabelsX: CGFloat!
 	private var configHUD: SKNode!
 	
@@ -222,6 +220,9 @@ class ConfigScene: SKScene {
 			case "colorBlindButton":
 				changeColorBlind()
 				break
+            case "hapticsButton":
+                changeHaptics()
+                break
 			case "Arthur":
                 link = 0
 				break
@@ -270,55 +271,64 @@ class ConfigScene: SKScene {
 	}
 	
 	func changeMusic() {
-		if isMusicOn {
+		if SettingsManager.shared.isMusicEnabled {
             MusicController.sharedInstance.music?.pause()
-			isMusicOn = false
+            SettingsManager.shared.setConfig(false, forKey: .music)
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOff")
 			}
 		} else {
+            SettingsManager.shared.setConfig(true, forKey: .music)
             MusicController.sharedInstance.music?.play()
-			isMusicOn = true
 			if let musicButton = screen.childNode(withName: "musicButton") as? SKSpriteNode {
 				musicButton.texture = SKTexture(imageNamed: "MusicOn")
 			}
 		}
-
-        SettingsManager.shared.setConfig(isMusicOn, forKey: .music)
 	}
 	
 	func changeSound() {
-		if isSoundsOn {
-			isSoundsOn = false
+        if SettingsManager.shared.isSFXEnabled {
+            SettingsManager.shared.setConfig(false, forKey: .sfx)
 			if let soundButton = screen.childNode(withName: "soundButton") as? SKSpriteNode {
 				soundButton.texture = SKTexture(imageNamed: "SoundOff")
 			}
 		} else {
-			isSoundsOn = true
+            SettingsManager.shared.setConfig(true, forKey: .sfx)
 			if let soundButton = screen.childNode(withName: "soundButton") as? SKSpriteNode {
 				soundButton.texture = SKTexture(imageNamed: "SoundOn")
 			}
 		}
-
-        SettingsManager.shared.setConfig(isSoundsOn, forKey: .sfx)
 	}
 	
 	func changeColorBlind() {
-		if isColorBlind {
-			isColorBlind = false
+		if SettingsManager.shared.isColorblindEnabled {
+            SettingsManager.shared.setConfig(false, forKey: .colorBlind)
 			if let colorBlindButton = screen.childNode(withName: "colorBlindButton") as? SKSpriteNode {
 				colorBlindButton.texture = SKTexture(imageNamed: "ColorBlindOff")
 			}
 		} else {
-			isColorBlind = true
+            SettingsManager.shared.setConfig(true, forKey: .colorBlind)
 			if let colorBlindButton = screen.childNode(withName: "colorBlindButton") as? SKSpriteNode {
 				colorBlindButton.texture = SKTexture(imageNamed: "ColorBlindOn")
 			}
 		}
-
-        SettingsManager.shared.setConfig(isColorBlind, forKey: .colorBlind)
 	}
-	
+
+    func changeHaptics() {
+        if SettingsManager.shared.isHapticsEnabled {
+            SettingsManager.shared.setConfig(false, forKey: .haptics)
+            if let colorBlindButton = screen.childNode(withName: "hapticsButton") as? SKSpriteNode {
+                colorBlindButton.texture = SKTexture(imageNamed: "HapticsOff")
+            }
+        } else {
+            SettingsManager.shared.setConfig(true, forKey: .haptics)
+            if let colorBlindButton = screen.childNode(withName: "hapticsButton") as? SKSpriteNode {
+                colorBlindButton.texture = SKTexture(imageNamed: "HapticsOn")
+                HapticsController.shared?.hapticBlink()
+            }
+        }
+    }
+
 	func initScene() {
         screenSize = CGSize(width: self.size.width * 2, height: self.size.height)
         bottomSpacement = CGFloat(screenSize.height * 0.0425)
@@ -342,6 +352,7 @@ class ConfigScene: SKScene {
         musicButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: titleBottom - buttonSpacing - buttonSize.height/2)
         soundButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: musicButtonPosition.y - buttonSpacing - buttonSize.height)
         colorBlindButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: soundButtonPosition.y - buttonSpacing - buttonSize.height)
+        hapticsButtonPosition = CGPoint(x: screenSize.width * 0.06265 + buttonSize.width/2, y: colorBlindButtonPosition.y - buttonSpacing - buttonSize.height)
 
         buttonLabelsX = musicButtonPosition.x + buttonSize.width/2 + screenSize.width * 0.032
 
@@ -366,29 +377,32 @@ class ConfigScene: SKScene {
 		var musicStatus = "Music"
 		var soundStatus = "Sound"
 		var colorBlindStatus = "ColorBlind"
-		
-        isMusicOn = SettingsManager.shared.isMusicEnabled
-        isSoundsOn = SettingsManager.shared.isSFXEnabled
-        isColorBlind = SettingsManager.shared.isColorblindEnabled
+        var hapticsStatus = "Haptics"
 
-		if isMusicOn {
+		if SettingsManager.shared.isMusicEnabled {
 			musicStatus.append("On")
 		} else {
 			musicStatus.append("Off")
 		}
 		
-		if isSoundsOn {
+		if SettingsManager.shared.isSFXEnabled {
 			soundStatus.append("On")
 		} else {
 			soundStatus.append("Off")
 		}
 		
-		if isColorBlind {
+		if SettingsManager.shared.isColorblindEnabled {
 			colorBlindStatus.append("On")
 		} else {
 			colorBlindStatus.append("Off")
 		}
-		
+
+        if SettingsManager.shared.isHapticsEnabled {
+            hapticsStatus.append("On")
+        } else {
+            hapticsStatus.append("Off")
+        }
+
 		let musicButton = SKSpriteNode(imageNamed: musicStatus)
 		musicButton.name = "musicButton"
 		musicButton.size = buttonSize
@@ -409,7 +423,15 @@ class ConfigScene: SKScene {
 		colorBlindButton.position = colorBlindButtonPosition
 		root.addChild(colorBlindButton)
 		buttons.append(colorBlindButton)
-		
+
+        if SettingsManager.shared.supportsHaptics {
+            let hapticsButton = SKSpriteNode(imageNamed: hapticsStatus)
+            hapticsButton.name = "hapticsButton"
+            hapticsButton.size = buttonSize
+            hapticsButton.position = hapticsButtonPosition
+            root.addChild(hapticsButton)
+            buttons.append(hapticsButton)
+        }
 	}
 	
 	func loadInfos(root: SKShapeNode) {
@@ -515,6 +537,20 @@ class ConfigScene: SKScene {
 		colorBlindLabel.fontColor = fontColor
 		labelButtons.append(colorBlindLabel)
 		root.addChild(colorBlindLabel)
+
+        if SettingsManager.shared.supportsHaptics {
+            let colorBlindLabel = SKLabelNode(text: "HAPTICS")
+            colorBlindLabel.name = "hapticsButton"
+            colorBlindLabel.verticalAlignmentMode = .center
+            colorBlindLabel.horizontalAlignmentMode = .left
+            colorBlindLabel.position = CGPoint(x: buttonLabelsX,
+                                               y: hapticsButtonPosition.y)
+            colorBlindLabel.fontName = font
+            colorBlindLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
+            colorBlindLabel.fontColor = fontColor
+            labelButtons.append(colorBlindLabel)
+            root.addChild(colorBlindLabel)
+        }
 	}
 	
 	func addConfigHUD() {
