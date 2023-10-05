@@ -149,8 +149,15 @@ class LevelsScene: SKScene {
         
         for (packIndex, pack) in levelsPacks.enumerated() {
             let packName = World.packNames[packIndex]
-            
-            let packTitle = SKLabelNode(text: packName)
+
+            var packLevels: [Level] = []
+            for i in 0 ..< pack.count {
+                if let readLevel = JsonReader.loadLevel(from: pack, worldName: World.packNames[packIndex], numberOfLevel: i+1) {
+                    packLevels.append(readLevel)
+                }
+            }
+
+            let packTitle = SKLabelNode(text: packName + " (\(calculatePackProgression(pack: packLevels)))")
             packTitle.fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
             packTitle.fontName = ".SFUIText-Medium"
             packTitle.fontSize = getFontSize(fontSize: 18.0, screenHeight: view.bounds.size.height)
@@ -433,5 +440,17 @@ class LevelsScene: SKScene {
             scene.currentLevel = level
             super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 1))
         }
+    }
+
+    private func calculatePackProgression(pack: [Level]) -> String {
+        var done = 0
+
+        for level in pack {
+            if [.golden, .silver, .bronze].contains(level.getCoinForRecord()) {
+                done += 1
+            }
+        }
+
+        return "\(done)/\(pack.count)"
     }
 }
