@@ -29,11 +29,13 @@ class SplashScreenScene: SKScene {
         let animation = SKAction.repeatForever(movement)
         esle.run(animation)
         addChild(esle)
-        
+        backgroundColor = .white
+
         background = SKSpriteNode(imageNamed: "splashBackground")
         background.size = CGSize(width: background.size.width * size.height / background.size.height,
-                                 height: size.height)
+                                 height: size.height * 0.95)
         background.zPosition = 0.1
+        background.position = CGPoint(x: 0, y: size.height * -0.05)
         addChild(background)
         
         Timer.scheduledTimer(timeInterval: 2.00, target: self, selector: #selector(goToGameScene), userInfo: nil, repeats: false)
