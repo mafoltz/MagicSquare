@@ -72,7 +72,8 @@ class ConfigScene: SKScene {
 	let font = ".SFUIText-Medium"
 	let fontBold = ".SFUIText-Bold"
 	let fontColor = UIColor.black
-	
+    let sceneBackgroundColor = UIColor.white
+
 	// MARK: - Methods
 	
 	func prepareToGoBack() {
@@ -92,7 +93,7 @@ class ConfigScene: SKScene {
 	override func didMove(to view: SKView) {
 		
 		self.anchorPoint = CGPoint(x: 0, y: 0)
-        self.backgroundColor = .esleBackground
+        self.backgroundColor = sceneBackgroundColor
 		initScene()
 		
 		addConfigHUD()
@@ -102,7 +103,7 @@ class ConfigScene: SKScene {
 		let screenBackground = CGRect(x: 0, y: 0,
 		                              width: self.size.width, height: self.size.height * 2)
 		screen.path = UIBezierPath(rect: screenBackground).cgPath
-		screen.fillColor = .esleBackground
+		screen.fillColor = sceneBackgroundColor
 		screen.zPosition = 1.1
 		screen.position = CGPoint(x: 0, y: 0)
 		self.addChild(screen)

@@ -21,7 +21,8 @@ class Hud: SKSpriteNode {
 	
     private var buttonWidthDistance: CGFloat!
     private var buttonsLineHeight: CGFloat!
-    
+    private lazy var esleInitialY: CGFloat = -0.4 * self.size.height
+
     var actionDelegate: ActionHandlerDelegate?
     
     private var quoteLabel: Label!
@@ -45,7 +46,7 @@ class Hud: SKSpriteNode {
 
         esleButton = SKSpriteNode(imageNamed: "mascot")
         esleButton.size = CGSize(width: 0.63 * self.size.height, height: 0.95 * self.size.height)
-        esleButton.run(SKAction.moveBy(x: 0.0, y: -0.4 * self.size.height, duration: 0.0))
+        esleButton.run(SKAction.moveBy(x: 0.0, y: esleInitialY, duration: 0.0))
         esleButton.zPosition = 2.0
         addChild(esleButton)
         
@@ -103,7 +104,7 @@ class Hud: SKSpriteNode {
     
     func resetEslePosition() {
         esleButton.removeAction(forKey: "eslesMovement")
-        esleButton.run(SKAction.moveTo(y: -0.3 * buttonsLineHeight, duration: 0.4))
+        esleButton.run(SKAction.moveTo(y: esleInitialY, duration: 0.4))
     }
     
     func setQuoteLabel(with text: String) {

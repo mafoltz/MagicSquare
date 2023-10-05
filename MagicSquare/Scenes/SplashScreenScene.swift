@@ -20,6 +20,7 @@ class SplashScreenScene: SKScene {
     override func didMove(to view: SKView) {
         esle = SKSpriteNode(imageNamed: "1")
         esle.size = CGSize(width: 94, height: 145)
+        esle.setScale(1.5)
         esle.zPosition = 0.2
         let movement = SKAction.animate(with: [SKTexture(imageNamed: "1"), SKTexture(imageNamed: "2"),
                                                SKTexture(imageNamed: "3"), SKTexture(imageNamed: "4"),
