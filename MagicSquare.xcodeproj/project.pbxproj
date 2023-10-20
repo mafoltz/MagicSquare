@@ -44,8 +44,6 @@
 		7ED859771F29477000F5767A /* ConfigScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED859761F29477000F5767A /* ConfigScene.swift */; };
 		91BFD82E1F226C1E00F28356 /* ResultsScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 91BFD82D1F226C1E00F28356 /* ResultsScene.sks */; };
 		D78CAE711F265F6A00D05A9A /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE701F265F6A00D05A9A /* Tutorial.swift */; };
-		D78CAE761F2BA31800D05A9A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D78CAE741F2BA31800D05A9A /* Fabric.framework */; };
-		D78CAE771F2BA31800D05A9A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D78CAE751F2BA31800D05A9A /* Crashlytics.framework */; };
 		D78CAE791F2BA48D00D05A9A /* GameConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78CAE781F2BA48D00D05A9A /* GameConfiguration.swift */; };
 		D7CBD5521F326039005EFBBA /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBD5511F326039005EFBBA /* UIColorExtension.swift */; };
 /* End PBXBuildFile section */
@@ -90,8 +88,6 @@
 		7ED859761F29477000F5767A /* ConfigScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfigScene.swift; path = Scenes/ConfigScene.swift; sourceTree = "<group>"; };
 		91BFD82D1F226C1E00F28356 /* ResultsScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ResultsScene.sks; sourceTree = "<group>"; };
 		D78CAE701F265F6A00D05A9A /* Tutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Tutorial.swift; path = Scenes/Elements/Tutorial.swift; sourceTree = "<group>"; };
-		D78CAE741F2BA31800D05A9A /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
-		D78CAE751F2BA31800D05A9A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		D78CAE781F2BA48D00D05A9A /* GameConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameConfiguration.swift; sourceTree = "<group>"; };
 		D7CBD5511F326039005EFBBA /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,8 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D78CAE771F2BA31800D05A9A /* Crashlytics.framework in Frameworks */,
-				D78CAE761F2BA31800D05A9A /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,8 +234,6 @@
 			isa = PBXGroup;
 			children = (
 				D78CAE781F2BA48D00D05A9A /* GameConfiguration.swift */,
-				D78CAE741F2BA31800D05A9A /* Fabric.framework */,
-				D78CAE751F2BA31800D05A9A /* Crashlytics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -328,14 +320,15 @@
 /* Begin PBXShellScriptBuildPhase section */
 		D78CAE721F2BA29A00D05A9A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			alwaysOutOfDate = 1;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "
 ";
