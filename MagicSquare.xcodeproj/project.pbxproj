@@ -40,6 +40,8 @@
 		57F8E9BA1F4B7E150088277D /* Test.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F8E9B91F4B7E150088277D /* Test.json */; };
 		7E105FC22ACF597D0000C5AB /* HapticsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E105FC12ACF597D0000C5AB /* HapticsController.swift */; };
 		7E1775342ACE292D005974A8 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1775332ACE292D005974A8 /* SettingsManager.swift */; };
+		7E21A1382AE2BD9F002F3AAD /* NewLevelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E21A1362AE2BD9F002F3AAD /* NewLevelsViewController.swift */; };
+		7E21A1392AE2BD9F002F3AAD /* NewLevelsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7E21A1372AE2BD9F002F3AAD /* NewLevelsViewController.xib */; };
 		7E28148D1F32715B008D1ABA /* FontSizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E28148C1F32715B008D1ABA /* FontSizer.swift */; };
 		7ED7B4082AE5F89800D6EBC2 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7ED7B4072AE5F89800D6EBC2 /* Settings.storyboard */; };
 		7ED7B40A2AE5F8A300D6EBC2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7B4092AE5F8A300D6EBC2 /* SettingsViewController.swift */; };
@@ -89,6 +91,8 @@
 		57F8E9B91F4B7E150088277D /* Test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Test.json; path = Levels/Test.json; sourceTree = "<group>"; };
 		7E105FC12ACF597D0000C5AB /* HapticsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsController.swift; sourceTree = "<group>"; };
 		7E1775332ACE292D005974A8 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		7E21A1362AE2BD9F002F3AAD /* NewLevelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLevelsViewController.swift; sourceTree = "<group>"; };
+		7E21A1372AE2BD9F002F3AAD /* NewLevelsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewLevelsViewController.xib; sourceTree = "<group>"; };
 		7E28148C1F32715B008D1ABA /* FontSizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontSizer.swift; path = Tools/FontSizer.swift; sourceTree = "<group>"; };
 		7ED7B4072AE5F89800D6EBC2 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		7ED7B4092AE5F8A300D6EBC2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 				575ECE8F1F30D2BB0064079A /* SplashScreenScene.swift */,
 				571193F91F15593800E1ECEA /* MainMenuScene.swift */,
 				571193F71F15592500E1ECEA /* LevelsScene.swift */,
+				7E21A1312AE2BD5C002F3AAD /* NewLevelsScene */,
 				571193F51F15590A00E1ECEA /* GameScene.swift */,
 				7ED859761F29477000F5767A /* ConfigScene.swift */,
 				571193FB1F15594B00E1ECEA /* ResultsScene.swift */,
@@ -231,6 +236,15 @@
 				7E1775332ACE292D005974A8 /* SettingsManager.swift */,
 			);
 			name = Shared;
+			sourceTree = "<group>";
+		};
+		7E21A1312AE2BD5C002F3AAD /* NewLevelsScene */ = {
+			isa = PBXGroup;
+			children = (
+				7E21A1362AE2BD9F002F3AAD /* NewLevelsViewController.swift */,
+				7E21A1372AE2BD9F002F3AAD /* NewLevelsViewController.xib */,
+			);
+			name = NewLevelsScene;
 			sourceTree = "<group>";
 		};
 		7E28148B1F32712D008D1ABA /* Tools */ = {
@@ -336,6 +350,7 @@
 				574BE1CD1F4B80B000987D39 /* 4x3 Esle's Starter Pack.json in Resources */,
 				7ED7B4082AE5F89800D6EBC2 /* Settings.storyboard in Resources */,
 				5728FEB01F14037D003774BF /* Assets.xcassets in Resources */,
+				7E21A1392AE2BD9F002F3AAD /* NewLevelsViewController.xib in Resources */,
 				572F86781F27D5E800C0AD3B /* Esles_Victory.mp3 in Resources */,
 				5728FEB31F14037D003774BF /* LaunchScreen.storyboard in Resources */,
 				5728FEA71F14037D003774BF /* Actions.sks in Resources */,
@@ -379,6 +394,7 @@
 				5728FEAB1F14037D003774BF /* GameViewController.swift in Sources */,
 				7ED859771F29477000F5767A /* ConfigScene.swift in Sources */,
 				577188FC1F223C35003232B3 /* BoardNode.swift in Sources */,
+				7E21A1382AE2BD9F002F3AAD /* NewLevelsViewController.swift in Sources */,
 				5736E3181F2680D600402BA7 /* CoinSpriteNode.swift in Sources */,
 				7ED7B40E2AE5FAE600D6EBC2 /* SettingsTableViewCell.swift in Sources */,
 				D78CAE791F2BA48D00D05A9A /* GameConfiguration.swift in Sources */,

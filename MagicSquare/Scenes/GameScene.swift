@@ -112,12 +112,21 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate, GameSceneDelegat
             gesture.isEnabled = false
         }
         
-        let scene: LevelsScene = LevelsScene()
-        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.prepareScene(from: self.scene!)
-        super.view?.presentScene(scene)
+//        let scene: LevelsScene = LevelsScene()
+//        scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//        scene.size = (super.view?.bounds.size)!
+//        scene.scaleMode = .aspectFill
+//        scene.prepareScene(from: self.scene!)
+//        super.view?.presentScene(scene)
+
+        guard let skView = self.view else { return }
+        let viewController = NewLevelsViewController(nibName: nil, bundle: .main)
+        viewController.view.frame = skView.frame
+        viewController.view.layoutIfNeeded()
+
+        UIView.transition(with: skView, duration: 0.3, options: .transitionFlipFromLeft) {
+            self.view?.window?.rootViewController = viewController
+        } completion: { _ in }
     }
     
     func configurationsAction() {
