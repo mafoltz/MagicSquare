@@ -120,13 +120,19 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-        let scene: ConfigScene = ConfigScene()
+        /*let scene: ConfigScene = ConfigScene()
         scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
         scene.size = (super.view?.bounds.size)!
         scene.scaleMode = .aspectFill
-        scene.previousScene = self.scene!
+        scene.previousScene = self.scene! */
         playerBoard.disableGestureRecognizer()
-        super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
+        // super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
+
+        let storyboard = UIStoryboard(name: "Settings", bundle: .main)
+        guard let controller = storyboard.instantiateInitialViewController() else { return }
+        self.view?.window?.rootViewController?.present(controller, animated: true, completion: {
+            self.playerBoard.addGestureRecognizer()
+        })
     }
     
     func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
