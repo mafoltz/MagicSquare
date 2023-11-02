@@ -45,10 +45,6 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate, GameSceneDelegat
             playerBoard.addGestureRecognizer()
         }
 		
-        if SettingsManager.shared.isMusicEnabled {
-			MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
-        }
-
         // Save current world and level
         SettingsManager.shared.saveCurrentLevel(currentLevel.number, world: currentLevel.world)
 
