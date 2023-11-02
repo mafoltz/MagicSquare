@@ -81,6 +81,13 @@ class SettingsInteractor {
             SettingsManager.shared.setConfig(newConfiguration, forKey: .sfx)
         case .music:
             SettingsManager.shared.setConfig(newConfiguration, forKey: .music)
+
+            if SettingsManager.shared.isMusicEnabled {
+                MusicController.sharedInstance.play(music: "Esles_Main_Theme", type: "mp3")
+            } else {
+                MusicController.sharedInstance.stop()
+            }
+
         case .colorblind:
             SettingsManager.shared.setConfig(newConfiguration, forKey: .colorBlind)
         case .haptics:
