@@ -40,8 +40,12 @@ class SettingsViewController: UIViewController {
     }
 
     @objc private func didTapDone() {
-        delegate?.refreshSceneElements()
         self.dismiss(animated: true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        delegate?.refreshSceneElements()
+        super.viewWillDisappear(animated)
     }
 }
 
