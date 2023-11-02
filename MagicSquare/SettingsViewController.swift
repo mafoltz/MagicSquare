@@ -15,6 +15,8 @@ class SettingsViewController: UIViewController {
 
     private lazy var interactor = SettingsInteractor(viewController: self)
 
+    weak var delegate: GameSceneDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpElements()
@@ -38,6 +40,7 @@ class SettingsViewController: UIViewController {
     }
 
     @objc private func didTapDone() {
+        delegate?.refreshSceneElements()
         self.dismiss(animated: true)
     }
 }

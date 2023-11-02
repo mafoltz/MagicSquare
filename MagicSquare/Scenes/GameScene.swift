@@ -9,32 +9,37 @@
 import SpriteKit
 import SwiftUI
 
-class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
-    
+protocol GameSceneDelegate: AnyObject {
+    func refreshSceneElements()
+}
+
+class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate, GameSceneDelegate {
+
     // MARK: - Properties
     
-    public var currentLevel : Level!
-    private var hud : Hud!
-    private var template : TemplateBoard!
-    private var playerBoard : BoardNode!
-    private var hasGameBegun = false
-    
+    public var currentLevel: Level!
+
+    private var hud: Hud!
+    private var template: TemplateBoard!
+    private var playerBoard: BoardNode!
+    private var gameOngoing = false
+
     // MARK: - Methods
     
     override func didMove(to view: SKView) {
         self.scene?.backgroundColor = UIColor.white
         self.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-		
+
         setHud(from: view)
         setTemplate(from: view)
-        
+
         if currentLevel.number == 1 && currentLevel.world == "4x3 Esle's Starter Pack" {
             setPlayerBoardTutorial(from: view)
         } else {
             setPlayerBoard(from: view)
         }
         
-        if !hasGameBegun {
+        if !gameOngoing {
             template.show()
         } else {
             playerBoard.addGestureRecognizer()
@@ -47,7 +52,7 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
         // Save current world and level
         SettingsManager.shared.saveCurrentLevel(currentLevel.number, world: currentLevel.world)
 
-        hasGameBegun = true
+        gameOngoing = true
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -120,19 +125,15 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     func configurationsAction() {
-        /*let scene: ConfigScene = ConfigScene()
-        scene.anchorPoint = CGPoint(x: 0.0, y: 0.0)
-        scene.size = (super.view?.bounds.size)!
-        scene.scaleMode = .aspectFill
-        scene.previousScene = self.scene! */
         playerBoard.disableGestureRecognizer()
-        // super.view?.presentScene(scene, transition: SKTransition.fade(withDuration: 0.5))
 
         let storyboard = UIStoryboard(name: "Settings", bundle: .main)
-        guard let controller = storyboard.instantiateInitialViewController() else { return }
-        self.view?.window?.rootViewController?.present(controller, animated: true, completion: {
-            self.playerBoard.addGestureRecognizer()
-        })
+        guard let navController = storyboard.instantiateInitialViewController() as? UINavigationController,
+              let controller = navController.topViewController as? SettingsViewController else { return }
+
+        controller.delegate = self
+
+        self.view?.window?.rootViewController?.present(navController, animated: true, completion: nil)
     }
     
     func updateMatrixAction(orientation: Orientation, columnOrRow: Int, moves: Int) {
@@ -201,5 +202,18 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     
     func setQuoteLabel(with txtOne: String) {
         hud.setQuoteLabel(with: txtOne)
+    }
+
+    func refreshSceneElements() {
+        guard let view else { return }
+
+        removeAllChildren()
+        removeAllActions()
+
+        hud = nil
+        template = nil
+        playerBoard = nil
+
+        self.didMove(to: view)
     }
 }
