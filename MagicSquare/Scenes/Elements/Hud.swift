@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import UIKit
 
 class Hud: SKSpriteNode {
     
@@ -69,34 +70,26 @@ class Hud: SKSpriteNode {
         configurationsButton.zPosition = 0.1
         addChild(configurationsButton)
         
-        let levelTitleLabel = SKLabelNode(text: "LEVEL")
-        levelTitleLabel.fontColor = UIColor.white
-        levelTitleLabel.fontName = ".SFUIText-Medium"
-        levelTitleLabel.fontSize = fontSize
+        let levelTitleLabel = SKLabelNode()
+        levelTitleLabel.text("LEVEL", style: .callout, color: .white)
         levelTitleLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -6 * buttonsLineHeight, duration: 0.0))
         levelTitleLabel.zPosition = 0.1
         addChild(levelTitleLabel)
         
-        levelLabel = SKLabelNode(text: String(currentLevel.number))
-        levelLabel.fontColor = UIColor.white
-        levelLabel.fontName = ".SFUIText-Heavy"
-        levelLabel.fontSize = fontSize
+        levelLabel = SKLabelNode()
+        levelLabel.text("\(currentLevel.number)", style: .headline, color: .white)
         levelLabel.run(SKAction.moveBy(x: -buttonWidthDistance, y: -8.5 * buttonsLineHeight, duration: 0.0))
         levelLabel.zPosition = 0.1
         addChild(levelLabel)
         
-        let movesTitleLabel = SKLabelNode(text: "MOVES")
-        movesTitleLabel.fontColor = UIColor.white
-        movesTitleLabel.fontName = ".SFUIText-Medium"
-        movesTitleLabel.fontSize = fontSize
+        let movesTitleLabel = SKLabelNode()
+        movesTitleLabel.text("MOVES", style: .callout, color: .white)
         movesTitleLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -6 * buttonsLineHeight, duration: 0.0))
         movesTitleLabel.zPosition = 0.1
         addChild(movesTitleLabel)
         
-        movesLabel = SKLabelNode(text: String(currentLevel.playerMoves))
-        movesLabel.fontColor = UIColor.white
-        movesLabel.fontName = ".SFUIText-Heavy"
-        movesLabel.fontSize = fontSize
+        movesLabel = SKLabelNode()
+        movesLabel.text("\(currentLevel.playerMoves)", style: .headline, color: .white)
         movesLabel.run(SKAction.moveBy(x: buttonWidthDistance, y: -8.5 * buttonsLineHeight, duration: 0.0))
         movesLabel.zPosition = 0.1
         addChild(movesLabel)

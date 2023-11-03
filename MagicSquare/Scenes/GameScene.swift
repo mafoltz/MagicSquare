@@ -51,8 +51,8 @@ class GameScene: SKScene, ActionHandlerDelegate, BoardDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        hud.movesLabel.text = String(currentLevel.playerMoves)
-        
+        hud.movesLabel.updateText("\(currentLevel.playerMoves)")
+
         if !playerBoard.isMoving && currentLevel.hasLevelWon() {
             playerBoard.disableGestureRecognizer()
             goToResultsScene()
