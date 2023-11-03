@@ -13,6 +13,7 @@ enum Settings: CaseIterable {
     case music
     case colorblind
     case haptics
+    case about
 
     var title: String {
         switch self {
@@ -24,19 +25,23 @@ enum Settings: CaseIterable {
             return "Colorblind"
         case .haptics:
             return "Haptics"
+        case .about:
+            return "About Us"
         }
     }
 
     func imageName(isOn: Bool) -> String {
         switch self {
         case .sfx:
-            return isOn ? "speaker" : "speaker.slash"
+            return isOn ? "speaker.wave.1" : "speaker.slash"
         case .music:
-            return isOn ? "speaker" : "speaker.slash"
+            return isOn ? "speaker.wave.1" : "speaker.slash"
         case .colorblind:
             return isOn ? "eye" : "eye.slash"
         case .haptics:
-            return isOn ? "iphone.homebutton.radiowaves.left.and.right" : "iphone"
+            return isOn ? "iphone" : "iphone.slash"
+        case .about:
+            return "person.3.sequence.fill"
         }
     }
 }
@@ -45,34 +50,46 @@ class SettingsInteractor {
 
     private weak var viewController: SettingsViewController?
 
+    typealias Section = (title: String, elements: [Settings])
+
     var settings: [Settings: Bool]
-    var sectionElements: [Settings]
+    var sections: [Section]
 
     init(viewController: SettingsViewController) {
         self.viewController = viewController
         settings = [:]
-        sectionElements = []
+
+        var settingsElements: [Settings] = []
+        var aboutElements: [Settings] = []
 
         for setting in Settings.allCases {
             switch setting {
             case .music:
                 settings[.music] = SettingsManager.shared.isMusicEnabled
-                sectionElements.append(.music)
+                settingsElements.append(.music)
             case .sfx:
                 settings[.sfx] = SettingsManager.shared.isSFXEnabled
-                sectionElements.append(.sfx)
+                settingsElements.append(.sfx)
             case .colorblind:
                 settings[.colorblind] = SettingsManager.shared.isColorblindEnabled
-                sectionElements.append(.colorblind)
+                settingsElements.append(.colorblind)
             case .haptics:
                 settings[.haptics] = SettingsManager.shared.isHapticsEnabled
-                sectionElements.append(.haptics)
+                settingsElements.append(.haptics)
+            case .about:
+                settings[.about] = true
+                aboutElements.append(.about)
             }
         }
+
+        sections = [
+            (title: "Game Settings", elements: settingsElements)
+            // (title: "About", elements: aboutElements)
+        ]
     }
 
     func didSelectRow(at indexPath: IndexPath) {
-        let selectedSetting = sectionElements[indexPath.row]
+        let selectedSetting = sections[indexPath.section].elements[indexPath.row]
         settings[selectedSetting]?.toggle()
         let newConfiguration = settings[selectedSetting] ?? false
 
@@ -95,6 +112,9 @@ class SettingsInteractor {
             if newConfiguration {
                 HapticsController.shared?.hapticBlink()
             }
+        case .about:
+            viewController?.routeToAbout()
+            return
         }
 
         viewController?.updateSettings(at: [indexPath])

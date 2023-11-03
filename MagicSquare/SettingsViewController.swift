@@ -26,6 +26,10 @@ class SettingsViewController: UIViewController {
         tableView?.reloadRows(at: indexPaths, with: .automatic)
     }
 
+    func routeToAbout() {
+        print("Route to about")
+    }
+
     private func setUpElements() {
         title = "Settings"
         imageView?.image = UIImage(named: "EsleConfig")
@@ -52,11 +56,11 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return interactor.sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Settings.allCases.count
+        return interactor.sections[section].elements.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,7 +69,7 @@ extension SettingsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let currentSetting = interactor.sectionElements[indexPath.row]
+        let currentSetting = interactor.sections[indexPath.section].elements[indexPath.row]
         settingsCell.configure(setting: currentSetting, isOn: interactor.settings[currentSetting] ?? false)
 
         return settingsCell
@@ -73,6 +77,10 @@ extension SettingsViewController: UITableViewDataSource {
 }
 
 extension SettingsViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        interactor.sections[section].title
+    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor.didSelectRow(at: indexPath)
