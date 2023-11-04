@@ -83,25 +83,22 @@ class ResultsScene: SKScene {
         levelUpBanner.xScale = levelUpBannerScale
         levelUpBanner.yScale = levelUpBannerScale
         
-        let numberOfMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Heavy")
+        let goldenColor = UIColor(red: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
+        
+        let numberOfMovesLabel = SKLabelNode()
         numberOfMovesLabel.zPosition = medal.zPosition
-        numberOfMovesLabel.fontColor = UIColor(red: 240.0/155.0, green: 162.0/255.0, blue: 25.0/255.0, alpha: 1)
-        numberOfMovesLabel.text = "\(currentLevel.playerMoves)"
-		numberOfMovesLabel.fontSize = getFontSize(fontSize: 80, screenHeight: self.size.height)
-		
-        let totalMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Bold")
+        numberOfMovesLabel.text("\(currentLevel.playerMoves)", style: .largeTitle, color: goldenColor)
+
+        let totalMovesLabel = SKLabelNode()
         totalMovesLabel.zPosition = numberOfMovesLabel.zPosition
-        totalMovesLabel.fontColor = numberOfMovesLabel.fontColor
-        totalMovesLabel.text = "TOTAL MOVES"
-        totalMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
-        
-        let bestMovesLabel = SKLabelNode(fontNamed: ".SFUIText-Italic")
+        totalMovesLabel.text("TOTAL MOVES", style: .title1, color: goldenColor)
+
+        let bestMovesLabel = SKLabelNode()
         bestMovesLabel.zPosition = numberOfMovesLabel.zPosition
-        bestMovesLabel.fontColor = UIColor(red: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
-        bestMovesLabel.text = "Best score: \(bestMoves) \(bestMoves > 1 ? "moves" : "move")"
-        bestMovesLabel.fontSize = getFontSize(fontSize: 22, screenHeight: self.size.height)
-        
-        
+
+        let bestMovesColor = UIColor(red: 115.0/255.0, green: 134.0/255.0, blue: 145.0/255.0, alpha: 1)
+        bestMovesLabel.text("Best score: \(bestMoves) \(bestMoves > 1 ? "moves" : "move")", style: .title2, color: bestMovesColor)
+
         buttonRetray.size = CGSize(width: buttonRetraySize, height: buttonRetraySize)
         
         buttonRetray.color = UIColor(red: 0, green: 152.0/255.0, blue: 156.0/255.0, alpha: 1)
@@ -116,16 +113,14 @@ class ResultsScene: SKScene {
         secondButton.color = buttonRetray.color
         secondButton.zPosition = medal.zPosition
         
-        let secondButtonLabel = SKLabelNode(fontNamed: ".SFUIText-Medium")
+        let secondButtonLabel = SKLabelNode()
         secondButtonLabel.zPosition = secondButton.zPosition + 1
-        secondButtonLabel.fontSize = getFontSize(fontSize: 18, screenHeight: self.size.height)
-        secondButtonLabel.fontColor = UIColor.white
         
         if isLastLevel {
-            secondButtonLabel.text = "GO TO NEXT PACK"
+            secondButtonLabel.text("GO TO NEXT PACK", style: .largeTitle, color: .white)
         }
         else{
-            secondButtonLabel.text = "GO TO LEVEL \(currentLevel.number + 1)"
+            secondButtonLabel.text("GO TO LEVEL \(currentLevel.number + 1)", style: .title3, color: .white)
         }
 		
         //Positions
