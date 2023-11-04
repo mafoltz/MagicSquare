@@ -103,11 +103,8 @@ class TemplateBoard: SKSpriteNode {
         }
         
         let fontColor = UIColor(red: 47/256, green: 66/256, blue: 67/256, alpha: 1.0)
-        templateText = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 18.0, width: self.baloonSize.width*0.708, fontColor: fontColor)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            templateText = Label(text: text, fontName: ".SFUIText-Medium", fontSize: 30.0, width: self.baloonSize.width*0.708, fontColor: fontColor)
-        }
-        
+        templateText = Label(text: text, style: .body, width: baloonSize.width * 0.7, fontColor: fontColor)
+
         templateText.position = CGPoint(x: 0.0, y: self.baloonSize.height * 0.9)
         templateText.zPosition = 0.1
         templateBaloon.addChild(templateText)
@@ -116,15 +113,14 @@ class TemplateBoard: SKSpriteNode {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let scene = self.scene as! GameScene
         if isTutorial {
-            cont = cont + 1
+            cont += 1
         }
+
         if cont == 1 {
-            setTemplateText(with: "To complete the level, you must seek for this color sequence.")
-        }
-        else if cont == 2 {
-            setTemplateText(with: "Any time you need, I'll be here to show you the right answer. Just tap me :D")
-        }
-        else {
+            setTemplateText(with: "To complete the level, you must replicate this color sequence.")
+        } else if cont == 2 {
+            setTemplateText(with: "Any time you need, I'll be here to show you the right answer. Just tap me!")
+        } else {
             scene.answerAction()
         }
     }

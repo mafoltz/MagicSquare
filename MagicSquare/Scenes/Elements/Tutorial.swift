@@ -32,7 +32,7 @@ class Tutorial: BoardNode {
     }
     
     override var boardDelegate: BoardDelegate? {
-        didSet{
+        didSet {
             boardDelegate?.setQuoteLabel(with: "Move the indicated row to the right position.")
         }
     }
@@ -88,23 +88,22 @@ class Tutorial: BoardNode {
     }
     
     func updateState() {
-        print(state)
-        if playerBoard[playerBoard.count-2][1].fillColor.description == UIColor(hex: 0x738691).description  && state == .row {
+        if playerBoard[playerBoard.count-2][1].fillColor.description == UIColor(hex: 0x738691).description && state == .row {
             state = .touchInOctopus
             boardDelegate?.setQuoteLabel(with: "Tap Esle to see the answer again.")
             removeVibrateRows()
-        }
-        else if state == .octopusTouched {
-            boardDelegate?.setQuoteLabel(with: "Move the indicate column down.")
-            state = .column
-            vibrateColumn()
-        }
-        else if state == .column {
-            vibrateColumn()
-        }
-        else {
-            state = .row
-            vibrateRow()
+        } else {
+            switch state {
+            case .octopusTouched:
+                boardDelegate?.setQuoteLabel(with: "Move the indicated column down.")
+                state = .column
+                vibrateColumn()
+            case .column:
+                vibrateColumn()
+            default:
+                state = .row
+                vibrateRow()
+            }
         }
     }
     
