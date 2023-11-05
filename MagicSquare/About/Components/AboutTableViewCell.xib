@@ -11,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AboutTableViewCell" rowHeight="123" id="KGk-i7-Jjw" customClass="AboutTableViewCell" customModule="MagicSquare" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="504" height="123"/>
+            <rect key="frame" x="0.0" y="0.0" width="504" height="143"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="504" height="123"/>
+                <rect key="frame" x="0.0" y="0.0" width="504" height="143"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mKR-xd-UBp">
-                        <rect key="frame" x="0.0" y="0.0" width="504" height="123"/>
+                        <rect key="frame" x="0.0" y="10" width="504" height="123"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="mKR-xd-UBp" secondAttribute="height" multiplier="168:41" id="ZHO-Rm-UDc"/>
                         </constraints>
@@ -26,8 +26,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="mKR-xd-UBp" secondAttribute="trailing" id="H5t-dD-UdM"/>
-                    <constraint firstItem="mKR-xd-UBp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="LSy-yK-73D"/>
-                    <constraint firstAttribute="bottom" secondItem="mKR-xd-UBp" secondAttribute="bottom" id="a7e-C9-2PM"/>
+                    <constraint firstItem="mKR-xd-UBp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="LSy-yK-73D"/>
+                    <constraint firstAttribute="bottom" secondItem="mKR-xd-UBp" secondAttribute="bottom" constant="10" id="a7e-C9-2PM"/>
                     <constraint firstItem="mKR-xd-UBp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hz2-Z4-aiZ"/>
                 </constraints>
             </tableViewCellContentView>
