@@ -83,8 +83,8 @@ class SettingsInteractor {
         }
 
         sections = [
-            (title: "Game Settings", elements: settingsElements)
-            // (title: "About", elements: aboutElements)
+            (title: "Game Settings", elements: settingsElements),
+            (title: "About", elements: aboutElements)
         ]
     }
 
