@@ -10,15 +10,11 @@ import UIKit
 
 class AboutTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    static let identifier = "AboutTableViewCell"
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    @IBOutlet private weak var aboutImageView: UIImageView?
 
-        // Configure the view for the selected state
+    func configure(teamMember: AboutViewModel.TeamMember) {
+        aboutImageView?.image = UIImage(named: teamMember.imageTitle)
     }
-    
 }
