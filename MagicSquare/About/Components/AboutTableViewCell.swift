@@ -12,9 +12,12 @@ class AboutTableViewCell: UITableViewCell {
 
     static let identifier = "AboutTableViewCell"
 
-    @IBOutlet private weak var aboutImageView: UIImageView?
+    @IBOutlet weak var primaryLabel: UILabel!
+    @IBOutlet weak var secondaryLabel: UILabel!
+
 
     func configure(teamMember: AboutViewModel.TeamMember) {
-        aboutImageView?.image = UIImage(named: teamMember.imageTitle)
+        primaryLabel.text = teamMember.name
+        secondaryLabel.text = teamMember.role
     }
 }

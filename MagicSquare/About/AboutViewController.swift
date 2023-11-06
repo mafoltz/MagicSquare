@@ -17,6 +17,7 @@ class AboutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = "About Us"
         tableView?.register(UINib(nibName: AboutTableViewCell.identifier, bundle: .main),
                             forCellReuseIdentifier: AboutTableViewCell.identifier)
 
@@ -24,16 +25,6 @@ class AboutViewController: UIViewController {
         tableView?.dataSource = self
         tableView?.delegate = self
     }
-
-//    override func viewDidAppear(_ animated: Bool) {
-//        for _ in AboutViewModel.TeamMember.allCases {
-//            if let indexPath = viewModel.addTeamMember() {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.tableView?.insertRows(at: [indexPath], with: .bottom)
-//                }
-//            }
-//        }
-//    }
 }
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {

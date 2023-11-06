@@ -12,24 +12,33 @@ struct AboutViewModel {
 
     var teamMembers: [TeamMember] = TeamMember.allCases
 
-    let headerNote: String = "Made with ❤️ in 🇧🇷"
-    let footNote: String = "© 2017 Esle Inc. All rights reserved."
+    let headerNote: String = "Made by"
+    let footNote: String = "© 2017 Esle Inc. All rights reserved. 🇧🇷"
 
     enum TeamMember: CaseIterable {
         case arthur, athos, eduardo, luisa, marcelo
 
-        var imageTitle: String {
+        var name: String {
             switch self {
             case .arthur:
-                return "Arthur"
+                return "Arthur Giachini"
             case .athos:
-                return "Athos"
+                return "Athos Lagemann"
             case .eduardo:
-                return "Eduardo"
+                return "Eduardo Fornari"
             case .luisa:
-                return "Luisa"
+                return "Luisa Scaletsky"
             case .marcelo:
-                return "Marcelo"
+                return "Marcelo Foltz"
+            }
+        }
+
+        var role: String {
+            switch self {
+            case .luisa:
+                return "Designer"
+            default:
+                return "Developer"
             }
         }
     }
