@@ -27,7 +27,10 @@ class SettingsViewController: UIViewController {
     }
 
     func routeToAbout() {
-        print("Route to about")
+        let aboutStoryboard = UIStoryboard(name: "About", bundle: .main)
+        if let initialViewController = aboutStoryboard.instantiateInitialViewController() {
+            navigationController?.pushViewController(initialViewController, animated: true)
+        }
     }
 
     private func setUpElements() {
